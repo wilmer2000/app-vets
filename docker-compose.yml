@@ -1,0 +1,48 @@
+services:
+  database:
+    image: postgres:18.1-alpine3.23
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=vets_db
+    volumes:
+      - postgres_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    image: node:24.12.0-alpine3.23
+    container_name: backend
+    working_dir: /backend
+    volumes:
+      - ./backend:/backend
+      - /backend/node_modules
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+    command: sh /backend/docker-entrypoint.sh
+    restart: unless-stopped
+    depends_on:
+      - database
+
+  frontend:
+    image: node:24.12.0-alpine3.23
+    container_name: frontend
+    working_dir: /frontend
+    volumes:
+      - ./frontend:/frontend
+      - /frontend/node_modules
+    ports:
+      - "3001:3001"
+    environment:
+      - NODE_ENV=development
+    command: sh -c "npm install && npm run start-dev"
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+volumes:
+  postgres_db_data:
