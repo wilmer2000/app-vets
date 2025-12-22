@@ -3,10 +3,12 @@ import { PrismaService } from '../prisma/prisma.service.js';
 import { UsersModule } from './modules/users/users.module.js';
 import { JwtModule } from '@nestjs/jwt';
 import { AuthModule } from './modules/auth/auth.module.js';
+import { ConfigModule } from '@nestjs/config';
 
 @Module({
   providers: [PrismaService],
   imports: [
+    ConfigModule.forRoot(),
     UsersModule,
     AuthModule,
     JwtModule.register({
