@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  Get,
   Param,
   ParseIntPipe,
   Patch,
@@ -16,11 +17,9 @@ import { User } from '../../../prisma/generated/prisma/client.js';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('register')
-  async registerUser(
-    @Body() createUserDto: CreateUserDto,
-  ): Promise<Partial<User>> {
-    return this.usersService.registerUser(createUserDto);
+  @Post('create')
+  async create(@Body() createUserDto: CreateUserDto): Promise<Partial<User>> {
+    return this.usersService.create(createUserDto);
   }
 
   // @Get('me')
@@ -29,15 +28,25 @@ export class UsersController {
   // }
 
   @Patch(':id')
-  updateUser(
+  update(
     @Param('id') id: string,
     @Body() updateUserDto: UpdateUsertDto,
   ): Promise<Partial<User>> {
-    return this.usersService.updateUser(id, updateUserDto);
+    return this.usersService.update(id, updateUserDto);
   }
 
   @Delete(':id')
-  deleteUser(@Param('id', ParseIntPipe) id: string): Promise<string> {
-    return this.usersService.deleteUser(id);
+  delete(@Param('id', ParseIntPipe) id: string): Promise<string> {
+    return this.usersService.delete(id);
+  }
+
+  @Get()
+  getUsers(): Promise<Partial<User>[]> {
+    return this.usersService.getUsers();
+  }
+
+  @Get(':id')
+  getUserById(@Param('id') id: string): Promise<Partial<User>> {
+    return this.usersService.getUserById(id);
   }
 }

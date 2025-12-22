@@ -42,7 +42,7 @@ export class AuthService {
       return {
         access_token: await this.jwtService.signAsync(payload),
       };
-    } catch (error) {
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }

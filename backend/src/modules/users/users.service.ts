@@ -14,7 +14,32 @@ import { UpdateUsertDto } from './dtos/update-user.dto.js';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async registerUser(createUserDto: CreateUserDto): Promise<Partial<User>> {
+  async getUsers(): Promise<Partial<User>[]> {
+    try {
+      return await this.prisma.user.findMany({ omit: { password: true } });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async getUserById(id: string): Promise<Partial<User>> {
+    try {
+      return await this.prisma.user.findUniqueOrThrow({
+        where: { id },
+        omit: { password: true },
+      });
+    } catch (error: unknown) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`User with id ${id} not found`);
+      }
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
     try {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(createUserDto.password, salt);
@@ -24,9 +49,7 @@ export class UsersService {
           email: createUserDto.email,
           password: hash,
         },
-        select: {
-          email: true,
-        },
+        omit: { password: true },
       });
     } catch (error: unknown) {
       if (
@@ -36,11 +59,11 @@ export class UsersService {
         throw new ConflictException('Email already registered');
       }
 
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 
-  async updateUser(
+  async update(
     id: string,
     updateUserDto: UpdateUsertDto,
   ): Promise<Partial<User>> {
@@ -72,11 +95,11 @@ export class UsersService {
         }
       }
 
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 
-  async deleteUser(id: string): Promise<string> {
+  async delete(id: string): Promise<string> {
     try {
       const user = await this.prisma.user.findUniqueOrThrow({
         where: { id },
@@ -87,7 +110,7 @@ export class UsersService {
       });
 
       return `User with id ${user.id} deleted`;
-    } catch (error) {
+    } catch (error: unknown) {
       if (
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
@@ -95,7 +118,7 @@ export class UsersService {
         throw new NotFoundException(`User with id ${id} not found`);
       }
 
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException(error);
     }
   }
 }
