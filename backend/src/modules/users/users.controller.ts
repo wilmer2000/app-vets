@@ -9,10 +9,8 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
-import { LoginUserDto } from './dtos/login-user.dto.js';
 import { UpdateUsertDto } from './dtos/update-user.dto.js';
 import { User } from '../../../prisma/generated/prisma/client.js';
-import { LoginResponse } from './interfaces/users-login.interface.js';
 
 @Controller('users')
 export class UsersController {
@@ -23,11 +21,6 @@ export class UsersController {
     @Body() createUserDto: CreateUserDto,
   ): Promise<Partial<User>> {
     return this.usersService.registerUser(createUserDto);
-  }
-
-  @Post('login')
-  async loginUser(@Body() loginUserDto: LoginUserDto): Promise<LoginResponse> {
-    return this.usersService.loginUser(loginUserDto);
   }
 
   // @Get('me')
