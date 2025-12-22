@@ -8,7 +8,9 @@ import { ConfigModule } from '@nestjs/config';
 @Module({
   providers: [PrismaService],
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
     UsersModule,
     AuthModule,
     JwtModule.register({
