@@ -1,9 +1,8 @@
 import { Module } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service.js';
-import { UsersModule } from './modules/users/users.module.js';
 import { JwtModule } from '@nestjs/jwt';
-import { AuthModule } from './modules/auth/auth.module.js';
 import { ConfigModule } from '@nestjs/config';
+import { CoreModule } from './core/core.module.js';
 
 @Module({
   providers: [PrismaService],
@@ -11,13 +10,12 @@ import { ConfigModule } from '@nestjs/config';
     ConfigModule.forRoot({
       isGlobal: true,
     }),
-    UsersModule,
-    AuthModule,
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
       signOptions: { expiresIn: '12h' },
     }),
+    CoreModule,
   ],
 })
 export class AppModule {}
