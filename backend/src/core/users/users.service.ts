@@ -8,13 +8,13 @@ import { PrismaService } from '../../../prisma/prisma.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { Prisma, User } from '../../../prisma/generated/prisma/client.js';
 import * as bcrypt from 'bcrypt';
-import { UpdateUsertDto } from './dtos/update-user.dto.js';
+import { UpdateUserDto } from './dtos/update-user.dto.js';
 
 @Injectable()
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async getUsers(): Promise<Partial<User>[]> {
+  async findAll(): Promise<Partial<User>[]> {
     try {
       return await this.prisma.user.findMany({ omit: { password: true } });
     } catch (error: unknown) {
@@ -22,7 +22,7 @@ export class UsersService {
     }
   }
 
-  async getUserById(id: string): Promise<Partial<User>> {
+  async findOne(id: string): Promise<Partial<User>> {
     try {
       return await this.prisma.user.findUniqueOrThrow({
         where: { id },
@@ -65,7 +65,7 @@ export class UsersService {
 
   async update(
     id: string,
-    updateUserDto: UpdateUsertDto,
+    updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
     try {
       await this.prisma.user.findUniqueOrThrow({

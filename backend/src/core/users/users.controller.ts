@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { UsersService } from './users.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
-import { UpdateUsertDto } from './dtos/update-user.dto.js';
+import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { User } from '../../../prisma/generated/prisma/client.js';
 import { AuthGuard } from '../auth/guards/auth.guard.js';
 
@@ -28,7 +28,7 @@ export class UsersController {
   @Patch(':id')
   update(
     @Param('id') id: string,
-    @Body() updateUserDto: UpdateUsertDto,
+    @Body() updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
     return this.usersService.update(id, updateUserDto);
   }
@@ -39,12 +39,12 @@ export class UsersController {
   }
 
   @Get()
-  getUsers(): Promise<Partial<User>[]> {
-    return this.usersService.getUsers();
+  findAll(): Promise<Partial<User>[]> {
+    return this.usersService.findAll();
   }
 
   @Get(':id')
-  getUserById(@Param('id') id: string): Promise<Partial<User>> {
-    return this.usersService.getUserById(id);
+  findOne(@Param('id') id: string): Promise<Partial<User>> {
+    return this.usersService.findOne(id);
   }
 }
