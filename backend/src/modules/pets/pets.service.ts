@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto.js';
 import { UpdatePetDto } from './dto/update-pet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
@@ -7,23 +7,52 @@ import { PrismaService } from '../../../prisma/prisma.service.js';
 export class PetsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createPetDto: CreatePetDto) {
-    return 'This action adds a new pet';
+  async create(createPetDto: CreatePetDto) {
+    try {
+      return this.prisma.pet.create({
+        data: { ...createPetDto },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all pets`;
+  async findAll() {
+    try {
+      return this.prisma.pet.findMany();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} pet`;
+  async findOne(id: string) {
+    try {
+      return this.prisma.pet.findUniqueOrThrow({
+        where: { id },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  update(id: number, updatePetDto: UpdatePetDto) {
-    return `This action updates a #${id} pet`;
+  async update(id: string, updatePetDto: UpdatePetDto) {
+    try {
+      return this.prisma.pet.update({
+        where: { id },
+        data: { ...updatePetDto },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} pet`;
+  async remove(id: string) {
+    try {
+      return this.prisma.pet.delete({
+        where: { id },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }
