@@ -15,7 +15,7 @@ import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { User } from '../../../prisma/generated/prisma/client.js';
 import { AuthGuard } from '../auth/guards/auth.guard.js';
 
-@Controller('users')
+@Controller({ path: 'users', version: '1' })
 @UseGuards(AuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}

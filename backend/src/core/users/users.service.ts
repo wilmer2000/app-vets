@@ -14,31 +14,6 @@ import { UpdateUserDto } from './dtos/update-user.dto.js';
 export class UsersService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(): Promise<Partial<User>[]> {
-    try {
-      return await this.prisma.user.findMany({ omit: { password: true } });
-    } catch (error: unknown) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async findOne(id: string): Promise<Partial<User>> {
-    try {
-      return await this.prisma.user.findUniqueOrThrow({
-        where: { id },
-        omit: { password: true },
-      });
-    } catch (error: unknown) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException(`User with id ${id} not found`);
-      }
-      throw new InternalServerErrorException(error);
-    }
-  }
-
   async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
     try {
       const salt = await bcrypt.genSalt(10);
@@ -61,6 +36,31 @@ export class UsersService {
         throw new ConflictException('Email already registered');
       }
 
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findAll(): Promise<Partial<User>[]> {
+    try {
+      return await this.prisma.user.findMany({ omit: { password: true } });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findOne(id: string): Promise<Partial<User>> {
+    try {
+      return await this.prisma.user.findUniqueOrThrow({
+        where: { id },
+        omit: { password: true },
+      });
+    } catch (error: unknown) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`User with id ${id} not found`);
+      }
       throw new InternalServerErrorException(error);
     }
   }

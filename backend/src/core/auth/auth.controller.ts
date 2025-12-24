@@ -3,7 +3,7 @@ import { AuthService } from './auth.service.js';
 import { LoginResponse } from './interfaces/users-login.interface.js';
 import { LoginUserDto } from './dtos/login-user.dto.js';
 
-@Controller('auth')
+@Controller({ path: 'auth', version: '1' })
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 

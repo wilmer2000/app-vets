@@ -36,8 +36,6 @@ model Vet {
   role         Role        @default(VET)
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
-
-  @@index([veterinaryId])
 }
 
 model Owner {
@@ -53,8 +51,6 @@ model Owner {
   veterinary   Veterinary?   @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
   appointments Appointment[]
-
-  @@index([veterinaryId])
 }
 
 model Pet {
@@ -68,36 +64,31 @@ model Pet {
   owner        Owner?      @relation(fields: [ownerId], references: [id])
   ownerId      String?
   breedId      String
-
-  @@index([ownerId, veterinaryId])
 }
 
 model Veterinary {
   id              String        @unique @default(uuid())
   name            String
   description     String?
-  email           String        @unique
-  phone           String
+  email           String?
+  phone           String?
   street          String
-  city            String
-  country         String
+  city            String?
+  country         String?
   businessHours   String
   services        Service[]
+  serviceId       String
   isActive        Boolean
   createdAt       DateTime      @default(now())
   updatedAt       DateTime      @updatedAt
   payments        Payment[]
+  paymentId       String
   vets            Vet[]
   owners          Owner[]
   pets            Pet[]
-  addressId       String
-  serviceId       String
-  paymentId       String
   configuration   Configuration @relation(fields: [configurationId], references: [id])
   configurationId String
   appointments    Appointment[]
-
-  @@index([configurationId])
 }
 
 model Configuration {
@@ -114,8 +105,6 @@ model Service {
   name         String
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
-
-  @@index([veterinaryId])
 }
 
 model Payment {
@@ -123,8 +112,6 @@ model Payment {
   type         TypePayment
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
-
-  @@index([veterinaryId])
 }
 
 model Breed {
@@ -146,8 +133,6 @@ model Appointment {
   status       Status
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
-
-  @@index([ownerId, veterinaryId])
 }
 
 enum Status {

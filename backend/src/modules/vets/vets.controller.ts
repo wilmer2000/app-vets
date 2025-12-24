@@ -1,19 +1,10 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-  UseGuards,
-} from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards, } from '@nestjs/common';
 import { VetsService } from './vets.service.js';
 import { CreateVetDto } from './dto/create-vet.dto.js';
 import { UpdateVetDto } from './dto/update-vet.dto.js';
 import { AuthGuard } from '../../core/auth/guards/auth.guard.js';
 
-@Controller('vets')
+@Controller({ path: 'vets', version: '1' })
 @UseGuards(AuthGuard)
 export class VetsController {
   constructor(private readonly vetsService: VetsService) {}
@@ -30,16 +21,16 @@ export class VetsController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.vetsService.findOne(+id);
+    return this.vetsService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateVetDto: UpdateVetDto) {
-    return this.vetsService.update(+id, updateVetDto);
+    return this.vetsService.update(id, updateVetDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.vetsService.remove(+id);
+    return this.vetsService.remove(id);
   }
 }
