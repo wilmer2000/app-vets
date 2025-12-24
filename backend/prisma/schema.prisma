@@ -30,7 +30,7 @@ model Vet {
   password     String
   name         String
   lastname     String
-  specialty    String
+  specialty    Specialty
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   role         Role        @default(VET)
@@ -146,6 +146,14 @@ enum Role {
   ADMIN
   VET
   OWNER
+}
+
+enum Specialty {
+  SURGERY
+  DERMATOLOGY
+  CARDIOLOGY
+  ONCOLOGY
+  NEUROLOGY
 }
 
 enum TypeService {

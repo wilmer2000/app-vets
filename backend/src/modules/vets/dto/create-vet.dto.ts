@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { Specialty } from '../../../../prisma/generated/prisma/client.js';
 
 export class CreateVetDto {
   @IsNotEmpty()
@@ -14,5 +15,5 @@ export class CreateVetDto {
   lastname: string;
 
   @IsNotEmpty()
-  specialty: string;
+  specialty: Specialty;
 }
