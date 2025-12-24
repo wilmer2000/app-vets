@@ -3,20 +3,21 @@ import { CreateVetDto } from './dto/create-vet.dto.js';
 import { UpdateVetDto } from './dto/update-vet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class VetsService {
   constructor(private prisma: PrismaService) {}
 
-  create(createVetDto: CreateVetDto) {
+  async create(createVetDto: CreateVetDto) {
     try {
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(createVetDto.password, salt);
+
       return this.prisma.user.create({
         data: {
-          email: createVetDto.email,
-          password: createVetDto.password,
-          name: createVetDto.name,
-          lastname: createVetDto.lastname,
-          specialty: createVetDto.specialty,
+          ...createVetDto,
+          password: hash,
           role: Role.VET,
         },
       });
@@ -25,7 +26,7 @@ export class VetsService {
     }
   }
 
-  findAll() {
+  async findAll() {
     try {
       return this.prisma.user.findMany({
         where: { role: Role.VET },
@@ -35,7 +36,7 @@ export class VetsService {
     }
   }
 
-  findAllByVeterinary(id: string) {
+  async findAllByVeterinary(id: string) {
     try {
       return this.prisma.user.findMany({
         where: { id, role: Role.VET },
@@ -45,7 +46,7 @@ export class VetsService {
     }
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     try {
       return this.prisma.user.findUniqueOrThrow({
         where: { id, role: Role.VET },
@@ -55,7 +56,7 @@ export class VetsService {
     }
   }
 
-  update(id: string, updateVetDto: UpdateVetDto) {
+  async update(id: string, updateVetDto: UpdateVetDto) {
     try {
       return this.prisma.user.update({
         where: { id },
@@ -66,7 +67,7 @@ export class VetsService {
     }
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     try {
       return this.prisma.user.delete({
         where: { id, role: Role.VET },

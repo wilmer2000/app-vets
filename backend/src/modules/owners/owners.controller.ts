@@ -11,7 +11,7 @@ import { OwnersService } from './owners.service.js';
 import { CreateOwnerDto } from './dto/create-owner.dto.js';
 import { UpdateOwnerDto } from './dto/update-owner.dto.js';
 
-@Controller('owners')
+@Controller({ path: 'owners', version: '1' })
 export class OwnersController {
   constructor(private readonly ownersService: OwnersService) {}
 
@@ -27,16 +27,16 @@ export class OwnersController {
 
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.ownersService.findOne(+id);
+    return this.ownersService.findOne(id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOwnerDto: UpdateOwnerDto) {
-    return this.ownersService.update(+id, updateOwnerDto);
+    return this.ownersService.update(id, updateOwnerDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.ownersService.remove(+id);
+    return this.ownersService.remove(id);
   }
 }
