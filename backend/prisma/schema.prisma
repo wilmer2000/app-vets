@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client"
   output   = "./generated/prisma"
@@ -14,93 +8,70 @@ datasource db {
 }
 
 model User {
-  id        String   @unique @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  lastname  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  role      Role     @default(USER)
-}
-
-model Vet {
-  id           String      @unique @default(uuid())
-  email        String      @unique
-  password     String
-  name         String
-  lastname     String
-  specialty    Specialty
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  role         Role        @default(VET)
-  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String?
-}
-
-model Owner {
-  id           String        @unique @default(uuid())
+  id           String        @id @default(uuid())
   email        String        @unique
   password     String
   name         String
   lastname     String
+  role         Role          @default(USER)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
-  role         Role          @default(OWNER)
+  specialty    Specialty?
+  worksAt      Veterinary?   @relation("VetStaff", fields: [worksAtId], references: [id])
+  worksAtId    String?
+  customerAt   Veterinary?   @relation("ClinicCustomers", fields: [customerAtId], references: [id])
+  customerAtId String?
   pets         Pet[]
-  veterinary   Veterinary?   @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String?
   appointments Appointment[]
 }
 
 model Pet {
-  id           String      @unique @default(uuid())
+  id           String      @id @default(uuid())
   name         String
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   breed        Breed       @relation(fields: [breedId], references: [id])
+  breedId      String
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
-  owner        Owner?      @relation(fields: [ownerId], references: [id])
+  owner        User?       @relation(fields: [ownerId], references: [id])
   ownerId      String?
-  breedId      String
 }
 
 model Veterinary {
-  id              String        @unique @default(uuid())
-  name            String
-  description     String?
-  email           String?
-  phone           String?
-  street          String
-  city            String?
-  country         String?
-  businessHours   String
-  services        Service[]
-  serviceId       String
-  isActive        Boolean
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  payments        Payment[]
-  paymentId       String
-  vets            Vet[]
-  owners          Owner[]
-  pets            Pet[]
+  id            String        @id @default(uuid())
+  name          String
+  description   String?
+  email         String?
+  phone         String?
+  street        String
+  city          String?
+  country       String?
+  businessHours String
+  isActive      Boolean
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  vets          User[]        @relation("VetStaff")
+  owners        User[]        @relation("ClinicCustomers")
+  pets          Pet[]
+  appointments  Appointment[]
+  services      Service[]
+  payments      Payment[]
+
   configuration   Configuration @relation(fields: [configurationId], references: [id])
-  configurationId String
-  appointments    Appointment[]
+  configurationId String        @unique
 }
 
 model Configuration {
-  id           String       @unique @default(uuid())
-  logo         String
-  color1       String
-  color2       String
-  veterinaries Veterinary[]
+  id         String      @id @default(uuid())
+  logo       String
+  color1     String
+  color2     String
+  veterinary Veterinary?
 }
 
 model Service {
-  id           String      @unique @default(uuid())
+  id           String      @id @default(uuid())
   type         TypeService
   name         String
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
@@ -108,14 +79,14 @@ model Service {
 }
 
 model Payment {
-  id           String      @unique @default(uuid())
+  id           String      @id @default(uuid())
   type         TypePayment
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
 }
 
 model Breed {
-  id    String @unique @default(uuid())
+  id    String @id @default(uuid())
   breed String
   type  String
   pets  Pet[]
@@ -123,7 +94,7 @@ model Breed {
 
 model Appointment {
   id           String      @id @default(uuid())
-  owner        Owner       @relation(fields: [ownerId], references: [id])
+  owner        User        @relation(fields: [ownerId], references: [id])
   ownerId      String
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?

@@ -2,6 +2,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateVetDto } from './dto/create-vet.dto.js';
 import { UpdateVetDto } from './dto/update-vet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
+import { Role } from '../../../prisma/generated/prisma/enums.js';
 
 @Injectable()
 export class VetsService {
@@ -9,13 +10,14 @@ export class VetsService {
 
   create(createVetDto: CreateVetDto) {
     try {
-      return this.prisma.vet.create({
+      return this.prisma.user.create({
         data: {
           email: createVetDto.email,
           password: createVetDto.password,
           name: createVetDto.name,
           lastname: createVetDto.lastname,
           specialty: createVetDto.specialty,
+          role: Role.VET,
         },
       });
     } catch (error) {
@@ -25,16 +27,18 @@ export class VetsService {
 
   findAll() {
     try {
-      return this.prisma.vet.findMany();
+      return this.prisma.user.findMany({
+        where: { role: Role.VET },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  findAllByVeterinary(veterinaryId: string) {
+  findAllByVeterinary(id: string) {
     try {
-      return this.prisma.vet.findMany({
-        where: { veterinaryId },
+      return this.prisma.user.findMany({
+        where: { id, role: Role.VET },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -43,8 +47,8 @@ export class VetsService {
 
   findOne(id: string) {
     try {
-      return this.prisma.vet.findUniqueOrThrow({
-        where: { id },
+      return this.prisma.user.findUniqueOrThrow({
+        where: { id, role: Role.VET },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -53,9 +57,9 @@ export class VetsService {
 
   update(id: string, updateVetDto: UpdateVetDto) {
     try {
-      return this.prisma.vet.update({
+      return this.prisma.user.update({
         where: { id },
-        data: updateVetDto,
+        data: { ...updateVetDto, role: Role.VET },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -64,8 +68,8 @@ export class VetsService {
 
   remove(id: string) {
     try {
-      return this.prisma.vet.delete({
-        where: { id },
+      return this.prisma.user.delete({
+        where: { id, role: Role.VET },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
