@@ -11,6 +11,8 @@ const userData: UserCreateInput[] = [
   {
     email: 'admin@admin.com',
     password: 'password',
+    name: 'Admin',
+    lastname: 'Admin',
     role: 'ADMIN',
   },
 ];
@@ -27,9 +29,8 @@ async function main() {
     const hashedPassword: string = await bcrypt.hash(u.password, salt);
 
     const data = {
-      email: u.email,
+      ...u,
       password: hashedPassword,
-      role: u.role,
     };
 
     const user = await prisma.user.create({ data });

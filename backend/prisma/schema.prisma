@@ -17,14 +17,163 @@ model User {
   id        String   @unique @default(uuid())
   email     String   @unique
   password  String
-  name      String?
-  lastname  String?
+  name      String
+  lastname  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   role      Role     @default(USER)
 }
 
+model Vet {
+  id           String      @unique @default(uuid())
+  email        String      @unique
+  password     String
+  name         String
+  lastname     String
+  specialty    String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  role         Role        @default(VET)
+  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+
+  @@index([veterinaryId])
+}
+
+model Owner {
+  id           String        @unique @default(uuid())
+  email        String        @unique
+  password     String
+  name         String
+  lastname     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  role         Role          @default(OWNER)
+  pets         Pet[]
+  veterinary   Veterinary?   @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+  appointments Appointment[]
+
+  @@index([veterinaryId])
+}
+
+model Pet {
+  id           String      @unique @default(uuid())
+  name         String
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+  breed        Breed       @relation(fields: [breedId], references: [id])
+  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+  owner        Owner?      @relation(fields: [ownerId], references: [id])
+  ownerId      String?
+  breedId      String
+
+  @@index([ownerId, veterinaryId])
+}
+
+model Veterinary {
+  id              String        @unique @default(uuid())
+  name            String
+  description     String?
+  email           String        @unique
+  phone           String
+  street          String
+  city            String
+  country         String
+  businessHours   String
+  services        Service[]
+  isActive        Boolean
+  createdAt       DateTime      @default(now())
+  updatedAt       DateTime      @updatedAt
+  payments        Payment[]
+  vets            Vet[]
+  owners          Owner[]
+  pets            Pet[]
+  addressId       String
+  serviceId       String
+  paymentId       String
+  configuration   Configuration @relation(fields: [configurationId], references: [id])
+  configurationId String
+  appointments    Appointment[]
+
+  @@index([configurationId])
+}
+
+model Configuration {
+  id           String       @unique @default(uuid())
+  logo         String
+  color1       String
+  color2       String
+  veterinaries Veterinary[]
+}
+
+model Service {
+  id           String      @unique @default(uuid())
+  type         TypeService
+  name         String
+  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+
+  @@index([veterinaryId])
+}
+
+model Payment {
+  id           String      @unique @default(uuid())
+  type         TypePayment
+  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+
+  @@index([veterinaryId])
+}
+
+model Breed {
+  id    String @unique @default(uuid())
+  breed String
+  type  String
+  pets  Pet[]
+}
+
+model Appointment {
+  id           String      @id @default(uuid())
+  owner        Owner       @relation(fields: [ownerId], references: [id])
+  ownerId      String
+  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+  service      TypeService
+  startTime    DateTime
+  endTime      DateTime
+  status       Status
+  createdAt    DateTime    @default(now())
+  updatedAt    DateTime    @updatedAt
+
+  @@index([ownerId, veterinaryId])
+}
+
+enum Status {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
 enum Role {
   USER
   ADMIN
+  VET
+  OWNER
+}
+
+enum TypeService {
+  CONSULTATION
+  SURGERY
+  GROOMING
+  EMERGENCY
+}
+
+enum TypePayment {
+  MERCADOPAGO
+  VISA
+  MASTERCARD
+  PREX
+  CASH
 }
