@@ -8,6 +8,7 @@ import { PrismaService } from '../../../prisma/prisma.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { Prisma, User } from '../../../prisma/generated/prisma/client.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class UsersService {
@@ -16,7 +17,7 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
     try {
       return await this.prisma.user.create({
-        data: createUserDto,
+        data: { ...createUserDto, role: Role.USER },
         omit: { password: true },
       });
     } catch (error: unknown) {

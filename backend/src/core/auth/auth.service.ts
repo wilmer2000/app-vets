@@ -1,7 +1,7 @@
 import {
+  BadRequestException,
   Injectable,
   InternalServerErrorException,
-  NotFoundException,
   UnauthorizedException,
 } from '@nestjs/common';
 import { compare } from 'bcrypt';
@@ -26,8 +26,8 @@ export class AuthService {
         where: { email: loginUserDto.email },
       });
 
-      if (!user) {
-        throw new NotFoundException('User not found');
+      if (!user || !user.email || !user.password) {
+        throw new BadRequestException('User not found');
       }
 
       if (!(await compare(loginUserDto.password, user.password))) {
