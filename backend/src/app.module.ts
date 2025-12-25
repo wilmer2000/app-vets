@@ -16,7 +16,7 @@ import { OwnersModule } from './modules/owners/owners.module.js';
     JwtModule.register({
       global: true,
       secret: process.env.JWT_SECRET,
-      signOptions: { expiresIn: '12h' },
+      signOptions: { expiresIn: '60s' },
     }),
     CoreModule,
     VetsModule,

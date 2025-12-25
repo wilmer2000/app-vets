@@ -12,6 +12,7 @@ import {
   UserPayload,
 } from './interfaces/users-login.interface.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
+import { User } from '../../../prisma/generated/prisma/client.js';
 
 @Injectable()
 export class AuthService {
@@ -20,20 +21,17 @@ export class AuthService {
     private prisma: PrismaService,
   ) {}
 
+  async validateUser(loginUserDto: LoginUserDto): Promise<User | null> {
+    const user = await this.validatePassword(loginUserDto);
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
   async login(loginUserDto: LoginUserDto): Promise<LoginResponse> {
     try {
-      const user = await this.prisma.user.findUnique({
-        where: { email: loginUserDto.email },
-      });
-
-      if (!user || !user.email || !user.password) {
-        throw new BadRequestException('User not found');
-      }
-
-      if (!(await compare(loginUserDto.password, user.password))) {
-        throw new UnauthorizedException('Invalid credentials');
-      }
-
+      const user = await this.validatePassword(loginUserDto);
       const payload: UserPayload = {
         sub: user.id,
         email: user.email,
@@ -45,5 +43,21 @@ export class AuthService {
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
+  }
+
+  private async validatePassword(loginUserDto: LoginUserDto): Promise<User> {
+    const user = await this.prisma.user.findUnique({
+      where: { email: loginUserDto.email },
+    });
+
+    if (!user || !user.email || !user.password) {
+      throw new BadRequestException('User not found');
+    }
+
+    if (!(await compare(loginUserDto.password, user.password))) {
+      throw new UnauthorizedException('Invalid credentials');
+    }
+
+    return user;
   }
 }
