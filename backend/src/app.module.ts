@@ -6,6 +6,7 @@ import { CoreModule } from './core/core.module.js';
 import { VetsModule } from './modules/vets/vets.module.js';
 import { PetsModule } from './modules/pets/pets.module.js';
 import { OwnersModule } from './modules/owners/owners.module.js';
+import { jwtConstants } from './core/auth/constants/auth.constants.js';
 
 @Module({
   providers: [PrismaService],
@@ -15,7 +16,7 @@ import { OwnersModule } from './modules/owners/owners.module.js';
     }),
     JwtModule.register({
       global: true,
-      secret: process.env.JWT_SECRET,
+      secret: jwtConstants.secret,
       signOptions: { expiresIn: '60s' },
     }),
     CoreModule,

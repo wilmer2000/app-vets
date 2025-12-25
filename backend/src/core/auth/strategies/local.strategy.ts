@@ -5,7 +5,7 @@ import { AuthService } from '../auth.service.js';
 import { LoginUserDto } from '../dtos/login-user.dto.js';
 
 @Injectable()
-export class LocalStrategy extends PassportStrategy(Strategy) {
+export class LocalStrategy extends (PassportStrategy(Strategy) as any) {
   constructor(private authService: AuthService) {
     super({ usernameField: 'email' });
   }

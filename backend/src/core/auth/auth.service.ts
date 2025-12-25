@@ -21,20 +21,13 @@ export class AuthService {
     private prisma: PrismaService,
   ) {}
 
-  async validateUser(loginUserDto: LoginUserDto): Promise<User | null> {
-    const user = await this.validatePassword(loginUserDto);
-    if (!user) {
-      return null;
-    }
-    return user;
-  }
-
   async login(loginUserDto: LoginUserDto): Promise<LoginResponse> {
     try {
-      const user = await this.validatePassword(loginUserDto);
+      const user = await this.validateUserAndPassword(loginUserDto);
       const payload: UserPayload = {
         sub: user.id,
         email: user.email,
+        role: user.role,
       };
 
       return {
@@ -45,7 +38,17 @@ export class AuthService {
     }
   }
 
-  private async validatePassword(loginUserDto: LoginUserDto): Promise<User> {
+  async validateUser(loginUserDto: LoginUserDto): Promise<User | null> {
+    const user = await this.validateUserAndPassword(loginUserDto);
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
+  private async validateUserAndPassword(
+    loginUserDto: LoginUserDto,
+  ): Promise<User> {
     const user = await this.prisma.user.findUnique({
       where: { email: loginUserDto.email },
     });

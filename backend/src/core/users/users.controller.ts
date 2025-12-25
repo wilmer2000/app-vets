@@ -13,10 +13,10 @@ import { UsersService } from './users.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { User } from '../../../prisma/generated/prisma/client.js';
-import { AuthGuard } from '../auth/guards/auth.guard.js';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 
 @Controller({ path: 'users', version: '1' })
-@UseGuards(AuthGuard)
+@UseGuards(JwtAuthGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
