@@ -11,10 +11,10 @@ import {
 import { VetsService } from './vets.service.js';
 import { CreateVetDto } from './dto/create-vet.dto.js';
 import { UpdateVetDto } from './dto/update-vet.dto.js';
-import { AuthGuard } from '../../core/auth/guards/auth.guard.js';
+import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 
 @Controller({ path: 'vets', version: '1' })
-@UseGuards(AuthGuard)
+@UseGuards(JwtAuthGuard)
 export class VetsController {
   constructor(private readonly vetsService: VetsService) {}
 
