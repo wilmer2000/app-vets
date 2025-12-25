@@ -25,6 +25,11 @@ async function main() {
   }
 
   for (const u of userData) {
+    if (!u.password) {
+      console.error(`Skipping user ${u.email}: password is missing`);
+      continue;
+    }
+
     const salt: string = await bcrypt.genSalt(10);
     const hashedPassword: string = await bcrypt.hash(u.password, salt);
 

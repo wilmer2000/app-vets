@@ -10,10 +10,11 @@ datasource db {
 model User {
   id           String        @id @default(uuid())
   email        String        @unique
-  password     String
-  name         String
-  lastname     String
+  password     String?
+  name         String?
+  lastname     String?
   role         Role          @default(USER)
+  isActive     Boolean       @default(false)
   createdAt    DateTime      @default(now())
   updatedAt    DateTime      @updatedAt
   specialty    Specialty?
@@ -27,7 +28,7 @@ model User {
 
 model Pet {
   id           String      @id @default(uuid())
-  name         String
+  name         String?
   createdAt    DateTime    @default(now())
   updatedAt    DateTime    @updatedAt
   breed        Breed       @relation(fields: [breedId], references: [id])
@@ -44,11 +45,11 @@ model Veterinary {
   description   String?
   email         String?
   phone         String?
-  street        String
+  street        String?
   city          String?
   country       String?
-  businessHours String
-  isActive      Boolean
+  businessHours String?
+  isActive      Boolean       @default(false)
   createdAt     DateTime      @default(now())
   updatedAt     DateTime      @updatedAt
   vets          User[]        @relation("VetStaff")
@@ -64,14 +65,16 @@ model Veterinary {
 
 model Configuration {
   id         String      @id @default(uuid())
-  logo       String
-  color1     String
-  color2     String
+  isActive   Boolean     @default(false)
+  logo       String?
+  color1     String?
+  color2     String?
   veterinary Veterinary?
 }
 
 model Service {
   id           String      @id @default(uuid())
+  isActive     Boolean     @default(false)
   type         TypeService
   name         String
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
@@ -80,16 +83,18 @@ model Service {
 
 model Payment {
   id           String      @id @default(uuid())
+  isActive     Boolean     @default(false)
   type         TypePayment
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
 }
 
 model Breed {
-  id    String @id @default(uuid())
-  breed String
-  type  String
-  pets  Pet[]
+  id       String  @id @default(uuid())
+  isActive Boolean @default(false)
+  breed    String
+  type     String
+  pets     Pet[]
 }
 
 model Appointment {
