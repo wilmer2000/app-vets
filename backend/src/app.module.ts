@@ -9,6 +9,10 @@ import { OwnersModule } from './modules/owners/owners.module.js';
 import { jwtConstants } from './core/auth/constants/auth.constants.js';
 import { AppointmentModule } from './modules/appointment/appointment.module.js';
 import { VeterinaryModule } from './modules/veterinary/veterinary.module.js';
+import { ConfigurationModule } from './modules/configuration/configuration.module.js';
+import { ServiceModule } from './modules/service/service.module.js';
+import { PaymentModule } from './modules/payment/payment.module.js';
+import { BreedModule } from './modules/breed/breed.module.js';
 
 @Module({
   providers: [PrismaService],
@@ -27,6 +31,10 @@ import { VeterinaryModule } from './modules/veterinary/veterinary.module.js';
     OwnersModule,
     AppointmentModule,
     VeterinaryModule,
+    ConfigurationModule,
+    ServiceModule,
+    PaymentModule,
+    BreedModule,
   ],
 })
 export class AppModule {}
