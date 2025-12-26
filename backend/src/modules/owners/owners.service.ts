@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -7,7 +8,6 @@ import { CreateOwnerDto } from './dto/create-owner.dto.js';
 import { UpdateOwnerDto } from './dto/update-owner.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Role } from '@prisma/client';
-import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class OwnersService {
@@ -15,13 +15,17 @@ export class OwnersService {
 
   async create(createOwnerDto: CreateOwnerDto) {
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(createOwnerDto.password, salt);
+      const userExisted = await this.prisma.user.findUnique({
+        where: { email: createOwnerDto.email },
+      });
+
+      if (userExisted) {
+        throw new ConflictException('Email already registered');
+      }
 
       return await this.prisma.user.create({
         data: {
           ...createOwnerDto,
-          password: hash,
           role: Role.OWNER,
         },
         omit: { password: true },
@@ -61,6 +65,16 @@ export class OwnersService {
 
   async update(id: string, updateOwnerDto: UpdateOwnerDto) {
     try {
+      const userExisted = await this.prisma.user.findUnique({
+        where: { id },
+      });
+
+      if (!userExisted) {
+        throw new NotFoundException(
+          `User with email ${updateOwnerDto.email} not found`,
+        );
+      }
+
       return await this.prisma.user.update({
         where: { id },
         data: { ...updateOwnerDto, role: Role.OWNER },
