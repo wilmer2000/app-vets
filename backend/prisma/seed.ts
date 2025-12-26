@@ -10,28 +10,28 @@ const prisma = new PrismaClient({ adapter });
 const userData: UserCreateInput[] = [
   {
     email: 'admin@admin.com',
-    password: 'passwordAdmin',
+    password: 'passwordTest',
     name: 'Admin',
     lastname: 'Admin',
     role: Role.ADMIN,
   },
   {
     email: 'user@user.com',
-    password: 'passwordUser',
+    password: 'passwordTest',
     name: 'User',
     lastname: 'User',
     role: Role.USER,
   },
   {
     email: 'vet@vet.com',
-    password: 'passwordVet',
+    password: 'passwordTest',
     name: 'Vet',
     lastname: 'Vet',
     role: Role.VET,
   },
   {
     email: 'owner@owner.com',
-    password: 'passwordOwner',
+    password: 'passwordTest',
     name: 'Owner',
     lastname: 'Owner',
     role: Role.OWNER,
