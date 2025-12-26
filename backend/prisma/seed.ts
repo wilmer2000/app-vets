@@ -9,28 +9,28 @@ const adapter = new PrismaPg({
 const prisma = new PrismaClient({ adapter });
 const userData: UserCreateInput[] = [
   {
-    email: 'admin@admin.com',
+    email: 'admin@email.com',
     password: 'passwordTest',
     name: 'Admin',
     lastname: 'Admin',
     role: Role.ADMIN,
   },
   {
-    email: 'user@user.com',
+    email: 'user@email.com',
     password: 'passwordTest',
     name: 'User',
     lastname: 'User',
     role: Role.USER,
   },
   {
-    email: 'vet@vet.com',
+    email: 'vet@email.com',
     password: 'passwordTest',
     name: 'Vet',
     lastname: 'Vet',
     role: Role.VET,
   },
   {
-    email: 'owner@owner.com',
+    email: 'owner@email.com',
     password: 'passwordTest',
     name: 'Owner',
     lastname: 'Owner',
