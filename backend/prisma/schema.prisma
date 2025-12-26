@@ -19,7 +19,6 @@ model User {
   updatedAt DateTime   @updatedAt
   specialty Specialty?
 
-  // Relaciones
   worksAt      Veterinary? @relation("VetStaff", fields: [worksAtId], references: [id])
   worksAtId    String?
   customerAt   Veterinary? @relation("ClinicCustomers", fields: [customerAtId], references: [id])
