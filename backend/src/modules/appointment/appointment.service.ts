@@ -1,26 +1,82 @@
-import { Injectable } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
+import { PrismaService } from '../../../prisma/prisma.service.js';
+import { Status } from '../../../prisma/generated/prisma/enums.js';
 
 @Injectable()
 export class AppointmentService {
-  create(createAppointmentDto: CreateAppointmentDto) {
-    return 'This action adds a new appointment';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createAppointmentDto: CreateAppointmentDto) {
+    try {
+      return await this.prisma.appointment.create({
+        data: {
+          ...createAppointmentDto,
+          startTime: new Date(createAppointmentDto.startTime),
+          endTime: new Date(createAppointmentDto.endTime),
+          status: Status.PENDING,
+        },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all appointment`;
+  async findAll() {
+    try {
+      return await this.prisma.appointment.findMany();
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findOne(id: string) {
-    return `This action returns a #${id} appointment`;
+  async findOne(id: string) {
+    try {
+      const appointment = await this.prisma.appointment.findUnique({
+        where: { id },
+      });
+
+      if (!appointment) {
+        throw new NotFoundException(`Appointment with ID ${id} not found`);
+      }
+
+      return appointment;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  update(id: string, updateAppointmentDto: UpdateAppointmentDto) {
-    return `This action updates a #${id} appointment`;
+  async update(id: string, updateAppointmentDto: UpdateAppointmentDto) {
+    const appointment = await this.prisma.appointment.findUnique({
+      where: { id },
+    });
+
+    if (!appointment) {
+      throw new NotFoundException(`Appointment with ID ${id} not found`);
+    }
+
+    return this.prisma.appointment.update({
+      data: { ...updateAppointmentDto },
+      where: { id },
+    });
   }
 
-  remove(id: string) {
-    return `This action removes a #${id} appointment`;
+  async remove(id: string) {
+    const appointment = await this.prisma.appointment.findUnique({
+      where: { id },
+    });
+
+    if (!appointment) {
+      throw new NotFoundException(`Appointment with ID ${id} not found`);
+    }
+
+    return this.prisma.appointment.delete({
+      where: { id },
+    });
   }
 }

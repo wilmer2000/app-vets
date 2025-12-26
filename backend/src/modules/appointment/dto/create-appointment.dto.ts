@@ -1,4 +1,5 @@
 import { IsNotEmpty } from 'class-validator';
+import { TypeService } from '../../../../prisma/generated/prisma/enums.js';
 
 export class CreateAppointmentDto {
   @IsNotEmpty()
@@ -13,5 +14,6 @@ export class CreateAppointmentDto {
   @IsNotEmpty()
   endTime: string;
 
-  service: string;
+  @IsNotEmpty()
+  service: TypeService;
 }

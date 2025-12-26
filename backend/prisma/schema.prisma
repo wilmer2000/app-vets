@@ -8,20 +8,23 @@ datasource db {
 }
 
 model User {
-  id           String        @id @default(uuid())
-  email        String        @unique
-  password     String?
-  name         String?
-  lastname     String?
-  role         Role          @default(USER)
-  isActive     Boolean       @default(false)
-  createdAt    DateTime      @default(now())
-  updatedAt    DateTime      @updatedAt
-  specialty    Specialty?
-  worksAt      Veterinary?   @relation("VetStaff", fields: [worksAtId], references: [id])
+  id        String     @id @default(uuid())
+  email     String     @unique
+  password  String?
+  name      String?
+  lastname  String?
+  role      Role       @default(USER)
+  isActive  Boolean    @default(false)
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+  specialty Specialty?
+
+  // Relaciones
+  worksAt      Veterinary? @relation("VetStaff", fields: [worksAtId], references: [id])
   worksAtId    String?
-  customerAt   Veterinary?   @relation("ClinicCustomers", fields: [customerAtId], references: [id])
+  customerAt   Veterinary? @relation("ClinicCustomers", fields: [customerAtId], references: [id])
   customerAtId String?
+
   pets         Pet[]
   appointments Appointment[]
 }
@@ -40,7 +43,7 @@ model Pet {
 }
 
 model Veterinary {
-  id            String        @id @default(uuid())
+  id            String   @id @default(uuid())
   name          String
   description   String?
   email         String?
@@ -49,26 +52,31 @@ model Veterinary {
   city          String?
   country       String?
   businessHours String?
-  isActive      Boolean       @default(false)
-  createdAt     DateTime      @default(now())
-  updatedAt     DateTime      @updatedAt
-  vets          User[]        @relation("VetStaff")
-  owners        User[]        @relation("ClinicCustomers")
-  pets          Pet[]
-  appointments  Appointment[]
-  services      Service[]
-  payments      Payment[]
+  isActive      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
 
+  // Relaciones corregidas
+  vets         User[]        @relation("VetStaff")
+  owners       User[]        @relation("ClinicCustomers")
+  pets         Pet[]
+  appointments Appointment[]
+  services     Service[]
+  payments     Payment[]
+
+  // Configuración 1-a-1
   configuration   Configuration @relation(fields: [configurationId], references: [id])
   configurationId String        @unique
 }
 
 model Configuration {
-  id         String      @id @default(uuid())
-  isActive   Boolean     @default(false)
-  logo       String?
-  color1     String?
-  color2     String?
+  id       String  @id @default(uuid())
+  isActive Boolean @default(false)
+  logo     String?
+  color1   String?
+  color2   String?
+
+  // Relación inversa necesaria para 1-a-1
   veterinary Veterinary?
 }
 
