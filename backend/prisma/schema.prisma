@@ -65,8 +65,8 @@ model Veterinary {
   payments     Payment[]
 
   // Configuración 1-a-1
-  configuration   Configuration @relation(fields: [configurationId], references: [id])
-  configurationId String        @unique
+  configuration   Configuration? @relation(fields: [configurationId], references: [id])
+  configurationId String?        @unique
 }
 
 model Configuration {
