@@ -7,6 +7,7 @@ import { VetsModule } from './modules/vets/vets.module.js';
 import { PetsModule } from './modules/pets/pets.module.js';
 import { OwnersModule } from './modules/owners/owners.module.js';
 import { jwtConstants } from './core/auth/constants/auth.constants.js';
+import { AppointmentModule } from './modules/appointment/appointment.module.js';
 
 @Module({
   providers: [PrismaService],
@@ -23,6 +24,7 @@ import { jwtConstants } from './core/auth/constants/auth.constants.js';
     VetsModule,
     PetsModule,
     OwnersModule,
+    AppointmentModule,
   ],
 })
 export class AppModule {}

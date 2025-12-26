@@ -16,7 +16,7 @@ import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
 
 @Controller({ path: 'owners', version: '1' })
-@Roles(Role.ADMIN, Role.VET)
+@Roles(Role.ADMIN, Role.USER, Role.VET)
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class OwnersController {
   constructor(private readonly ownersService: OwnersService) {}

@@ -17,7 +17,7 @@ import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
 
 @Controller({ path: 'pets', version: '1' })
-@Roles(Role.ADMIN, Role.VET, Role.OWNER)
+@Roles(Role.ADMIN, Role.USER, Role.VET, Role.OWNER)
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class PetsController {
   constructor(private readonly petsService: PetsService) {}
