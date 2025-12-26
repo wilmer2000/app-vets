@@ -56,7 +56,6 @@ model Veterinary {
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  // Relaciones corregidas
   vets         User[]        @relation("VetStaff")
   owners       User[]        @relation("ClinicCustomers")
   pets         Pet[]
@@ -64,7 +63,6 @@ model Veterinary {
   services     Service[]
   payments     Payment[]
 
-  // Configuración 1-a-1
   configuration   Configuration? @relation(fields: [configurationId], references: [id])
   configurationId String?        @unique
 }
@@ -76,7 +74,6 @@ model Configuration {
   color1   String?
   color2   String?
 
-  // Relación inversa necesaria para 1-a-1
   veterinary Veterinary?
 }
 

@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateVeterinaryDto } from './dto/create-veterinary.dto.js';
 import { UpdateVeterinaryDto } from './dto/update-veterinary.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
@@ -11,7 +15,7 @@ export class VeterinaryService {
       return await this.prisma.veterinary.create({
         data: {
           ...createVeterinaryDto,
-          isActive: false
+          isActive: false,
         },
       });
     } catch (error) {
@@ -21,6 +25,7 @@ export class VeterinaryService {
 
   async findAll() {
     try {
+      return await this.prisma.veterinary.findMany();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -28,6 +33,15 @@ export class VeterinaryService {
 
   async findOne(id: string) {
     try {
+      const veterinary = await this.prisma.veterinary.findUnique({
+        where: { id },
+      });
+
+      if (!veterinary) {
+        throw new NotFoundException(`Veterinary with ID ${id} not found`);
+      }
+
+      return veterinary;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -35,6 +49,18 @@ export class VeterinaryService {
 
   async update(id: string, updateVeterinaryDto: UpdateVeterinaryDto) {
     try {
+      const veterinary = await this.prisma.veterinary.findUnique({
+        where: { id },
+      });
+
+      if (!veterinary) {
+        throw new NotFoundException(`Veterinary with ID ${id} not found`);
+      }
+
+      return this.prisma.veterinary.update({
+        data: { ...updateVeterinaryDto },
+        where: { id },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -42,6 +68,17 @@ export class VeterinaryService {
 
   async remove(id: string) {
     try {
+      const veterinary = await this.prisma.veterinary.findUnique({
+        where: { id },
+      });
+
+      if (!veterinary) {
+        throw new NotFoundException(`Veterinary with ID ${id} not found`);
+      }
+
+      return this.prisma.veterinary.delete({
+        where: { id },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
