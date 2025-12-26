@@ -87,6 +87,14 @@ export class OwnersService {
 
   async remove(id: string) {
     try {
+      const userExisted = await this.prisma.user.findUnique({
+        where: { id },
+      });
+
+      if (!userExisted) {
+        throw new NotFoundException(`User with email ${id} not found`);
+      }
+
       return await this.prisma.user.delete({
         where: { id, role: Role.OWNER },
       });

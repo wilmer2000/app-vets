@@ -5,11 +5,8 @@ export class CreatePetDto {
   name: string;
 
   @IsNotEmpty()
-  breedId: string;
-
-  @IsNotEmpty()
-  veterinaryId: string;
-
-  @IsNotEmpty()
   ownerId: string;
+
+  breedId: string;
+  veterinaryId: string;
 }
