@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateVetDto } from './dto/create-vet.dto.js';
 import { UpdateVetDto } from './dto/update-vet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
@@ -14,7 +18,7 @@ export class VetsService {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(createVetDto.password, salt);
 
-      return this.prisma.user.create({
+      return await this.prisma.user.create({
         data: {
           ...createVetDto,
           password: hash,
@@ -28,7 +32,7 @@ export class VetsService {
 
   async findAll() {
     try {
-      return this.prisma.user.findMany({
+      return await this.prisma.user.findMany({
         where: { role: Role.VET },
       });
     } catch (error) {
@@ -38,7 +42,7 @@ export class VetsService {
 
   async findAllByVeterinary(id: string) {
     try {
-      return this.prisma.user.findMany({
+      return await this.prisma.user.findMany({
         where: { id, role: Role.VET },
       });
     } catch (error) {
@@ -48,9 +52,15 @@ export class VetsService {
 
   async findOne(id: string) {
     try {
-      return this.prisma.user.findUniqueOrThrow({
+      const vet = await this.prisma.user.findUnique({
         where: { id, role: Role.VET },
       });
+
+      if (!vet) {
+        throw new NotFoundException(`Vet with ID ${id} not found`);
+      }
+
+      return vet;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -58,7 +68,7 @@ export class VetsService {
 
   async update(id: string, updateVetDto: UpdateVetDto) {
     try {
-      return this.prisma.user.update({
+      return await this.prisma.user.update({
         where: { id },
         data: { ...updateVetDto, role: Role.VET },
       });
@@ -69,7 +79,7 @@ export class VetsService {
 
   async remove(id: string) {
     try {
-      return this.prisma.user.delete({
+      return await this.prisma.user.delete({
         where: { id, role: Role.VET },
       });
     } catch (error) {

@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto.js';
 import { UpdatePetDto } from './dto/update-pet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
@@ -9,7 +13,7 @@ export class PetsService {
 
   async create(createPetDto: CreatePetDto) {
     try {
-      return this.prisma.pet.create({
+      return await this.prisma.pet.create({
         data: { ...createPetDto },
       });
     } catch (error) {
@@ -19,7 +23,7 @@ export class PetsService {
 
   async findAll() {
     try {
-      return this.prisma.pet.findMany();
+      return await this.prisma.pet.findMany();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -27,9 +31,15 @@ export class PetsService {
 
   async findOne(id: string) {
     try {
-      return this.prisma.pet.findUniqueOrThrow({
+      const pet = await this.prisma.pet.findUnique({
         where: { id },
       });
+
+      if (!pet) {
+        throw new NotFoundException(`Pet with ID ${id} not found`);
+      }
+
+      return pet;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -37,7 +47,7 @@ export class PetsService {
 
   async update(id: string, updatePetDto: UpdatePetDto) {
     try {
-      return this.prisma.pet.update({
+      return await this.prisma.pet.update({
         where: { id },
         data: { ...updatePetDto },
       });
@@ -48,7 +58,7 @@ export class PetsService {
 
   async remove(id: string) {
     try {
-      return this.prisma.pet.delete({
+      return await this.prisma.pet.delete({
         where: { id },
       });
     } catch (error) {

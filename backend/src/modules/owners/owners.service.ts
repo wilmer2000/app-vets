@@ -1,4 +1,8 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { CreateOwnerDto } from './dto/create-owner.dto.js';
 import { UpdateOwnerDto } from './dto/update-owner.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
@@ -14,12 +18,13 @@ export class OwnersService {
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(createOwnerDto.password, salt);
 
-      return this.prisma.user.create({
+      return await this.prisma.user.create({
         data: {
           ...createOwnerDto,
           password: hash,
           role: Role.OWNER,
         },
+        omit: { password: true },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -28,8 +33,9 @@ export class OwnersService {
 
   async findAll() {
     try {
-      return this.prisma.user.findMany({
+      return await this.prisma.user.findMany({
         where: { role: Role.OWNER },
+        omit: { password: true },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -38,9 +44,16 @@ export class OwnersService {
 
   async findOne(id: string) {
     try {
-      return this.prisma.user.findUniqueOrThrow({
+      const user = await this.prisma.user.findUnique({
         where: { id, role: Role.OWNER },
+        omit: { password: true },
       });
+
+      if (!user) {
+        throw new NotFoundException(`User with ID ${id} not found`);
+      }
+
+      return user;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -48,9 +61,10 @@ export class OwnersService {
 
   async update(id: string, updateOwnerDto: UpdateOwnerDto) {
     try {
-      return this.prisma.user.update({
+      return await this.prisma.user.update({
         where: { id },
         data: { ...updateOwnerDto, role: Role.OWNER },
+        omit: { password: true },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -59,7 +73,7 @@ export class OwnersService {
 
   async remove(id: string) {
     try {
-      return this.prisma.user.delete({
+      return await this.prisma.user.delete({
         where: { id, role: Role.OWNER },
       });
     } catch (error) {
