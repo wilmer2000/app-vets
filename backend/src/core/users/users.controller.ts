@@ -4,7 +4,6 @@ import {
   Delete,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -12,11 +11,14 @@ import {
 import { UsersService } from './users.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
-import { User } from '../../../prisma/generated/prisma/client.js';
+import { Role, User } from '../../../prisma/generated/prisma/client.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
+import { Roles } from '../auth/decorators/role.decorator.js';
+import { RolesGuard } from '../auth/guards/roles.guard.js';
 
 @Controller({ path: 'users', version: '1' })
-@UseGuards(JwtAuthGuard)
+@Roles(Role.ADMIN)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
@@ -34,7 +36,7 @@ export class UsersController {
   }
 
   @Delete(':id')
-  delete(@Param('id', ParseIntPipe) id: string): Promise<string> {
+  delete(@Param('id') id: string): Promise<string> {
     return this.usersService.delete(id);
   }
 

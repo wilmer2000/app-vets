@@ -17,7 +17,7 @@ import { jwtConstants } from './core/auth/constants/auth.constants.js';
     JwtModule.register({
       global: true,
       secret: jwtConstants.secret,
-      signOptions: { expiresIn: '60s' },
+      signOptions: { expiresIn: '12h' },
     }),
     CoreModule,
     VetsModule,

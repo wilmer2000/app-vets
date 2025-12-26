@@ -1,4 +1,4 @@
-import { PrismaClient } from './generated/prisma/client.js';
+import { PrismaClient, Role } from './generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import * as bcrypt from 'bcrypt';
 import { UserCreateInput } from './generated/prisma/models/User.js';
@@ -10,10 +10,31 @@ const prisma = new PrismaClient({ adapter });
 const userData: UserCreateInput[] = [
   {
     email: 'admin@admin.com',
-    password: 'password',
+    password: 'passwordAdmin',
     name: 'Admin',
     lastname: 'Admin',
-    role: 'ADMIN',
+    role: Role.ADMIN,
+  },
+  {
+    email: 'user@user.com',
+    password: 'passwordUser',
+    name: 'User',
+    lastname: 'User',
+    role: Role.USER,
+  },
+  {
+    email: 'vet@vet.com',
+    password: 'passwordVet',
+    name: 'Vet',
+    lastname: 'Vet',
+    role: Role.VET,
+  },
+  {
+    email: 'owner@owner.com',
+    password: 'passwordOwner',
+    name: 'Owner',
+    lastname: 'Owner',
+    role: Role.OWNER,
   },
 ];
 

@@ -8,8 +8,8 @@ import { LocalAuthGuard } from './guards/local-auth.guard.js';
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
-  @UseGuards(LocalAuthGuard)
   @Post('login')
+  @UseGuards(LocalAuthGuard)
   async login(@Body() loginUserDto: LoginUserDto): Promise<LoginResponse> {
     return this.authService.login(loginUserDto);
   }
