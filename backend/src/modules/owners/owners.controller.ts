@@ -5,13 +5,19 @@ import {
   Get,
   Param,
   Patch,
-  Post,
+  Post, UseGuards,
 } from '@nestjs/common';
 import { OwnersService } from './owners.service.js';
 import { CreateOwnerDto } from './dto/create-owner.dto.js';
 import { UpdateOwnerDto } from './dto/update-owner.dto.js';
+import { Roles } from '../../core/auth/decorators/role.decorator.js';
+import { Role } from '../../../prisma/generated/prisma/enums.js';
+import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
+import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
 
 @Controller({ path: 'owners', version: '1' })
+@Roles(Role.ADMIN, Role.VET)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class OwnersController {
   constructor(private readonly ownersService: OwnersService) {}
 

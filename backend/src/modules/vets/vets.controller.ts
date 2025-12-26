@@ -12,9 +12,13 @@ import { VetsService } from './vets.service.js';
 import { CreateVetDto } from './dto/create-vet.dto.js';
 import { UpdateVetDto } from './dto/update-vet.dto.js';
 import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
+import { Roles } from '../../core/auth/decorators/role.decorator.js';
+import { Role } from '../../../prisma/generated/prisma/enums.js';
+import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
 
 @Controller({ path: 'vets', version: '1' })
-@UseGuards(JwtAuthGuard)
+@Roles(Role.ADMIN, Role.VET)
+@UseGuards(JwtAuthGuard, RolesGuard)
 export class VetsController {
   constructor(private readonly vetsService: VetsService) {}
 
