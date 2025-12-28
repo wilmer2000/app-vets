@@ -7,18 +7,34 @@ import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Status } from '../../../prisma/generated/prisma/enums.js';
+import { VetsService } from '../vets/vets.service.js';
 
 @Injectable()
 export class AppointmentService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private vetsService: VetsService,
+  ) {}
 
   async create(createAppointmentDto: CreateAppointmentDto) {
     try {
+      const startTime = new Date(createAppointmentDto.startTime);
+      const endTime = new Date(createAppointmentDto.endTime);
+
+      if (startTime > endTime) {
+        throw new InternalServerErrorException(
+          'Start time must be before end time',
+        );
+      }
+
+      const vet = this.vetsService.findOne(createAppointmentDto.vetId);
+      console.log(vet);
+
       return await this.prisma.appointment.create({
         data: {
           ...createAppointmentDto,
-          startTime: new Date(createAppointmentDto.startTime),
-          endTime: new Date(createAppointmentDto.endTime),
+          startTime,
+          endTime,
           status: Status.PENDING,
         },
       });
@@ -60,8 +76,15 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with ID ${id} not found`);
     }
 
-    return await this.prisma.appointment.update({
-      data: { ...updateAppointmentDto },
+    const startTime = new Date(updateAppointmentDto.startTime);
+    const endTime = new Date(updateAppointmentDto.endTime);
+
+    return this.prisma.appointment.update({
+      data: {
+        ...updateAppointmentDto,
+        startTime,
+        endTime,
+      },
       where: { id },
     });
   }
@@ -75,7 +98,7 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with ID ${id} not found`);
     }
 
-    return await this.prisma.appointment.delete({
+    return this.prisma.appointment.delete({
       where: { id },
     });
   }

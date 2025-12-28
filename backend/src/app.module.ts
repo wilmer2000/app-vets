@@ -13,9 +13,17 @@ import { ConfigurationModule } from './modules/configuration/configuration.modul
 import { ServiceModule } from './modules/service/service.module.js';
 import { PaymentModule } from './modules/payment/payment.module.js';
 import { BreedModule } from './modules/breed/breed.module.js';
+import { APP_FILTER } from '@nestjs/core';
+import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
 
 @Module({
-  providers: [PrismaService],
+  providers: [
+    PrismaService,
+    {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
+  ],
   imports: [
     ConfigModule.forRoot({
       isGlobal: true,
