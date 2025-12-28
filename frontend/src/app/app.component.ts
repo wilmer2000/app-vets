@@ -5,9 +5,19 @@ import { RouterOutlet } from '@angular/router';
   selector: 'app-root',
   imports: [RouterOutlet],
   template: `
-    <h1>Welcome to {{ title() }}!</h1>
-
-    <router-outlet />
+      <div class="flex justify-center items-center h-lvh w-lvw">
+          
+          <div> 
+              <h1>Welcome to {{ title() }}!</h1>
+              <input class="form-input">
+              <label class="flex items-center">
+                  <input type="checkbox" class="form-checkbox" />
+                  <span class="ml-2">Check this box</span>
+              </label>
+              <router-outlet />
+          </div>
+          
+      </div>
   `,
   styles: [],
 })
