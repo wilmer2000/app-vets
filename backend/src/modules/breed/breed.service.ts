@@ -11,25 +11,25 @@ import { PrismaService } from '../../../prisma/prisma.service.js';
 export class BreedService {
   constructor(private prisma: PrismaService) {}
 
-  create(createBreedDto: CreateBreedDto) {
+  async create(createBreedDto: CreateBreedDto) {
     try {
-      return this.prisma.breed.create({ data: createBreedDto });
+      return await this.prisma.breed.create({ data: createBreedDto });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  findAll() {
+  async findAll() {
     try {
-      return this.prisma.breed.findMany();
+      return await this.prisma.breed.findMany();
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  findOne(id: string) {
+  async findOne(id: string) {
     try {
-      const breed = this.prisma.breed.findUnique({ where: { id } });
+      const breed = await this.prisma.breed.findUnique({ where: { id } });
 
       if (!breed) {
         throw new NotFoundException(`Breed with ID ${id} not found`);
@@ -41,15 +41,15 @@ export class BreedService {
     }
   }
 
-  update(id: string, updateBreedDto: UpdateBreedDto) {
+  async update(id: string, updateBreedDto: UpdateBreedDto) {
     try {
-      const breed = this.prisma.breed.findUnique({ where: { id } });
+      const breed = await this.prisma.breed.findUnique({ where: { id } });
 
       if (!breed) {
         throw new NotFoundException(`Breed with ID ${id} not found`);
       }
 
-      return this.prisma.breed.update({
+      return await this.prisma.breed.update({
         where: { id },
         data: updateBreedDto,
       });
@@ -58,15 +58,15 @@ export class BreedService {
     }
   }
 
-  remove(id: string) {
+  async remove(id: string) {
     try {
-      const breed = this.prisma.breed.findUnique({ where: { id } });
+      const breed = await this.prisma.breed.findUnique({ where: { id } });
 
       if (!breed) {
         throw new NotFoundException(`Breed with ID ${id} not found`);
       }
 
-      return this.prisma.breed.delete({ where: { id } });
+      return await this.prisma.breed.delete({ where: { id } });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

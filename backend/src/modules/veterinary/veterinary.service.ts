@@ -57,7 +57,7 @@ export class VeterinaryService {
         throw new NotFoundException(`Veterinary with ID ${id} not found`);
       }
 
-      return this.prisma.veterinary.update({
+      return await this.prisma.veterinary.update({
         data: { ...updateVeterinaryDto },
         where: { id },
       });
@@ -76,7 +76,7 @@ export class VeterinaryService {
         throw new NotFoundException(`Veterinary with ID ${id} not found`);
       }
 
-      return this.prisma.veterinary.delete({
+      return await this.prisma.veterinary.delete({
         where: { id },
       });
     } catch (error) {

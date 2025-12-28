@@ -60,7 +60,7 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with ID ${id} not found`);
     }
 
-    return this.prisma.appointment.update({
+    return await this.prisma.appointment.update({
       data: { ...updateAppointmentDto },
       where: { id },
     });
@@ -75,7 +75,7 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with ID ${id} not found`);
     }
 
-    return this.prisma.appointment.delete({
+    return await this.prisma.appointment.delete({
       where: { id },
     });
   }
