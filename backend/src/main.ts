@@ -9,10 +9,7 @@ async function bootstrap() {
 
   app.useGlobalPipes(new ValidationPipe());
   app.useGlobalFilters(new HttpExceptionFilter());
-  app.enableVersioning({
-    type: VersioningType.URI,
-    defaultVersion: '1',
-  });
+  app.setGlobalPrefix('api');
 
   await app.listen(process.env.PORT ?? 3000);
   console.log('Server running on port ' + process.env.PORT);

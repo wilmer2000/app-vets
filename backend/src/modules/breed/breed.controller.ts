@@ -5,7 +5,7 @@ import { UpdateBreedDto } from './dto/update-breed.dto.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 
-@Controller({ path: 'breed', version: '1' })
+@Controller({ path: 'breed' })
 @Roles(Role.ADMIN, Role.USER, Role.VET)
 export class BreedController {
   constructor(private readonly breedService: BreedService) {}

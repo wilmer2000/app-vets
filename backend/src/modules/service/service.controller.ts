@@ -5,7 +5,7 @@ import { UpdateServiceDto } from './dto/update-service.dto.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 
-@Controller({ path: 'service', version: '1' })
+@Controller({ path: 'service' })
 @Roles(Role.ADMIN, Role.USER)
 export class ServiceController {
   constructor(private readonly serviceService: ServiceService) {}

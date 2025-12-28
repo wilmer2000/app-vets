@@ -5,7 +5,7 @@ import { UpdateConfigurationDto } from './dto/update-configuration.dto.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 
-@Controller({ path: 'configuration', version: '1' })
+@Controller({ path: 'configuration' })
 @Roles(Role.ADMIN, Role.USER)
 export class ConfigurationController {
   constructor(private readonly configurationService: ConfigurationService) {}

@@ -5,7 +5,7 @@ import { UpdatePaymentDto } from './dto/update-payment.dto.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 
-@Controller({ path: 'payment', version: '1' })
+@Controller({ path: 'payment' })
 @Roles(Role.ADMIN, Role.USER)
 export class PaymentController {
   constructor(private readonly paymentService: PaymentService) {}

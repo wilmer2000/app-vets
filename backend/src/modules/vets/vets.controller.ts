@@ -16,7 +16,7 @@ import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
 
-@Controller({ path: 'vets', version: '1' })
+@Controller({ path: 'vets' })
 @Roles(Role.ADMIN, Role.VET)
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class VetsController {
