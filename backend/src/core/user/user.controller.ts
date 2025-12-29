@@ -5,10 +5,11 @@ import {
   Get,
   Param,
   Patch,
-  Post, Query,
+  Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
-import { UsersService } from './users.service.js';
+import { UserService } from './user.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { Role, User } from '../../../prisma/generated/prisma/client.js';
@@ -16,12 +17,19 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { Roles } from '../auth/decorators/role.decorator.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { QueryUserDto } from './dtos/query-user.dto.js';
+import { UpdateVetUserDto } from './dtos/update-vet-user.dto.js';
+import { UpdateOwnerUserDto } from './dtos/update-owner-user.dto.js';
+import { CreateOwnerUserDto } from './dtos/create-owner-user.dto.js';
+import { ProfileService } from './profile.service.js';
 
-@Controller({ path: 'users' })
+@Controller({ path: 'user' })
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
-export class UsersController {
-  constructor(private readonly usersService: UsersService) {}
+export class UserController {
+  constructor(
+    private readonly usersService: UserService,
+    private readonly profileService: ProfileService,
+  ) {}
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<Partial<User>> {
@@ -49,5 +57,29 @@ export class UsersController {
   @Get(':id')
   findOne(@Param('id') id: string): Promise<Partial<User>> {
     return this.usersService.findOne(id);
+  }
+
+  @Post('/owner-profile/:id')
+  async setOwnerProfile(
+    @Param('id') id: string,
+    @Body() dto: CreateOwnerUserDto,
+  ): Promise<Partial<User>> {
+    return this.profileService.setOwnerProfile(id, dto);
+  }
+
+  @Patch('/owner-profile/:id')
+  async updateOwnerProfile(
+    @Param('id') id: string,
+    @Body() dto: UpdateOwnerUserDto,
+  ): Promise<Partial<User>> {
+    return this.profileService.updateOwnerProfile(id, dto);
+  }
+
+  @Post('/vet-profile/:id')
+  async setVetProfile(
+    @Param('id') id: string,
+    @Body() dto: UpdateVetUserDto,
+  ): Promise<Partial<User>> {
+    return this.profileService.setVetProfile(id, dto);
   }
 }

@@ -12,7 +12,7 @@ import { Role } from '@prisma/client';
 import { QueryUserDto } from './dtos/query-user.dto.js';
 
 @Injectable()
-export class UsersService {
+export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
