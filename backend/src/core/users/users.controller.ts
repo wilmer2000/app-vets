@@ -5,7 +5,7 @@ import {
   Get,
   Param,
   Patch,
-  Post,
+  Post, Query,
   UseGuards,
 } from '@nestjs/common';
 import { UsersService } from './users.service.js';
@@ -15,6 +15,7 @@ import { Role, User } from '../../../prisma/generated/prisma/client.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { Roles } from '../auth/decorators/role.decorator.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
+import { UserQueryDto } from './dtos/user-query.dto.js';
 
 @Controller({ path: 'users' })
 @Roles(Role.ADMIN)
@@ -41,8 +42,8 @@ export class UsersController {
   }
 
   @Get()
-  findAll(): Promise<Partial<User>[]> {
-    return this.usersService.findAll();
+  findAll(@Query() query: UserQueryDto): Promise<Partial<User>[]> {
+    return this.usersService.findAll(query);
   }
 
   @Get(':id')
