@@ -6,6 +6,7 @@ import {
 import { CreateVeterinaryDto } from './dto/create-veterinary.dto.js';
 import { UpdateVeterinaryDto } from './dto/update-veterinary.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
+import { QueryVeterinaryDto } from './dto/query-veterinary.dto.js';
 
 @Injectable()
 export class VeterinaryService {
@@ -23,9 +24,11 @@ export class VeterinaryService {
     }
   }
 
-  async findAll() {
+  async findAll(query: QueryVeterinaryDto) {
     try {
-      return await this.prisma.veterinary.findMany();
+      return await this.prisma.veterinary.findMany({
+        where: query,
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

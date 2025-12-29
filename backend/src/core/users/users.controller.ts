@@ -15,7 +15,7 @@ import { Role, User } from '../../../prisma/generated/prisma/client.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { Roles } from '../auth/decorators/role.decorator.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
-import { UserQueryDto } from './dtos/user-query.dto.js';
+import { QueryUserDto } from './dtos/query-user.dto.js';
 
 @Controller({ path: 'users' })
 @Roles(Role.ADMIN)
@@ -42,7 +42,7 @@ export class UsersController {
   }
 
   @Get()
-  findAll(@Query() query: UserQueryDto): Promise<Partial<User>[]> {
+  findAll(@Query() query: QueryUserDto): Promise<Partial<User>[]> {
     return this.usersService.findAll(query);
   }
 

@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Query } from '@nestjs/common';
 import { VeterinaryService } from './veterinary.service.js';
 import { CreateVeterinaryDto } from './dto/create-veterinary.dto.js';
 import { UpdateVeterinaryDto } from './dto/update-veterinary.dto.js';
@@ -6,6 +6,7 @@ import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
+import { QueryVeterinaryDto } from './dto/query-veterinary.dto.js';
 
 @Controller({ path: 'veterinary' })
 @Roles(Role.ADMIN)
@@ -19,8 +20,8 @@ export class VeterinaryController {
   }
 
   @Get()
-  findAll() {
-    return this.veterinaryService.findAll();
+  findAll(@Query() query: QueryVeterinaryDto) {
+    return this.veterinaryService.findAll(query);
   }
 
   @Get(':id')

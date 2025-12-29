@@ -1,32 +1,43 @@
 import {
   IsBoolean,
   IsEmail,
-  IsEnum,
+  IsNotEmpty,
   IsOptional,
   IsString,
 } from 'class-validator';
-import { Role } from '../../../../prisma/generated/prisma/enums.js';
 
-export class UserQueryDto {
+export class QueryVeterinaryDto {
+  @IsOptional()
+  @IsNotEmpty()
+  name: string;
+
   @IsOptional()
   @IsEmail()
   email: string;
 
   @IsOptional()
   @IsString()
-  password: string;
+  description: string;
 
   @IsOptional()
   @IsString()
-  name: string;
+  phone: string;
 
   @IsOptional()
   @IsString()
-  lastname: string;
+  street: string;
 
   @IsOptional()
-  @IsEnum(Role)
-  role: Role;
+  @IsString()
+  city: string;
+
+  @IsOptional()
+  @IsString()
+  country: string;
+
+  @IsOptional()
+  @IsString()
+  businessHours: string;
 
   @IsOptional()
   @IsBoolean()

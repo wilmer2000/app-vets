@@ -9,7 +9,7 @@ import { CreateUserDto } from './dtos/create-user.dto.js';
 import { Prisma, User } from '../../../prisma/generated/prisma/client.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { Role } from '@prisma/client';
-import { UserQueryDto } from './dtos/user-query.dto.js';
+import { QueryUserDto } from './dtos/query-user.dto.js';
 
 @Injectable()
 export class UsersService {
@@ -33,8 +33,7 @@ export class UsersService {
     }
   }
 
-  async findAll(query: UserQueryDto): Promise<Partial<User>[]> {
-    console.log(query);
+  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
     try {
       return await this.prisma.user.findMany({
         omit: { password: true },

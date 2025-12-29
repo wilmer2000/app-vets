@@ -28,7 +28,6 @@ export class AppointmentService {
       }
 
       const vet = this.vetsService.findOne(createAppointmentDto.vetId);
-      console.log(vet);
 
       return await this.prisma.appointment.create({
         data: {
