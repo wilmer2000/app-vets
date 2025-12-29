@@ -22,7 +22,7 @@ import { RolesGuard } from '../auth/guards/roles.guard.js';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Post('create')
+  @Post()
   async create(@Body() createUserDto: CreateUserDto): Promise<Partial<User>> {
     return this.usersService.create(createUserDto);
   }
