@@ -37,22 +37,20 @@ model VetProfile {
   id        String    @id @default(uuid())
   specialty Specialty
 
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String        @unique
-  veterinary   Veterinary    @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String
-  appointments Appointment[]
+  staffAtVeterinary Veterinary[]  @relation("VeterinaryStaff")
+  user              User          @relation(fields: [userId], references: [id])
+  userId            String        @unique
+  appointments      Appointment[]
 }
 
 model OwnerProfile {
   id   String @id @default(uuid())
   pets Pet[]
 
-  user         User          @relation(fields: [userId], references: [id])
-  userId       String        @unique
-  veterinary   Veterinary    @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String
-  appointments Appointment[]
+  ownedVeterinaries Veterinary[]  @relation("VeterinaryOwners")
+  user              User          @relation(fields: [userId], references: [id])
+  userId            String        @unique
+  appointments      Appointment[]
 }
 
 model Address {
@@ -95,8 +93,8 @@ model Veterinary {
   configuration Configuration?
   services      Service[]
   payments      Payment[]
-  vetProfiles   VetProfile[]
-  ownerProfiles OwnerProfile[]
+  owners        OwnerProfile[] @relation("VeterinaryOwners")
+  staff         VetProfile[]   @relation("VeterinaryStaff")
   pets          Pet[]
   appointments  Appointment[]
 }

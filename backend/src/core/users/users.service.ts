@@ -18,7 +18,11 @@ export class UsersService {
   async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
     try {
       return await this.prisma.user.create({
-        data: { ...createUserDto, role: createUserDto.role ?? Role.USER },
+        data: {
+          ...createUserDto,
+          role: createUserDto.role ?? Role.USER,
+          isActive: createUserDto.isActive ?? false,
+        },
         omit: { password: true },
       });
     } catch (error: unknown) {
