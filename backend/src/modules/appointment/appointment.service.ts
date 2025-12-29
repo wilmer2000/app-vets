@@ -3,37 +3,27 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Status } from '../../../prisma/generated/prisma/enums.js';
 import { VetsService } from '../vets/vets.service.js';
+import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
+import { UsersService } from '../../core/users/users.service.js';
 
 @Injectable()
 export class AppointmentService {
   constructor(
     private prisma: PrismaService,
     private vetsService: VetsService,
+    private userService: UsersService,
   ) {}
 
   async create(createAppointmentDto: CreateAppointmentDto) {
     try {
-      const startTime = new Date(createAppointmentDto.startTime);
-      const endTime = new Date(createAppointmentDto.endTime);
-
-      if (startTime > endTime) {
-        throw new InternalServerErrorException(
-          'Start time must be before end time',
-        );
-      }
-
-      const vet = this.vetsService.findOne(createAppointmentDto.vetId);
-
+      const participants =  await  this.userService.getUsersById(createAppointmentDto.participants);
       return await this.prisma.appointment.create({
         data: {
           ...createAppointmentDto,
-          startTime,
-          endTime,
           status: Status.PENDING,
         },
       });

@@ -33,13 +33,24 @@ export class UsersService {
     }
   }
 
-  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
+  async findAll(query?: QueryUserDto): Promise<Partial<User>[]> {
     try {
       return await this.prisma.user.findMany({
         omit: { password: true },
-        where: query,
+        where: query ?? {},
       });
     } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async getUsersById(id: string[]): Promise<Partial<User>[]> {
+    try {
+      return await this.prisma.user.findMany({
+        where: { id: { in: id } },
+        omit: { password: true },
+      });
+    } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
