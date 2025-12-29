@@ -6,15 +6,29 @@ import {
 import { CreatePetDto } from './dto/create-pet.dto.js';
 import { UpdatePetDto } from './dto/update-pet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
+import { VeterinaryWhereUniqueInput } from '../../../prisma/generated/prisma/models/Veterinary.js';
+import { OwnerProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/OwnerProfile.js';
 
 @Injectable()
 export class PetsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createPetDto: CreatePetDto) {
+  async create(dto: CreatePetDto) {
     try {
+      const name = dto.name;
+      const breed = dto.breed;
+      const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
+      const veterinaryId = {
+        id: dto.veterinaryId,
+      } as VeterinaryWhereUniqueInput;
+
       return await this.prisma.pet.create({
-        data: { ...createPetDto },
+        data: {
+          name,
+          breed,
+          owner: { connect: ownerId },
+          veterinary: { connect: veterinaryId },
+        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

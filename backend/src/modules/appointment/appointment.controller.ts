@@ -1,22 +1,21 @@
 import {
-  Controller,
-  Get,
-  Post,
   Body,
-  Patch,
-  Param,
+  Controller,
   Delete,
-  UseGuards,
+  Get,
   InternalServerErrorException,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
 } from '@nestjs/common';
 import { AppointmentService } from './appointment.service.js';
 import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
-import { Role, Status } from '../../../prisma/generated/prisma/enums.js';
+import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
-import { User } from '@prisma/client';
 
 @Controller({ path: 'appointment' })
 @Roles(Role.ADMIN, Role.USER, Role.VET, Role.OWNER)
@@ -25,9 +24,9 @@ export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 
   @Post()
-  create(@Body() createAppointmentDto: CreateAppointmentDto) {
-    const startTime = new Date(createAppointmentDto.startTime);
-    const endTime = new Date(createAppointmentDto.endTime);
+  create(@Body() dto: CreateAppointmentDto) {
+    const startTime = new Date(dto.startTime);
+    const endTime = new Date(dto.endTime);
 
     if (startTime > endTime) {
       throw new InternalServerErrorException(
@@ -35,16 +34,7 @@ export class AppointmentController {
       );
     }
 
-    const hasPets = !!createAppointmentDto.pets.length;
-    const hasParticipants = !!createAppointmentDto.participants.length;
-    if (!hasPets || !hasParticipants) {
-      throw new InternalServerErrorException({
-        message:
-          'Participants should have at least one owner, one vet and one pet',
-      });
-    }
-
-    return this.appointmentService.create(createAppointmentDto);
+    return this.appointmentService.create(dto);
   }
 
   @Get()

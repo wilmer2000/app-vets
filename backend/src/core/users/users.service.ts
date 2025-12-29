@@ -44,17 +44,6 @@ export class UsersService {
     }
   }
 
-  async getUsersById(id: string[]): Promise<Partial<User>[]> {
-    try {
-      return await this.prisma.user.findMany({
-        where: { id: { in: id } },
-        omit: { password: true },
-      });
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
   async findOne(id: string): Promise<Partial<User>> {
     try {
       return await this.prisma.user.findUniqueOrThrow({

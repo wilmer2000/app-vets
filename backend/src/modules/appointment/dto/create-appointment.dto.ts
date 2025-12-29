@@ -1,29 +1,42 @@
-import { IsArray, IsEnum, IsNotEmpty, IsString } from 'class-validator';
+import {
+  IsArray,
+  IsEnum,
+  IsISO8601,
+  IsNotEmpty,
+  IsUUID,
+} from 'class-validator';
 import { TypeService } from '../../../../prisma/generated/prisma/enums.js';
-import { User } from '../../../../prisma/generated/prisma/client.js';
 
 export class CreateAppointmentDto {
-  @IsNotEmpty()
   @IsArray()
-  participants: User[] = [];
-
+  @IsUUID('all')
   @IsNotEmpty()
+  ownerId: string;
+
   @IsArray()
-  pets: string[] = [];
-
-  @IsString()
+  @IsUUID('all')
   @IsNotEmpty()
-  startTime: string;
+  vetId: string;
 
-  @IsString()
-  @IsNotEmpty()
-  endTime: string;
-
-  @IsString()
+  @IsArray()
+  @IsUUID('all')
   @IsNotEmpty()
   veterinaryId: string;
 
+  @IsArray()
+  @IsUUID('all', { each: true })
   @IsNotEmpty()
+  pets: string[];
+
+  @IsISO8601()
+  @IsNotEmpty()
+  startTime: string;
+
+  @IsISO8601()
+  @IsNotEmpty()
+  endTime: string;
+
   @IsEnum(TypeService)
+  @IsNotEmpty()
   service: TypeService;
 }

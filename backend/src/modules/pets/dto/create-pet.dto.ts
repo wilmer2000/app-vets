@@ -1,12 +1,19 @@
-import { IsNotEmpty } from 'class-validator';
+import { IsNotEmpty, IsString } from 'class-validator';
 
 export class CreatePetDto {
   @IsNotEmpty()
+  @IsString()
   name: string;
 
   @IsNotEmpty()
+  @IsString()
+  breed: string;
+
+  @IsNotEmpty()
+  @IsString()
   ownerId: string;
 
-  breedId: string;
+  @IsNotEmpty()
+  @IsString()
   veterinaryId: string;
 }
