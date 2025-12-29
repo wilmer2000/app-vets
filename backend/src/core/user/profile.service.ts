@@ -4,25 +4,23 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { User } from '../../../prisma/generated/prisma/client.js';
+import { Role, User } from '../../../prisma/generated/prisma/client.js';
 import { UpdateOwnerUserDto } from './dtos/update-owner-user.dto.js';
 import { UpdateVetUserDto } from './dtos/update-vet-user.dto.js';
 import { CreateOwnerUserDto } from './dtos/create-owner-user.dto.js';
-import { UserService } from './user.service.js';
 
 @Injectable()
 export class ProfileService {
-  constructor(
-    private prisma: PrismaService,
-    private usersService: UserService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
   async setOwnerProfile(
     id: string,
     dto: CreateOwnerUserDto,
   ): Promise<Partial<User>> {
     try {
-      const user = await this.usersService.findOne(id);
+      const user = await this.prisma.user.findUniqueOrThrow({
+        where: { id, role: Role.OWNER },
+      });
       if (!user) {
         throw new NotFoundException('User not found');
       }
@@ -43,7 +41,9 @@ export class ProfileService {
     dto: UpdateOwnerUserDto,
   ): Promise<Partial<User>> {
     try {
-      const user = await this.usersService.findOne(id);
+      const user = await this.prisma.user.findUniqueOrThrow({
+        where: { id, role: Role.OWNER },
+      });
       if (!user) {
         throw new NotFoundException('User not found');
       }
@@ -72,7 +72,9 @@ export class ProfileService {
     dto: UpdateVetUserDto,
   ): Promise<Partial<User>> {
     try {
-      const vet = await this.usersService.findOne(id);
+      const vet = await this.prisma.user.findUnique({
+        where: { id, role: Role.VET },
+      });
       if (!vet) {
         throw new NotFoundException('Vet not found');
       }
@@ -93,7 +95,9 @@ export class ProfileService {
     dto: UpdateVetUserDto,
   ): Promise<Partial<User>> {
     try {
-      const vet = await this.usersService.findOne(id);
+      const vet = await this.prisma.user.findUnique({
+        where: { id, role: Role.VET },
+      });
       if (!vet) {
         throw new NotFoundException('Vet not found');
       }
