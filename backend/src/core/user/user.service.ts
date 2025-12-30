@@ -123,7 +123,13 @@ export class UserService {
             },
           },
         },
-        include: { profile: true },
+        include: {
+          profile: {
+            include: {
+              address: true,
+            },
+          },
+        },
       });
     } catch (error: unknown) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

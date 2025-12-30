@@ -16,8 +16,6 @@ import {
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { User } from '../../../prisma/generated/prisma/client.js';
 import { EmailService } from '../services/email.service.js';
-import { UserService } from '../user/user.service.js';
-import { UpdateUserDto } from '../user/dtos/update-user.dto.js';
 import { PasswordResetDto } from './dtos/password-reset.dto.js';
 import { PasswordChangeDto } from './dtos/password-change.dto.js';
 
@@ -27,7 +25,6 @@ export class AuthService {
     private jwtService: JwtService,
     private prisma: PrismaService,
     private emailService: EmailService,
-    private userService: UserService,
   ) {}
 
   async login(loginUserDto: LoginUserDto): Promise<LoginResponse> {
@@ -64,18 +61,11 @@ export class AuthService {
         throw new NotFoundException(`Email does not exist`);
       }
 
-      const randomPassword =
-        Math.random().toString(36).substring(2, 15) +
-        Math.random().toString(36).substring(2, 15);
-
       const id = user.id;
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(randomPassword, salt);
-      const updatedPassword = {
-        password: hash,
-      } as UpdateUserDto;
-
-      await this.userService.update(id, updatedPassword);
+      await this.prisma.user.update({
+        where: { id },
+        data: { password: '', hasPassword: false },
+      });
 
       const to = user.email;
       const subject = 'Password Reset Request';
@@ -98,11 +88,11 @@ export class AuthService {
       const id = user.id;
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(dto.password, salt);
-      const updatedPassword = {
-        password: hash,
-      } as UpdateUserDto;
 
-      await this.userService.update(id, updatedPassword);
+      await this.prisma.user.update({
+        where: { id },
+        data: { password: hash },
+      });
 
       const to = user.email;
       const subject = 'Password changed';

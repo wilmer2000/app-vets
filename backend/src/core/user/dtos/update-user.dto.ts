@@ -12,18 +12,6 @@ import { Role } from '../../../../prisma/generated/prisma/enums.js';
 export class UpdateUserDto extends PartialType(CreateUserDto) {
   @IsOptional()
   @IsString()
-  password: string;
-
-  @IsOptional()
-  @IsEnum(Role)
-  role: Role;
-
-  @IsOptional()
-  @IsBoolean()
-  isActive: boolean;
-
-  @IsOptional()
-  @IsString()
   name: string;
 
   @IsOptional()
