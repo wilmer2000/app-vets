@@ -47,9 +47,9 @@ model OwnerProfile {
   id   String @id @default(uuid())
   pets Pet[]
 
-  ownedVeterinaries Veterinary[]  @relation("VeterinaryOwners")
   user              User          @relation(fields: [userId], references: [id])
   userId            String        @unique
+  ownedVeterinaries Veterinary[]  @relation("VeterinaryOwners")
   appointments      Appointment[]
 }
 

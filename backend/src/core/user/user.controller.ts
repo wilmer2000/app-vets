@@ -12,7 +12,12 @@ import {
 import { UserService } from './user.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
-import { Role, User } from '../../../prisma/generated/prisma/client.js';
+import {
+  OwnerProfile,
+  Role,
+  User,
+  VetProfile,
+} from '../../../prisma/generated/prisma/client.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { Roles } from '../auth/decorators/role.decorator.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
@@ -59,11 +64,16 @@ export class UserController {
     return this.usersService.findOne(id);
   }
 
+  @Get('/owner-profile/:id')
+  async getOwnerProfile(@Param('id') id: string): Promise<OwnerProfile> {
+    return this.profileService.getOwnerProfile(id);
+  }
+
   @Post('/owner-profile/:id')
   async setOwnerProfile(
     @Param('id') id: string,
     @Body() dto: CreateOwnerUserDto,
-  ): Promise<Partial<User>> {
+  ): Promise<OwnerProfile> {
     return this.profileService.setOwnerProfile(id, dto);
   }
 
@@ -71,15 +81,20 @@ export class UserController {
   async updateOwnerProfile(
     @Param('id') id: string,
     @Body() dto: UpdateOwnerUserDto,
-  ): Promise<Partial<User>> {
+  ): Promise<OwnerProfile> {
     return this.profileService.updateOwnerProfile(id, dto);
+  }
+
+  @Get('/vet-profile/:id')
+  async getVetProfile(@Param('id') id: string): Promise<VetProfile> {
+    return this.profileService.getVetProfile(id);
   }
 
   @Post('/vet-profile/:id')
   async setVetProfile(
     @Param('id') id: string,
     @Body() dto: UpdateVetUserDto,
-  ): Promise<Partial<User>> {
+  ): Promise<VetProfile> {
     return this.profileService.setVetProfile(id, dto);
   }
 }
