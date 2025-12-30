@@ -3,37 +3,38 @@ import {
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Status } from '../../../prisma/generated/prisma/enums.js';
-import { VetsService } from '../vets/vets.service.js';
+import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
+import { OwnerProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/OwnerProfile.js';
+import { VetProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/VetProfile.js';
+import { VeterinaryWhereUniqueInput } from '../../../prisma/generated/prisma/models/Veterinary.js';
 
 @Injectable()
 export class AppointmentService {
-  constructor(
-    private prisma: PrismaService,
-    private vetsService: VetsService,
-  ) {}
+  constructor(private prisma: PrismaService) {}
 
-  async create(createAppointmentDto: CreateAppointmentDto) {
+  async create(dto: CreateAppointmentDto) {
     try {
-      const startTime = new Date(createAppointmentDto.startTime);
-      const endTime = new Date(createAppointmentDto.endTime);
-
-      if (startTime > endTime) {
-        throw new InternalServerErrorException(
-          'Start time must be before end time',
-        );
-      }
-
-      const vet = this.vetsService.findOne(createAppointmentDto.vetId);
+      const service = dto.service;
+      const startTime = new Date(dto.startTime);
+      const endTime = new Date(dto.endTime);
+      const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
+      const vetId = { id: dto.vetId } as VetProfileWhereUniqueInput;
+      const veterinaryId = {
+        id: dto.veterinaryId,
+      } as VeterinaryWhereUniqueInput;
 
       return await this.prisma.appointment.create({
         data: {
-          ...createAppointmentDto,
           startTime,
           endTime,
+          service,
+          owner: { connect: ownerId },
+          vet: { connect: vetId },
+          veterinary: { connect: veterinaryId },
+          pets: { connect: dto.pets.map((id: string) => ({ id })) },
           status: Status.PENDING,
         },
       });
@@ -66,7 +67,7 @@ export class AppointmentService {
     }
   }
 
-  async update(id: string, updateAppointmentDto: UpdateAppointmentDto) {
+  async update(id: string, dto: UpdateAppointmentDto) {
     const appointment = await this.prisma.appointment.findUnique({
       where: { id },
     });
@@ -75,14 +76,25 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with ID ${id} not found`);
     }
 
-    const startTime = new Date(updateAppointmentDto.startTime);
-    const endTime = new Date(updateAppointmentDto.endTime);
+    const service = dto.service;
+    const startTime = new Date(dto.startTime);
+    const endTime = new Date(dto.endTime);
+    const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
+    const vetId = { id: dto.vetId } as VetProfileWhereUniqueInput;
+    const veterinaryId = {
+      id: dto.veterinaryId,
+    } as VeterinaryWhereUniqueInput;
 
     return this.prisma.appointment.update({
       data: {
-        ...updateAppointmentDto,
         startTime,
         endTime,
+        service,
+        owner: { connect: ownerId },
+        vet: { connect: vetId },
+        veterinary: { connect: veterinaryId },
+        pets: { connect: dto.pets.map((id: string) => ({ id })) },
+        status: Status.PENDING,
       },
       where: { id },
     });

@@ -11,29 +11,21 @@ const userData: UserCreateInput[] = [
   {
     email: 'admin@email.com',
     password: 'passwordTest',
-    name: 'Admin',
-    lastname: 'Admin',
     role: Role.ADMIN,
   },
   {
     email: 'user@email.com',
     password: 'passwordTest',
-    name: 'User',
-    lastname: 'User',
     role: Role.USER,
   },
   {
     email: 'vet@email.com',
     password: 'passwordTest',
-    name: 'Vet',
-    lastname: 'Vet',
     role: Role.VET,
   },
   {
     email: 'owner@email.com',
     password: 'passwordTest',
-    name: 'Owner',
-    lastname: 'Owner',
     role: Role.OWNER,
   },
 ];
@@ -60,7 +52,7 @@ async function main() {
     };
 
     const user = await prisma.user.create({ data });
-    console.log(`Created user ${user.name} with id: ${user.id}`);
+    console.log(`Created user ${user.email} with id: ${user.id}`);
   }
   console.log(`Seeding finished.`);
 }

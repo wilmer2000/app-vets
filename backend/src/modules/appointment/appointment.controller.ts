@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  InternalServerErrorException,
+  Param,
+  Patch,
+  Post,
+  UseGuards,
+} from '@nestjs/common';
 import { AppointmentService } from './appointment.service.js';
 import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
@@ -14,8 +24,17 @@ export class AppointmentController {
   constructor(private readonly appointmentService: AppointmentService) {}
 
   @Post()
-  create(@Body() createAppointmentDto: CreateAppointmentDto) {
-    return this.appointmentService.create(createAppointmentDto);
+  create(@Body() dto: CreateAppointmentDto) {
+    const startTime = new Date(dto.startTime);
+    const endTime = new Date(dto.endTime);
+
+    if (startTime > endTime) {
+      throw new InternalServerErrorException(
+        'Start time must be before end time',
+      );
+    }
+
+    return this.appointmentService.create(dto);
   }
 
   @Get()

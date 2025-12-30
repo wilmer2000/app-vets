@@ -8,65 +8,95 @@ datasource db {
 }
 
 model User {
-  id        String     @id @default(uuid())
-  email     String     @unique
-  password  String?
-  name      String?
-  lastname  String?
-  role      Role       @default(USER)
-  isActive  Boolean    @default(false)
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
-  specialty Specialty?
+  id        String   @id @default(uuid())
+  email     String   @unique
+  password  String
+  role      Role     @default(USER)
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  worksAt      Veterinary? @relation("VetStaff", fields: [worksAtId], references: [id])
-  worksAtId    String?
-  customerAt   Veterinary? @relation("ClinicCustomers", fields: [customerAtId], references: [id])
-  customerAtId String?
+  profile      Profile?
+  vetProfile   VetProfile?
+  ownerProfile OwnerProfile?
+}
 
-  appointmentsAsOwner Appointment[] @relation("Owner")
-  appointmentsAsVet   Appointment[] @relation("VetStaff")
+model Profile {
+  id       String  @id @default(uuid())
+  name     String
+  lastname String
+  phone    String
+  address  Address @relation(fields: [addressId], references: [id])
 
-  pets         Pet[]
-  appointments Appointment[]
+  user      User   @relation(fields: [userId], references: [id])
+  userId    String @unique
+  addressId String
+}
+
+model VetProfile {
+  id        String    @id @default(uuid())
+  specialty Specialty
+
+  staffAtVeterinary Veterinary[]  @relation("VeterinaryStaff")
+  user              User          @relation(fields: [userId], references: [id])
+  userId            String        @unique
+  appointments      Appointment[]
+}
+
+model OwnerProfile {
+  id   String @id @default(uuid())
+  pets Pet[]
+
+  user              User          @relation(fields: [userId], references: [id])
+  userId            String        @unique
+  ownedVeterinaries Veterinary[]  @relation("VeterinaryOwners")
+  appointments      Appointment[]
+}
+
+model Address {
+  id       String    @id @default(uuid())
+  street   String
+  city     String
+  country  String
+  profiles Profile[]
 }
 
 model Pet {
-  id           String      @id @default(uuid())
-  name         String
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  breed        Breed?      @relation(fields: [breedId], references: [id])
-  breedId      String?
-  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String?
-  owner        User?       @relation(fields: [ownerId], references: [id])
-  ownerId      String?
+  id        String       @id @default(uuid())
+  name      String
+  breed     String
+  owner     OwnerProfile @relation(fields: [ownerId], references: [id])
+  ownerId   String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  veterinary    Veterinary   @relation(fields: [veterinaryId], references: [id])
+  veterinaryId  String       @unique
+  appointment   Appointment? @relation(fields: [appointmentId], references: [id])
+  appointmentId String?
 }
 
 model Veterinary {
   id            String   @id @default(uuid())
   name          String
-  description   String?
-  email         String?
-  phone         String?
-  street        String?
-  city          String?
-  country       String?
-  businessHours String?
+  description   String
+  email         String
+  phone         String
+  street        String
+  city          String
+  country       String
+  businessHours String
   isActive      Boolean  @default(false)
   createdAt     DateTime @default(now())
   updatedAt     DateTime @updatedAt
 
-  vets         User[]        @relation("VetStaff")
-  owners       User[]        @relation("ClinicCustomers")
-  pets         Pet[]
-  appointments Appointment[]
-  services     Service[]
-  payments     Payment[]
-
-  configuration   Configuration? @relation(fields: [configurationId], references: [id])
-  configurationId String?        @unique
+  configuration Configuration?
+  services      Service[]
+  payments      Payment[]
+  owners        OwnerProfile[] @relation("VeterinaryOwners")
+  staff         VetProfile[]   @relation("VeterinaryStaff")
+  pets          Pet[]
+  appointments  Appointment[]
 }
 
 model Configuration {
@@ -76,50 +106,46 @@ model Configuration {
   color1   String?
   color2   String?
 
-  veterinary Veterinary?
+  veterinary   Veterinary @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String     @unique
 }
 
 model Service {
-  id           String      @id @default(uuid())
-  isActive     Boolean     @default(false)
-  type         TypeService
-  name         String
+  id       String      @id @default(uuid())
+  isActive Boolean     @default(false)
+  type     TypeService
+  name     String
+  price    Float
+
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
 }
 
 model Payment {
-  id           String      @id @default(uuid())
-  isActive     Boolean     @default(false)
-  type         TypePayment
+  id       String      @id @default(uuid())
+  isActive Boolean     @default(false)
+  type     TypePayment
+
   veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
   veterinaryId String?
 }
 
-model Breed {
-  id       String  @id @default(uuid())
-  isActive Boolean @default(false)
-  breed    String
-  type     String
-  pets     Pet[]
-}
-
 model Appointment {
-  id           String      @id @default(uuid())
-  owner        User        @relation("Owner", fields: [ownerId], references: [id])
+  id        String      @id @default(uuid())
+  pets      Pet[]
+  service   TypeService
+  startTime DateTime
+  endTime   DateTime
+  status    Status
+  createdAt DateTime    @default(now())
+  updatedAt DateTime    @updatedAt
+
+  owner        OwnerProfile @relation(fields: [ownerId], references: [id])
   ownerId      String
-  vet          User        @relation("VetStaff", fields: [vetId], references: [id])
+  vet          VetProfile   @relation(fields: [vetId], references: [id])
   vetId        String
-  veterinary   Veterinary  @relation(fields: [veterinaryId], references: [id])
+  veterinary   Veterinary   @relation(fields: [veterinaryId], references: [id])
   veterinaryId String
-  service      TypeService
-  startTime    DateTime
-  endTime      DateTime
-  status       Status
-  createdAt    DateTime    @default(now())
-  updatedAt    DateTime    @updatedAt
-  user         User        @relation(fields: [userId], references: [id])
-  userId       String
 }
 
 enum Status {

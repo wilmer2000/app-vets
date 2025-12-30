@@ -12,7 +12,6 @@ import { VeterinaryModule } from './modules/veterinary/veterinary.module.js';
 import { ConfigurationModule } from './modules/configuration/configuration.module.js';
 import { ServiceModule } from './modules/service/service.module.js';
 import { PaymentModule } from './modules/payment/payment.module.js';
-import { BreedModule } from './modules/breed/breed.module.js';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
 
@@ -42,7 +41,6 @@ import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
     ConfigurationModule,
     ServiceModule,
     PaymentModule,
-    BreedModule,
   ],
 })
 export class AppModule {}
