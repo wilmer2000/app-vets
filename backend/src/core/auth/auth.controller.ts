@@ -16,8 +16,12 @@ export class AuthController {
   }
 
   @Post('reset-password')
-  @UseGuards(LocalAuthGuard)
-  async resetPassword(@Body() email: PasswordResetDto): Promise<void> {
-    return this.authService.resetPassword(email);
+  async resetPassword(@Body() dto: PasswordResetDto): Promise<void> {
+    return this.authService.resetPassword(dto);
+  }
+
+  @Post('change-password')
+  async changePassword(@Body() email: PasswordResetDto): Promise<void> {
+    return this.authService.changePassword(email);
   }
 }

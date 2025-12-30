@@ -48,7 +48,9 @@ export class AuthService {
 
   async resetPassword(dto: PasswordResetDto): Promise<void> {
     try {
-      const user = await this.prisma.user.findUnique({ where: { email: dto.email } });
+      const user = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
       if (!user) {
         throw new NotFoundException(`Email does not exist`);
       }
@@ -69,6 +71,38 @@ export class AuthService {
       const to = user.email;
       const subject = 'Password Reset Request';
       const text = 'Please click on the link to reset your password';
+      return await this.emailService.sendEmail(to, subject, text);
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async changePassword(dto: PasswordResetDto): Promise<void> {
+    try {
+      const user = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
+      if (!user) {
+        throw new NotFoundException(`Email does not exist`);
+      }
+
+      const randomPassword =
+        Math.random().toString(36).substring(2, 15) +
+        Math.random().toString(36).substring(2, 15);
+
+      const id = user.id;
+      const salt = await bcrypt.genSalt(10);
+      const hash = await bcrypt.hash(randomPassword, salt);
+      const updatedPassword = {
+        password: hash,
+      } as UpdateUserDto;
+
+      await this.userService.update(id, updatedPassword);
+
+      const to = user.email;
+      const subject = 'Password Reset Request';
+      const text = 'Please click on the link to reset your password';
+
       return await this.emailService.sendEmail(to, subject, text);
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);

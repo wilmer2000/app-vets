@@ -8,10 +8,10 @@ export class EmailService {
   async sendEmail(to: string, subject: string, text: string) {
     try {
       await this.resend.emails.send({
-        from: 'Acme <onboarding@resend.dev>',
-        to: ['wilmervzla2000@gmail.com'],
-        subject: 'Hello World',
-        html: '<strong>It works!</strong>',
+        from: 'Test <test@test.dev>',
+        to: [to],
+        subject: subject,
+        html: text,
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
