@@ -47,6 +47,13 @@ export class OwnersService {
           },
         },
         omit: { password: true },
+        include: {
+          profile: {
+            include: {
+              address: true,
+            },
+          },
+        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

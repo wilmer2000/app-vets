@@ -13,10 +13,6 @@ export class CreateUserDto {
   @IsEmail()
   email: string;
 
-  @IsNotEmpty()
-  @IsString()
-  password: string;
-
   @IsOptional()
   @IsEnum(Role)
   role: Role;

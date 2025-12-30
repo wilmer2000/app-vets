@@ -25,7 +25,6 @@ export class UserService {
           ...profileRole,
           role,
           email: dto.email,
-          password: dto.password,
           isActive: dto.isActive ?? false,
           profile: {
             create: {
@@ -47,7 +46,7 @@ export class UserService {
           profile: {
             include: {
               address: true,
-            }
+            },
           },
         },
       });
@@ -96,13 +95,35 @@ export class UserService {
     updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
     try {
-      await this.prisma.user.findUniqueOrThrow({
+      const user = await this.prisma.user.findUniqueOrThrow({
         where: { id },
       });
+      if (!user) {
+        throw new NotFoundException(`User with id ${id} not found`);
+      }
+
       return await this.prisma.user.update({
         where: { id },
         omit: { password: true },
-        data: updateUserDto,
+        data: {
+          role: updateUserDto.role,
+          isActive: updateUserDto.isActive,
+          profile: {
+            update: {
+              name: updateUserDto.name,
+              lastname: updateUserDto.lastname,
+              phone: updateUserDto.phone,
+              address: {
+                update: {
+                  street: updateUserDto.street,
+                  city: updateUserDto.city,
+                  country: updateUserDto.country,
+                },
+              },
+            },
+          },
+        },
+        include: { profile: true },
       });
     } catch (error: unknown) {
       if (error instanceof Prisma.PrismaClientKnownRequestError) {

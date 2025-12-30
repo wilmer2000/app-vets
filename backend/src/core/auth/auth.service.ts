@@ -47,6 +47,14 @@ export class AuthService {
     }
   }
 
+  async validateUser(loginUserDto: LoginUserDto): Promise<User | null> {
+    const user = await this.validateUserAndPassword(loginUserDto);
+    if (!user) {
+      return null;
+    }
+    return user;
+  }
+
   async resetPassword(dto: PasswordResetDto): Promise<void> {
     try {
       const user = await this.prisma.user.findUnique({
@@ -104,14 +112,6 @@ export class AuthService {
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
-  }
-
-  async validateUser(loginUserDto: LoginUserDto): Promise<User | null> {
-    const user = await this.validateUserAndPassword(loginUserDto);
-    if (!user) {
-      return null;
-    }
-    return user;
   }
 
   private async validateUserAndPassword(

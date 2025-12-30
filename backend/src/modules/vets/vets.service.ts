@@ -1,4 +1,5 @@
 import {
+  ConflictException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
@@ -13,16 +14,48 @@ import * as bcrypt from 'bcrypt';
 export class VetsService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createVetDto: CreateVetDto) {
+  async create(dto: CreateVetDto) {
     try {
-      const salt = await bcrypt.genSalt(10);
-      const hash = await bcrypt.hash(createVetDto.password, salt);
+      const vetExisted = await this.prisma.user.findUnique({
+        where: { email: dto.email },
+      });
+
+      if (vetExisted) {
+        throw new ConflictException('Email already registered');
+      }
 
       return await this.prisma.user.create({
         data: {
-          ...createVetDto,
-          password: hash,
+          ...dto,
           role: Role.VET,
+          isActive: dto.isActive ?? false,
+          profile: {
+            create: {
+              name: '',
+              lastname: '',
+              phone: '',
+              address: {
+                create: {
+                  street: '',
+                  city: '',
+                  country: '',
+                },
+              },
+            },
+          },
+          vetProfile: {
+            create: {
+              specialty: dto.specialty,
+            },
+          },
+        },
+        omit: { password: true },
+        include: {
+          profile: {
+            include: {
+              address: true,
+            },
+          },
         },
       });
     } catch (error) {
