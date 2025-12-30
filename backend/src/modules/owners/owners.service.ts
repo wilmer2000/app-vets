@@ -13,10 +13,10 @@ import { Role } from '@prisma/client';
 export class OwnersService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createOwnerDto: CreateOwnerDto) {
+  async create(dto: CreateOwnerDto) {
     try {
       const userExisted = await this.prisma.user.findUnique({
-        where: { email: createOwnerDto.email },
+        where: { email: dto.email },
       });
 
       if (userExisted) {
@@ -25,8 +25,26 @@ export class OwnersService {
 
       return await this.prisma.user.create({
         data: {
-          ...createOwnerDto,
+          ...dto,
           role: Role.OWNER,
+          isActive: dto.isActive ?? false,
+          profile: {
+            create: {
+              name: '',
+              lastname: '',
+              phone: '',
+              address: {
+                create: {
+                  street: '',
+                  city: '',
+                  country: '',
+                },
+              },
+            },
+          },
+          ownerProfile: {
+            create: {},
+          },
         },
         omit: { password: true },
       });

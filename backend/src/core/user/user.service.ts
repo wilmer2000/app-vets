@@ -15,15 +15,41 @@ import { QueryUserDto } from './dtos/query-user.dto.js';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async create(createUserDto: CreateUserDto): Promise<Partial<User>> {
+  async create(dto: CreateUserDto): Promise<Partial<User>> {
     try {
+      const role = dto.role ?? Role.USER;
+      let profileRole: any = {};
+
       return await this.prisma.user.create({
         data: {
-          ...createUserDto,
-          role: createUserDto.role ?? Role.USER,
-          isActive: createUserDto.isActive ?? false,
+          ...profileRole,
+          role,
+          email: dto.email,
+          password: dto.password,
+          isActive: dto.isActive ?? false,
+          profile: {
+            create: {
+              name: '',
+              lastname: '',
+              phone: '',
+              address: {
+                create: {
+                  street: '',
+                  city: '',
+                  country: '',
+                },
+              },
+            },
+          },
         },
         omit: { password: true },
+        include: {
+          profile: {
+            include: {
+              address: true,
+            }
+          },
+        },
       });
     } catch (error: unknown) {
       if (
