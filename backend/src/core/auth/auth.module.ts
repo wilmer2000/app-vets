@@ -4,10 +4,18 @@ import { AuthController } from './auth.controller.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { LocalStrategy } from './strategies/local.strategy.js';
 import { PassportModule } from '@nestjs/passport';
+import { EmailService } from '../services/email.service.js';
+import { UserService } from '../user/user.service.js';
 
 @Module({
   imports: [PassportModule],
   controllers: [AuthController],
-  providers: [AuthService, PrismaService, LocalStrategy],
+  providers: [
+    AuthService,
+    PrismaService,
+    LocalStrategy,
+    EmailService,
+    UserService,
+  ],
 })
 export class AuthModule {}
