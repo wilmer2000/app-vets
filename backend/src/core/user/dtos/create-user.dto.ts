@@ -17,6 +17,11 @@ export class CreateUserDto {
   email: string;
 
   @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  password: string;
+
+  @IsOptional()
   @IsEnum(Role)
   role: Role;
 

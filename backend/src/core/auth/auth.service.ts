@@ -16,7 +16,6 @@ import {
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { User } from '../../../prisma/generated/prisma/client.js';
 import { EmailService } from '../services/email.service.js';
-import { PasswordResetDto } from './dtos/password-reset.dto.js';
 import { PasswordChangeDto } from './dtos/password-change.dto.js';
 
 @Injectable()
@@ -50,30 +49,6 @@ export class AuthService {
       return null;
     }
     return user;
-  }
-
-  async resetPassword(dto: PasswordResetDto): Promise<void> {
-    try {
-      const user = await this.prisma.user.findUnique({
-        where: { email: dto.email },
-      });
-      if (!user) {
-        throw new NotFoundException(`Email does not exist`);
-      }
-
-      const id = user.id;
-      await this.prisma.user.update({
-        where: { id },
-        data: { password: '', hasPassword: false },
-      });
-
-      const to = user.email;
-      const subject = 'Password Reset Request';
-      const text = 'Please click on the link to reset your password';
-      return await this.emailService.sendEmail(to, subject, text);
-    } catch (error: unknown) {
-      throw new InternalServerErrorException(error);
-    }
   }
 
   async changePassword(dto: PasswordChangeDto): Promise<void> {

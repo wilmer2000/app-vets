@@ -1,15 +1,11 @@
-import {
-  ConflictException,
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { ConflictException, Injectable, InternalServerErrorException, NotFoundException, } from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { Prisma, User } from '../../../prisma/generated/prisma/client.js';
 import { UpdateUserDto } from './dtos/update-user.dto.js';
 import { Role } from '@prisma/client';
 import { QueryUserDto } from './dtos/query-user.dto.js';
+import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
@@ -18,13 +14,17 @@ export class UserService {
   async create(dto: CreateUserDto): Promise<Partial<User>> {
     try {
       const role = dto.role ?? Role.USER;
-      let profileRole: any = {};
+      const hasPassword = !!dto.password;
+
+      if (hasPassword) {
+        const salt: string = await bcrypt.genSalt(10);
+        dto.password = await bcrypt.hash(dto.password, salt);
+      }
 
       return await this.prisma.user.create({
         data: {
-          ...profileRole,
+          ...dto,
           role,
-          email: dto.email,
           isActive: dto.isActive ?? false,
           profile: {
             create: {
@@ -65,7 +65,7 @@ export class UserService {
   async findAll(query?: QueryUserDto): Promise<Partial<User>[]> {
     try {
       return await this.prisma.user.findMany({
-        omit: { password: true },
+
         where: query ?? {},
       });
     } catch (error: unknown) {
