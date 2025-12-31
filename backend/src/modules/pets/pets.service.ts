@@ -14,14 +14,14 @@ export class PetsService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreatePetDto) {
-    try {
-      const name = dto.name;
-      const breed = dto.breed;
-      const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
-      const veterinaryId = {
-        id: dto.veterinaryId,
-      } as VeterinaryWhereUniqueInput;
+    const name = dto.name;
+    const breed = dto.breed;
+    const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
+    const veterinaryId = {
+      id: dto.veterinaryId,
+    } as VeterinaryWhereUniqueInput;
 
+    try {
       return await this.prisma.pet.create({
         data: {
           name,

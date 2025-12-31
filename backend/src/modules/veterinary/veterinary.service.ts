@@ -31,7 +31,16 @@ export class VeterinaryService {
     });
 
     try {
-      return await this.prisma.veterinary.findMany({ where });
+      return await this.prisma.veterinary.findMany({
+        where,
+        include: {
+          services: true,
+          payments: true,
+          owners: true,
+          pets: true,
+          appointments: true,
+        },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
