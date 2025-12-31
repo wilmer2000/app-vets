@@ -43,8 +43,9 @@ async function main() {
       continue;
     }
 
+    const userPassword = u.password as string;
     const salt: string = await bcrypt.genSalt(10);
-    const hashedPassword: string = await bcrypt.hash(u.password as string, salt);
+    const hashedPassword: string = await bcrypt.hash(userPassword, salt);
 
     const data = {
       ...u,
