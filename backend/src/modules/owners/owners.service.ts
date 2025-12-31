@@ -28,32 +28,11 @@ export class OwnersService {
           ...dto,
           role: Role.OWNER,
           isActive: dto.isActive ?? false,
-          profile: {
-            create: {
-              name: '',
-              lastname: '',
-              phone: '',
-              address: {
-                create: {
-                  street: '',
-                  city: '',
-                  country: '',
-                },
-              },
-            },
-          },
           ownerProfile: {
             create: {},
           },
         },
         omit: { password: true },
-        include: {
-          profile: {
-            include: {
-              address: true,
-            },
-          },
-        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

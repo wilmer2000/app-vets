@@ -28,4 +28,19 @@ export class CreateUserDto {
   @IsOptional()
   @IsBoolean()
   isActive: boolean;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  name: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  lastname: string;
+
+  @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
+  phone: string;
 }

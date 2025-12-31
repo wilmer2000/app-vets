@@ -17,6 +17,11 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreateUserDto): Promise<Partial<User>> {
+    const data: Partial<Prisma.UserCreateInput> = {};
+    Object.keys(dto).forEach((key) => {
+      data[key] = (dto && dto[key as keyof CreateUserDto]) ?? Prisma.skip;
+    });
+
     try {
       const role = dto.role ?? Role.USER;
       const hasPassword = !!dto.password;
@@ -28,9 +33,9 @@ export class UserService {
 
       return await this.prisma.user.create({
         data: {
-          email: dto.email,
-          password: hasPassword ? dto.password : null,
+          ...dto,
           role,
+          password: hasPassword ? dto.password : null,
           isActive: dto.isActive ?? false,
         },
         omit: { password: true },
@@ -48,18 +53,15 @@ export class UserService {
   }
 
   async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
-    const email = (query && query.email) ?? Prisma.skip;
-    const role = (query && query.role) ?? Prisma.skip;
-    const isActive = (query && query.isActive) ?? Prisma.skip;
+    const where: Partial<Prisma.UserWhereInput> = {};
+    Object.keys(query).forEach((key) => {
+      where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
+    });
 
     try {
       return await this.prisma.user.findMany({
         omit: { password: true },
-        where: {
-          email,
-          role,
-          isActive,
-        },
+        where,
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);

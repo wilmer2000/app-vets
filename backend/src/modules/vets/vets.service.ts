@@ -29,20 +29,6 @@ export class VetsService {
           ...dto,
           role: Role.VET,
           isActive: dto.isActive ?? false,
-          profile: {
-            create: {
-              name: '',
-              lastname: '',
-              phone: '',
-              address: {
-                create: {
-                  street: '',
-                  city: '',
-                  country: '',
-                },
-              },
-            },
-          },
           vetProfile: {
             create: {
               specialty: dto.specialty,
@@ -50,13 +36,6 @@ export class VetsService {
           },
         },
         omit: { password: true },
-        include: {
-          profile: {
-            include: {
-              address: true,
-            },
-          },
-        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
