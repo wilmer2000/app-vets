@@ -44,6 +44,7 @@ export class VeterinaryService {
     try {
       const veterinary = await this.prisma.veterinary.findUnique({
         where: { id },
+        include: { services: true, payments: true },
       });
 
       if (!veterinary) {

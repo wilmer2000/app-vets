@@ -20,8 +20,8 @@ export class AppointmentService {
       const service = dto.service;
       const startTime = new Date(dto.startTime);
       const endTime = new Date(dto.endTime);
-      const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
-      const vetId = { id: dto.vetId } as VetProfileWhereUniqueInput;
+      const ownerId = { userId: dto.ownerId } as OwnerProfileWhereUniqueInput;
+      const vetId = { userId: dto.vetId } as VetProfileWhereUniqueInput;
       const veterinaryId = {
         id: dto.veterinaryId,
       } as VeterinaryWhereUniqueInput;
