@@ -17,7 +17,7 @@ export class UserService {
   constructor(private prisma: PrismaService) {}
 
   async create(dto: CreateUserDto): Promise<Partial<User>> {
-    const data: Partial<Prisma.UserCreateInput> = {};
+    const data = {};
     Object.keys(dto).forEach((key) => {
       data[key] = (dto && dto[key as keyof CreateUserDto]) ?? Prisma.skip;
     });
@@ -57,7 +57,6 @@ export class UserService {
     Object.keys(query).forEach((key) => {
       where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
     });
-    console.log(query);
 
     try {
       return await this.prisma.user.findMany({
@@ -87,7 +86,10 @@ export class UserService {
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<Partial<User>> {
-    const { role, isActive } = dto;
+    const data = {};
+    Object.keys(dto).forEach((key) => {
+      data[key] = (dto && dto[key as keyof UpdateUserDto]) ?? Prisma.skip;
+    });
 
     try {
       const userFound = await this.prisma.user.findUnique({
@@ -100,10 +102,7 @@ export class UserService {
       return await this.prisma.user.update({
         where: { id },
         omit: { password: true },
-        data: {
-          role: role ?? Prisma.skip,
-          isActive: isActive ?? Prisma.skip,
-        },
+        data,
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);

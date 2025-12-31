@@ -9,9 +9,4 @@ export class QueryUserDto extends OmitType(CreateUserDto, ['password']) {
   @Transform(({ value }) => value.trim())
   @IsEmail()
   email: string;
-
-  @IsOptional()
-  @Transform(({ value }) => value.trim() === 'true')
-  @IsBoolean()
-  isActive: boolean;
 }

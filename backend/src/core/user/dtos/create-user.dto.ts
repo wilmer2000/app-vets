@@ -26,6 +26,9 @@ export class CreateUserDto {
   role: Role;
 
   @IsOptional()
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value === 'true' : value,
+  )
   @IsBoolean()
   isActive: boolean;
 
