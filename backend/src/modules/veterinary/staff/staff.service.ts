@@ -12,21 +12,8 @@ export class StaffService {
 
   async setStaff(veterinaryId: string, staffId: string) {
     try {
-      const veterinary = await this.prisma.veterinary.findUnique({
-        where: { id: veterinaryId },
-      });
-      if (!veterinary) {
-        throw new NotFoundException(
-          `Veterinary with ID ${veterinaryId} not found`,
-        );
-      }
-
-      const user = await this.prisma.user.findUnique({
-        where: { id: staffId, role: Role.VET },
-      });
-      if (!user) {
-        throw new NotFoundException(`User with ID ${staffId} not found`);
-      }
+      await this.validateVeterinary(veterinaryId);
+      await this.validateStaff(staffId);
 
       await this.prisma.veterinary.update({
         where: { id: veterinaryId },
@@ -45,31 +32,26 @@ export class StaffService {
 
   async getStaff(veterinaryId: string, staffId: string) {
     try {
-      const veterinary = await this.prisma.veterinary.findUnique({
-        where: { id: veterinaryId },
-      });
-      if (!veterinary) {
-        throw new NotFoundException(
-          `Veterinary with ID ${veterinaryId} not found`,
-        );
-      }
-
-      const staff = await this.prisma.user.findUnique({
-        where: { id: staffId, role: Role.VET },
-        omit: { password: true },
-      });
-      if (!staff) {
-        throw new NotFoundException(`User with ID ${staffId} not found`);
-      }
-
-      return staff;
+      await this.validateVeterinary(veterinaryId);
+      return await this.validateStaff(staffId);
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async removeStaff(veterinaryId: string, userId: string) {
+  async removeStaff(veterinaryId: string, staffId: string) {
     try {
+      await this.validateVeterinary(veterinaryId);
+      await this.validateStaff(staffId);
+
+      await this.prisma.veterinary.update({
+        where: { id: veterinaryId },
+        data: {
+          staff: {
+            disconnect: [{ userId: staffId }],
+          },
+        },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -77,17 +59,10 @@ export class StaffService {
 
   async getStaffList(veterinaryId: string) {
     try {
-      const veterinary = await this.prisma.veterinary.findUnique({
-        where: { id: veterinaryId },
-      });
-      if (!veterinary) {
-        throw new NotFoundException(
-          `Veterinary with ID ${veterinaryId} not found`,
-        );
-      }
+      await this.validateVeterinary(veterinaryId);
 
       return await this.prisma.veterinary.findMany({
-        where: { id: veterinary.id },
+        where: { id: veterinaryId },
         select: {
           id: true,
           staff: true,
@@ -96,5 +71,30 @@ export class StaffService {
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
+  }
+
+  // --- Helpers ---
+  private async validateVeterinary(veterinaryId: string) {
+    const vet = await this.prisma.veterinary.findUnique({
+      where: { id: veterinaryId },
+    });
+    if (!vet)
+      throw new NotFoundException(
+        `Veterinary with ID ${veterinaryId} not found`,
+      );
+    return vet;
+  }
+
+  private async validateStaff(id: string) {
+    const user = await this.prisma.user.findUnique({
+      where: {
+        id,
+        role: Role.VET,
+      },
+      omit: { password: true },
+    });
+    if (!user)
+      throw new NotFoundException(`Staff user with ID ${id} not found`);
+    return user;
   }
 }

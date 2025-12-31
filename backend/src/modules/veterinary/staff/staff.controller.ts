@@ -39,7 +39,7 @@ export class StaffController {
   @Delete(':veterinaryId')
   async removeStaff(
     @Param('veterinaryId') veterinaryId: string,
-    @Query('staffId') staffId: string,
+    @Body('staffId') staffId: string,
   ) {
     return await this.staffService.removeStaff(veterinaryId, staffId);
   }
