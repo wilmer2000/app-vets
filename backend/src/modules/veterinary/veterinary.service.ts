@@ -7,17 +7,17 @@ import { CreateVeterinaryDto } from './dto/create-veterinary.dto.js';
 import { UpdateVeterinaryDto } from './dto/update-veterinary.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { QueryVeterinaryDto } from './dto/query-veterinary.dto.js';
+import { QueryUserDto } from '../../core/user/dtos/query-user.dto.js';
+import { Prisma } from '../../../prisma/generated/prisma/client.js';
 
 @Injectable()
 export class VeterinaryService {
   constructor(private prisma: PrismaService) {}
-  async create(createVeterinaryDto: CreateVeterinaryDto) {
+
+  async create(dto: CreateVeterinaryDto) {
     try {
       return await this.prisma.veterinary.create({
-        data: {
-          ...createVeterinaryDto,
-          isActive: false,
-        },
+        data: dto,
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
@@ -25,10 +25,13 @@ export class VeterinaryService {
   }
 
   async findAll(query: QueryVeterinaryDto) {
+    const where = {};
+    Object.keys(query).forEach((key) => {
+      where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
+    });
+
     try {
-      return await this.prisma.veterinary.findMany({
-        where: query,
-      });
+      return await this.prisma.veterinary.findMany({ where });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

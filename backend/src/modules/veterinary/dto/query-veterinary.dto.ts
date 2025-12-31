@@ -5,6 +5,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
+import { Transform } from 'class-transformer';
 
 export class QueryVeterinaryDto {
   @IsOptional()
@@ -40,6 +41,8 @@ export class QueryVeterinaryDto {
   businessHours: string;
 
   @IsOptional()
+  @IsString()
+  @Transform(({ value }) => value.trim())
   @IsBoolean()
   isActive: boolean;
 }
