@@ -57,6 +57,7 @@ export class UserService {
     Object.keys(query).forEach((key) => {
       where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
     });
+    console.log(query);
 
     try {
       return await this.prisma.user.findMany({
