@@ -34,13 +34,6 @@ export class UserService {
           isActive: dto.isActive ?? false,
         },
         omit: { password: true },
-        include: {
-          profile: {
-            include: {
-              address: true,
-            },
-          },
-        },
       });
     } catch (error: unknown) {
       if (
@@ -67,13 +60,6 @@ export class UserService {
           role,
           isActive,
         },
-        include: {
-          profile: {
-            include: {
-              address: true,
-            },
-          },
-        },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
@@ -85,13 +71,6 @@ export class UserService {
       return await this.prisma.user.findUniqueOrThrow({
         where: { id },
         omit: { password: true },
-        include: {
-          profile: {
-            include: {
-              address: true,
-            },
-          },
-        },
       });
     } catch (error: unknown) {
       if (
@@ -105,13 +84,11 @@ export class UserService {
   }
 
   async update(id: string, dto: UpdateUserDto): Promise<Partial<User>> {
-    const { role, isActive, name, lastname, phone, street, city, country } =
-      dto;
+    const { role, isActive } = dto;
 
     try {
       const userFound = await this.prisma.user.findUnique({
         where: { id },
-        include: { profile: true },
       });
       if (!userFound) {
         throw new NotFoundException(`User with id ${id} not found`);
@@ -119,17 +96,13 @@ export class UserService {
 
       return await this.prisma.user.update({
         where: { id },
+        omit: { password: true },
         data: {
           role: role ?? Prisma.skip,
           isActive: isActive ?? Prisma.skip,
         },
       });
     } catch (error: unknown) {
-      console.log(error);
-      if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2025')
-          throw new NotFoundException('Record not found');
-      }
       throw new InternalServerErrorException(error);
     }
   }
