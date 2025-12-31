@@ -23,25 +23,25 @@ export class StaffController {
   @Get(':veterinaryId')
   async getStaff(
     @Param('veterinaryId') veterinaryId: string,
-    @Query('userId') userId: string,
+    @Query('staffId') staffId: string,
   ) {
-    return await this.staffService.getStaff(veterinaryId, userId);
+    return await this.staffService.getStaff(veterinaryId, staffId);
   }
 
   @Post(':veterinaryId')
   async setStaff(
     @Param('veterinaryId') veterinaryId: string,
-    @Body('userId') userId: string,
+    @Body('staffId') staffId: string,
   ) {
-    return await this.staffService.setStaff(veterinaryId, userId);
+    return await this.staffService.setStaff(veterinaryId, staffId);
   }
 
   @Delete(':veterinaryId')
   async removeStaff(
     @Param('veterinaryId') veterinaryId: string,
-    @Query('userId') userId: string,
+    @Query('staffId') staffId: string,
   ) {
-    return await this.staffService.removeStaff(veterinaryId, userId);
+    return await this.staffService.removeStaff(veterinaryId, staffId);
   }
 
   @Get(':veterinaryId/list')

@@ -4,12 +4,13 @@ import {
   NotFoundException,
 } from '@nestjs/common';
 import { PrismaService } from '../../../../prisma/prisma.service.js';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class StaffService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async setStaff(veterinaryId: string, userId: string) {
+  async setStaff(veterinaryId: string, staffId: string) {
     try {
       const veterinary = await this.prisma.veterinary.findUnique({
         where: { id: veterinaryId },
@@ -20,16 +21,20 @@ export class StaffService {
         );
       }
 
-      const user = await this.prisma.user.findUnique({ where: { id: userId } });
+      const user = await this.prisma.user.findUnique({
+        where: { id: staffId, role: Role.VET },
+      });
       if (!user) {
-        throw new NotFoundException(`User with ID ${userId} not found`);
+        throw new NotFoundException(`User with ID ${staffId} not found`);
       }
 
       await this.prisma.veterinary.update({
         where: { id: veterinaryId },
         data: {
           staff: {
-            connectOrCreate: [{ where: { userId }, create: { userId } }],
+            connectOrCreate: [
+              { where: { userId: staffId }, create: { userId: staffId } },
+            ],
           },
         },
       });
@@ -38,8 +43,26 @@ export class StaffService {
     }
   }
 
-  async getStaff(veterinaryId: string, userId: string) {
+  async getStaff(veterinaryId: string, staffId: string) {
     try {
+      const veterinary = await this.prisma.veterinary.findUnique({
+        where: { id: veterinaryId },
+      });
+      if (!veterinary) {
+        throw new NotFoundException(
+          `Veterinary with ID ${veterinaryId} not found`,
+        );
+      }
+
+      const staff = await this.prisma.user.findUnique({
+        where: { id: staffId, role: Role.VET },
+        omit: { password: true },
+      });
+      if (!staff) {
+        throw new NotFoundException(`User with ID ${staffId} not found`);
+      }
+
+      return staff;
     } catch (error) {
       throw new InternalServerErrorException(error);
     }
@@ -68,7 +91,7 @@ export class StaffService {
         select: {
           id: true,
           staff: true,
-        }
+        },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
