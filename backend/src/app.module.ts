@@ -14,6 +14,7 @@ import { ServiceModule } from './modules/service/service.module.js';
 import { PaymentModule } from './modules/payment/payment.module.js';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
+import { ProfileModule } from './core/profile/profile.module.js';
 
 @Module({
   providers: [
@@ -41,6 +42,7 @@ import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
     ConfigurationModule,
     ServiceModule,
     PaymentModule,
+    ProfileModule,
   ],
 })
 export class AppModule {}

@@ -27,12 +27,12 @@ model User {
 }
 
 model VetProfile {
-  id        String    @id @default(uuid())
-  specialty Specialty
+  id        String     @id @default(uuid())
+  specialty Specialty?
 
-  staffAtVeterinary Veterinary[]  @relation("VeterinaryStaff")
   user              User          @relation(fields: [userId], references: [id])
   userId            String        @unique
+  staffAtVeterinary Veterinary[]  @relation("VeterinaryStaff")
   appointments      Appointment[]
 }
 
