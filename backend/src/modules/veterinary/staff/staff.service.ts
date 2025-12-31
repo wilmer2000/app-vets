@@ -73,7 +73,6 @@ export class StaffService {
     }
   }
 
-  // --- Helpers ---
   private async validateVeterinary(veterinaryId: string) {
     const vet = await this.prisma.veterinary.findUnique({
       where: { id: veterinaryId },
