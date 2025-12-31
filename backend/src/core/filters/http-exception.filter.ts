@@ -15,6 +15,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
     const status = exception.getStatus();
 
     console.log(`Error: ${exception}`);
+    console.log(`Error: ${exception.stack}`);
     console.log(`Error: ${exception.message}`);
 
     response.status(status).json({

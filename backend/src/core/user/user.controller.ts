@@ -3,6 +3,7 @@ import {
   Controller,
   Delete,
   Get,
+  Header,
   Param,
   Patch,
   Post,
@@ -55,6 +56,7 @@ export class UserController {
   }
 
   @Get()
+  @Header('Content-Type', 'application/json')
   findAll(@Query() query: QueryUserDto): Promise<Partial<User>[]> {
     return this.usersService.findAll(query);
   }

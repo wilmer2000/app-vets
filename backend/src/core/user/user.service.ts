@@ -1,4 +1,9 @@
-import { ConflictException, Injectable, InternalServerErrorException, NotFoundException, } from '@nestjs/common';
+import {
+  ConflictException,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { CreateUserDto } from './dtos/create-user.dto.js';
 import { Prisma, User } from '../../../prisma/generated/prisma/client.js';
@@ -62,11 +67,18 @@ export class UserService {
     }
   }
 
-  async findAll(query?: QueryUserDto): Promise<Partial<User>[]> {
+  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
     try {
       return await this.prisma.user.findMany({
-
+        omit: { password: true },
         where: query ?? {},
+        include: {
+          profile: {
+            include: {
+              address: true,
+            },
+          },
+        },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
