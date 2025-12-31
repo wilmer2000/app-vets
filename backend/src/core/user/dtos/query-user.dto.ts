@@ -15,29 +15,29 @@ export class QueryUserDto {
   @IsEmail()
   email: string;
 
-  @IsOptional()
-  @IsString()
-  name: string;
-
-  @IsOptional()
-  @IsString()
-  lastname: string;
-
-  @IsOptional()
-  @IsString()
-  phone: string;
-
-  @IsOptional()
-  @IsString()
-  street: string;
-
-  @IsOptional()
-  @IsString()
-  city: string;
-
-  @IsOptional()
-  @IsString()
-  country: string;
+  // @IsOptional()
+  // @IsString()
+  // name: string;
+  //
+  // @IsOptional()
+  // @IsString()
+  // lastname: string;
+  //
+  // @IsOptional()
+  // @IsString()
+  // phone: string;
+  //
+  // @IsOptional()
+  // @IsString()
+  // street: string;
+  //
+  // @IsOptional()
+  // @IsString()
+  // city: string;
+  //
+  // @IsOptional()
+  // @IsString()
+  // country: string;
 
   @IsOptional()
   @IsEnum(Role)

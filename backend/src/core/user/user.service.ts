@@ -28,23 +28,10 @@ export class UserService {
 
       return await this.prisma.user.create({
         data: {
-          ...dto,
+          email: dto.email,
+          password: hasPassword ? dto.password : null,
           role,
           isActive: dto.isActive ?? false,
-          profile: {
-            create: {
-              name: '',
-              lastname: '',
-              phone: '',
-              address: {
-                create: {
-                  street: '',
-                  city: '',
-                  country: '',
-                },
-              },
-            },
-          },
         },
         omit: { password: true },
         include: {
@@ -68,10 +55,18 @@ export class UserService {
   }
 
   async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
+    const email = (query && query.email) ?? Prisma.skip;
+    const role = (query && query.role) ?? Prisma.skip;
+    const isActive = (query && query.isActive) ?? Prisma.skip;
+
     try {
       return await this.prisma.user.findMany({
         omit: { password: true },
-        where: query ?? {},
+        where: {
+          email,
+          role,
+          isActive,
+        },
         include: {
           profile: {
             include: {
@@ -90,6 +85,13 @@ export class UserService {
       return await this.prisma.user.findUniqueOrThrow({
         where: { id },
         omit: { password: true },
+        include: {
+          profile: {
+            include: {
+              address: true,
+            },
+          },
+        },
       });
     } catch (error: unknown) {
       if (
@@ -102,58 +104,32 @@ export class UserService {
     }
   }
 
-  async update(
-    id: string,
-    updateUserDto: UpdateUserDto,
-  ): Promise<Partial<User>> {
+  async update(id: string, dto: UpdateUserDto): Promise<Partial<User>> {
+    const { role, isActive, name, lastname, phone, street, city, country } =
+      dto;
+
     try {
-      const user = await this.prisma.user.findUniqueOrThrow({
+      const userFound = await this.prisma.user.findUnique({
         where: { id },
+        include: { profile: true },
       });
-      if (!user) {
+      if (!userFound) {
         throw new NotFoundException(`User with id ${id} not found`);
       }
 
       return await this.prisma.user.update({
         where: { id },
-        omit: { password: true },
         data: {
-          role: updateUserDto.role,
-          isActive: updateUserDto.isActive,
-          profile: {
-            update: {
-              name: updateUserDto.name,
-              lastname: updateUserDto.lastname,
-              phone: updateUserDto.phone,
-              address: {
-                update: {
-                  street: updateUserDto.street,
-                  city: updateUserDto.city,
-                  country: updateUserDto.country,
-                },
-              },
-            },
-          },
-        },
-        include: {
-          profile: {
-            include: {
-              address: true,
-            },
-          },
+          role: role ?? Prisma.skip,
+          isActive: isActive ?? Prisma.skip,
         },
       });
     } catch (error: unknown) {
+      console.log(error);
       if (error instanceof Prisma.PrismaClientKnownRequestError) {
-        if (error.code === 'P2025') {
-          throw new NotFoundException(`User with id ${id} not found`);
-        }
-
-        if (error.code === 'P2002') {
-          throw new ConflictException('Email already registered');
-        }
+        if (error.code === 'P2025')
+          throw new NotFoundException('Record not found');
       }
-
       throw new InternalServerErrorException(error);
     }
   }
