@@ -25,7 +25,7 @@ export class ProfileService {
           ? dto.pets.map((id: string) => ({ id }))
           : Prisma.skip;
 
-        return this.prisma.ownerProfile.upsert({
+        return await this.prisma.ownerProfile.upsert({
           where: { userId: user.id },
           update: {
             pets: connectPets ? { connect: connectPets } : Prisma.skip,
@@ -40,7 +40,7 @@ export class ProfileService {
       if (user.role === Role.VET) {
         const connectSpeciality = dto.specialty ?? Prisma.skip;
 
-        return this.prisma.vetProfile.upsert({
+        return await this.prisma.vetProfile.upsert({
           where: { userId: user.id },
           update: {
             specialty: connectSpeciality,

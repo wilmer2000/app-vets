@@ -85,7 +85,7 @@ export class AppointmentService {
       id: dto.veterinaryId,
     } as VeterinaryWhereUniqueInput;
 
-    return this.prisma.appointment.update({
+    return await this.prisma.appointment.update({
       data: {
         startTime,
         endTime,
@@ -109,7 +109,7 @@ export class AppointmentService {
       throw new NotFoundException(`Appointment with ID ${id} not found`);
     }
 
-    return this.prisma.appointment.delete({
+    return await this.prisma.appointment.delete({
       where: { id },
     });
   }

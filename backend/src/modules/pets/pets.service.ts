@@ -6,8 +6,6 @@ import {
 import { CreatePetDto } from './dto/create-pet.dto.js';
 import { UpdatePetDto } from './dto/update-pet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { VeterinaryWhereUniqueInput } from '../../../prisma/generated/prisma/models/Veterinary.js';
-import { OwnerProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/OwnerProfile.js';
 
 @Injectable()
 export class PetsService {
@@ -16,18 +14,19 @@ export class PetsService {
   async create(dto: CreatePetDto) {
     const name = dto.name;
     const breed = dto.breed;
-    const ownerId = { id: dto.ownerId } as OwnerProfileWhereUniqueInput;
-    const veterinaryId = {
-      id: dto.veterinaryId,
-    } as VeterinaryWhereUniqueInput;
 
     try {
       return await this.prisma.pet.create({
         data: {
           name,
           breed,
-          owner: { connect: ownerId },
-          veterinary: { connect: veterinaryId },
+          owner: {
+            connectOrCreate: {
+              where: { userId: dto.ownerId },
+              create: { userId: dto.ownerId },
+            },
+          },
+          veterinary: { connect: { id: dto.veterinaryId } },
         },
       });
     } catch (error) {
