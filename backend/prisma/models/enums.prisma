@@ -1,0 +1,35 @@
+enum Status {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
+
+enum Role {
+  USER
+  ADMIN
+  VET
+  OWNER
+}
+
+enum Specialty {
+  SURGERY
+  DERMATOLOGY
+  CARDIOLOGY
+  ONCOLOGY
+  NEUROLOGY
+}
+
+enum TypeService {
+  CONSULTATION
+  SURGERY
+  GROOMING
+  EMERGENCY
+}
+
+enum TypePayment {
+  MERCADOPAGO
+  VISA
+  MASTERCARD
+  PREX
+  CASH
+}

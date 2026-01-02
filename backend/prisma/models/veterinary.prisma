@@ -1,0 +1,22 @@
+model Veterinary {
+  id            String   @id @default(uuid())
+  name          String
+  description   String
+  email         String
+  phone         String
+  street        String
+  city          String
+  country       String
+  businessHours String
+  isActive      Boolean  @default(false)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  configuration Configuration?
+  services      Service[]
+  payments      Payment[]
+  owners        OwnerProfile[] @relation("AffilationAt")
+  staff         VetProfile[]   @relation("VeterinaryStaff")
+  pets          Pet[]
+  appointments  Appointment[]
+}

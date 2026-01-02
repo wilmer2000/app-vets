@@ -1,0 +1,10 @@
+model Service {
+  id       String      @id @default(uuid())
+  isActive Boolean     @default(false)
+  type     TypeService
+  name     String
+  price    Float
+
+  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
+  veterinaryId String?
+}
