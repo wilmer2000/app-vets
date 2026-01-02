@@ -11,6 +11,7 @@ import { OwnerProfileWhereUniqueInput } from '../../../prisma/generated/prisma/m
 import { VetProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/VetProfile.js';
 import { VeterinaryWhereUniqueInput } from '../../../prisma/generated/prisma/models/Veterinary.js';
 import { Prisma } from '../../../prisma/generated/prisma/client.js';
+import { Role } from '@prisma/client';
 
 @Injectable()
 export class AppointmentService {
@@ -38,13 +39,29 @@ export class AppointmentService {
         );
       }
 
-      const owner = this.prisma.user.findFirst({
-        where: { id: dto.ownerId },
+      const owner = await this.prisma.user.findFirst({
+        where: { id: dto.ownerId, role: Role.OWNER },
         include: { ownerProfile: { include: { pets: true } } },
       });
       if (!owner) {
         throw new NotFoundException('Owner does not exist');
       }
+
+      const hasPets = owner.ownerProfile?.pets;
+      if (hasPets) {
+        throw new InternalServerErrorException('Owner does not have pets');
+      }
+      const petsExist = owner.ownerProfile?.pets.filter(
+        (pet) => pet.id !== dto.pets[0],
+      );
+
+      if (!petsExist) {
+        throw new InternalServerErrorException('Owner does not own all pets');
+      }
+
+      const pets = dto.pets
+        ? dto.pets.map((petId: string) => ({ id: petId }))
+        : Prisma.skip;
 
       return await this.prisma.appointment.create({
         data: {
@@ -54,7 +71,7 @@ export class AppointmentService {
           owner: { connect: ownerId },
           vet: { connect: vetId },
           veterinary: { connect: veterinaryId },
-          pets: { connect: dto.pets.map((id: string) => ({ id })) },
+          pets: { connect: pets },
           status: Status.PENDING,
         },
       });

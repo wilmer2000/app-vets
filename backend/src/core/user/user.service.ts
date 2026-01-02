@@ -73,6 +73,10 @@ export class UserService {
       return await this.prisma.user.findUniqueOrThrow({
         where: { id },
         omit: { password: true },
+        include: {
+          ownerProfile: { include: { pets: true } },
+          vetProfile: true,
+        },
       });
     } catch (error: unknown) {
       if (

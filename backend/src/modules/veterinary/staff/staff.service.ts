@@ -12,16 +12,14 @@ export class StaffService {
 
   async setStaff(veterinaryId: string, staffId: string) {
     try {
-      await this.validateVeterinary(veterinaryId);
       await this.validateStaff(staffId);
+      await this.validateVeterinary(veterinaryId);
 
       await this.prisma.veterinary.update({
         where: { id: veterinaryId },
         data: {
           staff: {
-            connectOrCreate: [
-              { where: { userId: staffId }, create: { userId: staffId } },
-            ],
+            connect: { userId: staffId },
           },
         },
       });
@@ -48,7 +46,7 @@ export class StaffService {
         where: { id: veterinaryId },
         data: {
           staff: {
-            disconnect: [{ userId: staffId }],
+            disconnect: { userId: staffId },
           },
         },
       });
