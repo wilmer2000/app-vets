@@ -1,8 +1,24 @@
-<div class="h-vh w-vw">
-    <h3>Login</h3>
-    <form (ngSubmit)="login()" [formGroup]="form" class="flex flex-col gap-3">
-        <input [formControlName]="'email'" placeholder="Email" type="text"/>
-        <input [formControlName]="'password'" placeholder="Contraseña" type="password"/>
-        <button>Login</button>
-    </form>
+<div class="wrapper-content">
+  <div class="flex justify-center items-center h-screen w-100">
+    <div class="card">
+      <h3>Login</h3>
+      <form (ngSubmit)="login()" [formGroup]="form()" class="flex flex-col gap-4">
+        <app-input-form
+          [controlName]="'email'"
+          [control]="emailControl"
+          [form]="form()"
+          [label]="'Email'"
+          [type]="'email'"
+        />
+        <app-input-form
+          [controlName]="'password'"
+          [control]="passwordControl"
+          [form]="form()"
+          [label]="'Contraseña'"
+          [type]="'password'"
+        />
+        <button class="btn btn-primary">Login</button>
+      </form>
+    </div>
+  </div>
 </div>

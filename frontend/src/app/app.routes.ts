@@ -9,14 +9,26 @@ export const routes: Routes = [
     canActivate: [noAuthGuard]
   },
   {
-    path: '',
+    path: 'app',
     loadComponent: () => import('./pages/base/base.component').then((m) => m.BaseComponent),
     canActivate: [authGuard],
     children: [
       {
         path: 'home',
         loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
-      }
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'appointment',
+        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+      },
+      {
+        path: 'profile',
+        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+      },
     ]
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }

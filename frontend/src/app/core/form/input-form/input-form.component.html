@@ -1,0 +1,25 @@
+@let hasForm = form() !== null;
+@if (hasForm) {
+  <fieldset [formGroup]="form()" class="fieldset">
+    @if (label()) {
+      <legend class="fieldset-legend">{{ label() }}</legend>
+    }
+
+    <input
+      [attr.data-test]="controlName()"
+      [attr.maxlength]="maxLength()"
+      [attr.minlength]="minLength()"
+      [attr.pattern]="pattern()"
+      [attr.size]="size()"
+      [formControlName]="controlName()"
+      [id]="controlName()"
+      [placeholder]="placeholder()"
+      [type]="type()"
+      class="input"
+    />
+
+    <!--    @if (errors()) {-->
+    <!--        <app-form-errors [control]="control()" [errors]="errors()" class="label"/>-->
+    <!--    }-->
+  </fieldset>
+}

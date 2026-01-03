@@ -1,15 +1,16 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-home',
   imports: [],
-  template: `
-    <p>
-      home works!
-    </p>
-  `,
-  styles: ``,
+  templateUrl: './home.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  styles: `
+    :host {
+      display: block;
+      height: 100%;
+      width: 100%;
+    }
+  `
 })
-export class HomeComponent {
-
-}
+export class HomeComponent {}
