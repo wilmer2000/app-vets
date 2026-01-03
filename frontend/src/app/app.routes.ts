@@ -9,7 +9,7 @@ export const routes: Routes = [
     canActivate: [noAuthGuard]
   },
   {
-    path: 'app',
+    path: '',
     loadComponent: () => import('./pages/base/base.component').then((m) => m.BaseComponent),
     canActivate: [authGuard],
     children: [

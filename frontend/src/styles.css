@@ -83,17 +83,15 @@
 /*    box-sizing: border-box;*/
 /*}*/
 
-/*html,*/
-/*body {*/
-/*    height: 100%;*/
-/*    font-family: var(--default-font-family), sans-serif;*/
-/*    color: var(--default-font-color);*/
-/*    @apply bg-neutral-50 font-light;*/
-/*}*/
+html,
+body {
+  height: 100%;
+  width: 100%;
+}
 
-/*body {*/
-/*    overscroll-behavior: contain;*/
-/*}*/
+body {
+  overscroll-behavior-y: contain;
+}
 
 /*b,*/
 /*strong,*/

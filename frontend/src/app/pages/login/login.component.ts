@@ -18,7 +18,7 @@ import { InputFormComponent } from '../../core/form/input-form/input-form.compon
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
-      display: flex;
+      display: block;
       height: 100%;
       width: 100%;
     }
