@@ -1,19 +1,21 @@
 @let hasError = control().invalid && (control().touched || control().dirty);
 
 @if (control() && errorList() && hasError) {
-  @if (control().hasError('required')) {
-    {{ this.errorList()["required"] }}
-  }
-  @if (control().hasError('pattern')) {
-    {{ this.errorList()["pattern"] }}
-  }
-  @if (control().hasError('email')) {
-    {{ this.errorList()["email"] }}
-  }
-  @if (control().hasError('minlength')) {
-    {{ errorList()['minlength'] }}
-  }
-  @if (control().hasError('maxlength')) {
-    {{ errorList()['maxlength'] }}
-  }
+  <div class="text-red-500 h-auto leading-none">
+    @if (control().hasError('required')) {
+      {{ this.errorList()['required'] }}
+    }
+    @if (control().hasError('pattern')) {
+      {{ this.errorList()['pattern'] }}
+    }
+    @if (control().hasError('email')) {
+      {{ this.errorList()['email'] }}
+    }
+    @if (control().hasError('minlength')) {
+      {{ errorList()['minlength'] }}
+    }
+    @if (control().hasError('maxlength')) {
+      {{ errorList()['maxlength'] }}
+    }
+  </div>
 }

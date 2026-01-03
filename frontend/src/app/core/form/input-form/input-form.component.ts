@@ -7,11 +7,12 @@ import {
   ReactiveFormsModule
 } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
+import { FormErrorsComponent } from '../form-errors/form-errors.component';
 
 @Component({
   selector: 'app-input-form',
   templateUrl: './input-form.component.html',
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, FormErrorsComponent],
   providers: [
     {
       provide: NG_VALUE_ACCESSOR,

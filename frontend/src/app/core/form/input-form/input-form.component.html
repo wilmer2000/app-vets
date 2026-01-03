@@ -1,8 +1,8 @@
 @let hasForm = form() !== null;
 @if (hasForm) {
-  <fieldset [formGroup]="form()" class="fieldset">
+  <div [formGroup]="form()" class="fieldset p-0 m-0 leading-none">
     @if (label()) {
-      <legend class="fieldset-legend">{{ label() }}</legend>
+      <legend class="fieldset-legend p-0 m-0 mb-2">{{ label() }}</legend>
     }
 
     <input
@@ -15,11 +15,12 @@
       [id]="controlName()"
       [placeholder]="placeholder()"
       [type]="type()"
-      class="input"
+      autocomplete="true"
+      class="input m-0"
     />
 
-    <!--    @if (errors()) {-->
-    <!--        <app-form-errors [control]="control()" [errors]="errors()" class="label"/>-->
-    <!--    }-->
-  </fieldset>
+    @if (errors()) {
+      <app-form-errors [control]="control()" [errors]="errors()" />
+    }
+  </div>
 }

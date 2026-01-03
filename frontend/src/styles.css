@@ -1,10 +1,10 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
 @import 'tailwindcss';
 
+@plugin "@tailwindcss/typography";
 @plugin "daisyui" {
   themes: light --default;
 }
-
 @plugin "daisyui/theme" {
   name: 'light';
   default: true;
@@ -59,9 +59,9 @@
 /*    --primary-dark: #193cb8;*/
 /*}*/
 
-/*@theme {*/
-/*    --font-display: 'Outfit', Arial, sans-serif;*/
-/*}*/
+@theme {
+  --default-font-family: 'Montserrat', Arial, sans-serif;
+}
 
 @layer base {
   :host {

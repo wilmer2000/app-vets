@@ -40,11 +40,14 @@ export class LoginComponent {
     return this.form().controls.email;
   }
   get passwordControl(): FormControl {
-    return this.form().controls.email;
+    return this.form().controls.password;
   }
 
   login(): void {
-    if (!this.form().valid) return;
+    if (this.form().invalid) {
+      this.form().markAllAsTouched();
+      return;
+    }
 
     const email = this.form().value.email as string;
     const password = this.form().value.password as string;

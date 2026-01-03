@@ -58,7 +58,10 @@
                 "output": "/"
               }
             ],
-            "styles": ["src/styles.css"],
+            "styles": [
+              "src/styles.css",
+              "node_modules/remixicon/fonts/remixicon.css"
+            ],
             "allowedCommonJsDependencies": [
               "country-list-js"
             ]

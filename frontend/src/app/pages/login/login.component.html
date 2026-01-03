@@ -1,23 +1,29 @@
 <div class="flex justify-center items-center h-screen w-full">
   <div class="card shadow-lg">
     <div class="card-body">
-      <h3>Login</h3>
-      <form (ngSubmit)="login()" [formGroup]="form()" class="flex flex-col gap-4">
-        <app-input-form
-          [controlName]="'email'"
-          [control]="emailControl"
-          [form]="form()"
-          [label]="'Email'"
-          [type]="'email'"
-        />
-        <app-input-form
-          [controlName]="'password'"
-          [control]="passwordControl"
-          [form]="form()"
-          [label]="'Contraseña'"
-          [type]="'password'"
-        />
-        <button class="btn btn-primary">Login</button>
+      <h2 class="mt-0">Login</h2>
+      <form (ngSubmit)="login()" [formGroup]="form()" class="flex flex-col gap-6">
+        <div class="flex flex-col gap-4">
+          <app-input-form
+            [controlName]="'email'"
+            [control]="emailControl"
+            [form]="form()"
+            [label]="'Email'"
+            [type]="'email'"
+          />
+          <app-input-form
+            [controlName]="'password'"
+            [control]="passwordControl"
+            [form]="form()"
+            [label]="'Contraseña'"
+            [type]="'password'"
+          />
+        </div>
+        <button class="btn btn-primary">Iniciar sesión</button>
+        <p class="text-center">
+          Olvidaste tu contraseña?
+          <a class="link">click aca <i class="ri-external-link-line"></i></a>
+        </p>
       </form>
     </div>
   </div>
