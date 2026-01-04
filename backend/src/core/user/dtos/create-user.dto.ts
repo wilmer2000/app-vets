@@ -8,40 +8,48 @@ import {
 } from 'class-validator';
 import { Role } from '../../../../prisma/generated/prisma/enums.js';
 import { Transform } from 'class-transformer';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateUserDto {
+  @ApiProperty()
   @IsNotEmpty()
-  @IsString()
   @Transform(({ value }) => value.trim())
   @IsEmail()
   email: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
   password: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsEnum(Role)
   role: Role;
 
+  @ApiProperty()
   @IsOptional()
   @Transform(({ value }) =>
     typeof value === 'string' ? value === 'true' : value,
   )
+  @ApiProperty()
   @IsBoolean()
   isActive: boolean;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
   name: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
   lastname: string;
 
+  @ApiProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())

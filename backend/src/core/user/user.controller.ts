@@ -17,12 +17,13 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { Roles } from '../auth/decorators/role.decorator.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { QueryUserDto } from './dtos/query-user.dto.js';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller({ path: 'user' })
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)
 export class UserController {
-
   constructor(private readonly usersService: UserService) {}
 
   @Post()
