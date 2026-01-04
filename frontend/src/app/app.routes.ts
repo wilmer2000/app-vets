@@ -5,17 +5,17 @@ import { noAuthGuard } from './core/modules/auth/guards/no-auth.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./pages/core/login/login.component').then((m) => m.LoginComponent),
     canActivate: [noAuthGuard]
   },
   {
     path: '',
-    loadComponent: () => import('./pages/base/base.component').then((m) => m.BaseComponent),
+    loadComponent: () => import('./pages/core/base/base.component').then((m) => m.BaseComponent),
     canActivate: [authGuard],
     children: [
       {
         path: 'home',
-        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
+        loadComponent: () => import('./pages/core/home/home.component').then((m) => m.HomeComponent)
       },
       {
         path: 'dashboard',
@@ -30,7 +30,7 @@ export const routes: Routes = [
       {
         path: 'profile',
         loadComponent: () =>
-          import('./pages/profile/profile.component').then((m) => m.ProfileComponent)
+          import('./pages/core/profile/profile.component').then((m) => m.ProfileComponent)
       }
     ]
   },
