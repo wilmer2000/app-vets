@@ -1,8 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ContainerComponent } from '../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-home',
-  imports: [],
+  imports: [ContainerComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `

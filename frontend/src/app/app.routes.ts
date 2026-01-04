@@ -15,20 +15,23 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
       },
       {
         path: 'dashboard',
-        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then((m) => m.DashboardComponent)
       },
       {
         path: 'appointment',
-        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
+        loadComponent: () =>
+          import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent)
       },
       {
         path: 'profile',
-        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent),
-      },
+        loadComponent: () =>
+          import('./pages/profile/profile.component').then((m) => m.ProfileComponent)
+      }
     ]
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
