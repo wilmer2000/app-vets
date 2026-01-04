@@ -1,40 +1,34 @@
-import {
-  IsArray,
-  IsEnum,
-  IsISO8601,
-  IsNotEmpty,
-  IsString,
-  IsUUID,
-} from 'class-validator';
+import { IsArray, IsEnum, IsISO8601, IsUUID } from 'class-validator';
 import { TypeService } from '../../../../prisma/generated/prisma/enums.js';
+import { ApiProperty } from '@nestjs/swagger';
 
 export class CreateAppointmentDto {
-  @IsString()
+  @ApiProperty()
   @IsUUID('all')
-  @IsNotEmpty()
   ownerId: string;
 
-  @IsString()
+  @ApiProperty()
   @IsUUID('all')
-  @IsNotEmpty()
   vetId: string;
 
-  @IsString()
+  @ApiProperty()
   @IsUUID('all')
-  @IsNotEmpty()
   veterinaryId: string;
 
+  @ApiProperty()
   @IsArray()
   @IsUUID('all', { each: true })
-  @IsNotEmpty()
   pets: string[];
 
+  @ApiProperty()
   @IsISO8601()
   startTime: string;
 
+  @ApiProperty()
   @IsISO8601()
   endTime: string;
 
+  @ApiProperty()
   @IsEnum(TypeService)
   service: TypeService;
 }
