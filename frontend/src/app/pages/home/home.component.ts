@@ -1,9 +1,8 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { HeaderComponent } from '../../core/components/header/header.component';
 
 @Component({
   selector: 'app-home',
-  imports: [HeaderComponent],
+  imports: [],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
