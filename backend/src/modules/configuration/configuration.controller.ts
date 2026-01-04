@@ -4,7 +4,9 @@ import { CreateConfigurationDto } from './dto/create-configuration.dto.js';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller({ path: 'configuration' })
 @Roles(Role.ADMIN, Role.USER)
 export class ConfigurationController {

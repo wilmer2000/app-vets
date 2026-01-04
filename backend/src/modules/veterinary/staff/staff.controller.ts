@@ -13,7 +13,9 @@ import { StaffService } from './staff.service.js';
 import { Roles } from '../../../core/auth/decorators/role.decorator.js';
 import { JwtAuthGuard } from '../../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../../core/auth/guards/roles.guard.js';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller({ path: '/veterinary/staff' })
 @Roles(Role.ADMIN, Role.VET, Role.USER)
 @UseGuards(JwtAuthGuard, RolesGuard)

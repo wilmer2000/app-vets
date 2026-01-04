@@ -7,7 +7,9 @@ import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
 import { QueryVeterinaryDto } from './dto/query-veterinary.dto.js';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller({ path: 'veterinary' })
 @Roles(Role.ADMIN)
 @UseGuards(JwtAuthGuard, RolesGuard)

@@ -15,7 +15,9 @@ import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
+@ApiBearerAuth()
 @Controller({ path: 'vets' })
 @Roles(Role.ADMIN, Role.VET)
 @UseGuards(JwtAuthGuard, RolesGuard)
