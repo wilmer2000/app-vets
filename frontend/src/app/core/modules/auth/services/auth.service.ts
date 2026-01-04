@@ -61,7 +61,7 @@ export class AuthService {
     const { userId } = this.authState();
     if (!userId) return EMPTY;
 
-    return this.userService.findOne(userId).pipe(tap((user) => this.currentUser.set(user)));
+    return this.userService.getProfile(userId).pipe(tap((user) => this.currentUser.set(user)));
   }
 
   private saveSession(token: string): void {

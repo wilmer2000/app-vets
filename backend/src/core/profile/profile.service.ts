@@ -8,10 +8,22 @@ import { CreateProfileDto } from './dto/create-profile.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Prisma } from '../../../prisma/generated/prisma/client.js';
 import { Role } from '@prisma/client';
+import { UserService } from '../user/user.service.js';
 
 @Injectable()
 export class ProfileService {
-  constructor(private prisma: PrismaService) {}
+  constructor(
+    private prisma: PrismaService,
+    private userService: UserService,
+  ) {}
+
+  async getProfile(userId: string) {
+    try {
+      return await this.userService.findOne(userId);
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
 
   async upsert(id: string, dto: CreateProfileDto) {
     try {

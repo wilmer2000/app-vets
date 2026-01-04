@@ -8,7 +8,12 @@ import { UpdateUser, User } from '../interfaces/user.interface';
 })
 export class UserService {
   private readonly apiUrl = '/api/user';
+  private readonly profileApiUrl = '/api/profile';
   private readonly http = inject(HttpClient);
+
+  getProfile(id: string): Observable<User> {
+    return this.http.get<User>(`${this.profileApiUrl}/${id}`);
+  }
 
   create(user: User): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}`, user);
