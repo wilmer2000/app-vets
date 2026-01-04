@@ -105,8 +105,23 @@ export class UserService {
 
       return await this.prisma.user.update({
         where: { id },
-        omit: { password: true },
-        data,
+        include: {
+          address: {
+            omit: {
+              id: true,
+            },
+          },
+        },
+        data: {
+          ...dto,
+          address: {
+            upsert: {
+              create: { ...dto.address },
+              update: { ...dto.address },
+            },
+          },
+        },
+        omit: { password: true, addressId: true, createdAt: true, updatedAt: true },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
