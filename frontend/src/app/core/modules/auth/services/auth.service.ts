@@ -7,6 +7,7 @@ import { Role } from '../enums/auth.enum';
 import { AuthState } from '../interfaces/auth.interface';
 import { UserService } from '../../user/services/user.service';
 import { User } from '../../user/interfaces/user.interface';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -16,6 +17,7 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly storage = inject(StorageService);
   private readonly userService = inject(UserService);
+  private readonly router = inject(Router);
   private readonly authState = signal<AuthState>({
     isLoggedIn: !!this.storage.get(TOKEN_KEY),
     role: undefined,
@@ -46,7 +48,7 @@ export class AuthService {
   logout(): void {
     this.storage.remove(TOKEN_KEY);
     this.authState.set({ isLoggedIn: false, role: undefined, userId: undefined });
-    this.currentUser.set(undefined);
+    this.router.navigate(['/login']).then(() => this.currentUser.set(undefined));
   }
 
   private initializeAuth(): void {

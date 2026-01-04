@@ -18,6 +18,11 @@
                         <i class="ri-dashboard-line"></i>
                     </a>
                 </li>
+                <li>
+                    <a (click)="logout()" class="navbar-button">
+                        logout
+                    </a>
+                </li>
 
                 @if (currentUser().role === roleList.ADMIN) {
                     <li>
