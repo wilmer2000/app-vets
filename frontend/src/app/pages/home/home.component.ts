@@ -1,4 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
+import { AuthService } from '../../core/modules/auth/services/auth.service';
+import { Role } from '../../core/modules/auth/enums/auth.enum';
 
 @Component({
   selector: 'app-home',
@@ -13,4 +15,10 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
     }
   `
 })
-export class HomeComponent {}
+export class HomeComponent {
+  private readonly authService = inject(AuthService);
+
+  isLoggedIn = linkedSignal<boolean>(() => this.authService.isLoggedIn);
+  userRol = linkedSignal<Role>(() => this.authService.userRole as Role);
+  readonly roleList = Role;
+}

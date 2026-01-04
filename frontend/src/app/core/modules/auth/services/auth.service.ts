@@ -14,9 +14,17 @@ export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly storageService = inject(StorageService);
 
-  isLoggedIn = signal<AuthState>({
+  get isLoggedIn(): boolean {
+    return this.loginState().isLoggedIn;
+  }
+
+  get userRole(): Role | undefined {
+    return this.loginState().role;
+  }
+
+  loginState = signal<AuthState>({
     isLoggedIn: this.storageService.get(TOKEN_KEY) ?? false,
-    role: undefined,
+    role: undefined
   });
 
   login(email: string, password: string): Observable<any> {
@@ -28,7 +36,7 @@ export class AuthService {
           const tokenDecoded = this.decodeToken(accessToken);
 
           this.storageService.set(TOKEN_KEY, accessToken);
-          this.isLoggedIn.set({
+          this.loginState.set({
             isLoggedIn: true,
             role: tokenDecoded.role as Role
           });
@@ -44,7 +52,7 @@ export class AuthService {
       return JSON.parse(atob(token.split('.')[1]));
     } catch (error) {
       this.storageService.remove(TOKEN_KEY);
-      this.isLoggedIn.set({
+      this.loginState.set({
         isLoggedIn: false,
         role: undefined
       });

@@ -1,1 +1,12 @@
-
+@if (isLoggedIn()) {
+    @switch (userRol()) {
+        @case (roleList.ADMIN) {
+        }
+        @case (roleList.VET) {
+        }
+        @case (roleList.USER) {
+        }
+        @case (roleList.OWNER) {
+        }
+    }
+}

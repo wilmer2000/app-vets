@@ -2,14 +2,14 @@ import { inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 
-export function noAuthGuard(): boolean {
+export function authGuard(): boolean {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn().isLoggedIn) {
-    void router.navigateByUrl('/home');
-    return false;
+  if (authService.loginState().isLoggedIn) {
+    return true;
   }
 
-  return true;
+  void router.navigateByUrl('/login');
+  return false;
 }
