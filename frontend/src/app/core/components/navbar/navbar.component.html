@@ -1,37 +1,31 @@
 <nav class="w-full flex justify-center p-4">
-    <div class="card">
-        <div class="card-body">
-            <ul class="flex gap-4">
-                <li>
-                    <a [routerLinkActive]="'active'" [routerLink]="'home'" class="navbar-button">
-                        <i class="ri-home-4-line"></i>
-                    </a>
-                </li>
-                <li>
-                    <a [routerLinkActive]="'active'" [routerLink]="'appointment'" class="navbar-button">
-                        <i class="ri-calendar-event-line"></i>
-                    </a>
-                </li>
+  <ul class="flex gap-4">
+    <li>
+      <a [routerLinkActive]="'active'" [routerLink]="'home'" class="navbar-button">
+        <i class="ri-home-4-line"></i>
+      </a>
+    </li>
+    <li>
+      <a [routerLinkActive]="'active'" [routerLink]="'appointment'" class="navbar-button">
+        <i class="ri-calendar-event-line"></i>
+      </a>
+    </li>
 
-                <li>
-                    <a [routerLinkActive]="'active'" [routerLink]="'dashboard'" class="navbar-button">
-                        <i class="ri-dashboard-line"></i>
-                    </a>
-                </li>
-                <li>
-                    <a (click)="logout()" class="navbar-button">
-                        logout
-                    </a>
-                </li>
+    <li>
+      <a [routerLinkActive]="'active'" [routerLink]="'dashboard'" class="navbar-button">
+        <i class="ri-dashboard-line"></i>
+      </a>
+    </li>
+    <li>
+      <a (click)="logout()" class="navbar-button"> logout </a>
+    </li>
 
-                @if (currentUser().role === roleList.ADMIN) {
-                    <li>
-                        <a [routerLinkActive]="'active'" [routerLink]="'profile'" class="navbar-button">
-                            <i class="ri-profile-line"></i>
-                        </a>
-                    </li>
-                }
-            </ul>
-        </div>
-    </div>
+    @if (currentUser().role === roleList.ADMIN) {
+      <li>
+        <a [routerLinkActive]="'active'" [routerLink]="'profile'" class="navbar-button">
+          <i class="ri-profile-line"></i>
+        </a>
+      </li>
+    }
+  </ul>
 </nav>
