@@ -1,26 +1,28 @@
 <nav class="w-full flex justify-center p-4">
   <ul class="flex gap-4">
     <li>
-      <a [routerLink]="'home'" [routerLinkActive]="'active'" class="navbar-button">
+      <a [routerLinkActive]="'active'" [routerLink]="'home'" class="navbar-button">
         <i class="ri-home-4-line"></i>
       </a>
     </li>
     <li>
-      <a [routerLink]="'appointment'" [routerLinkActive]="'active'" class="navbar-button">
+      <a [routerLinkActive]="'active'" [routerLink]="'appointment'" class="navbar-button">
         <i class="ri-calendar-event-line"></i>
       </a>
     </li>
 
     <li>
-      <a [routerLink]="'dashboard'" [routerLinkActive]="'active'" class="navbar-button">
+      <a [routerLinkActive]="'active'" [routerLink]="'dashboard'" class="navbar-button">
         <i class="ri-dashboard-line"></i>
       </a>
     </li>
 
-    <li>
-      <a [routerLink]="'profile'" [routerLinkActive]="'active'" class="navbar-button">
-        <i class="ri-profile-line"></i>
-      </a>
-    </li>
+    @if (userRole() === roleList.ADMIN) {
+      <li>
+        <a [routerLinkActive]="'active'" [routerLink]="'profile'" class="navbar-button">
+          <i class="ri-profile-line"></i>
+        </a>
+      </li>
+    }
   </ul>
 </nav>
