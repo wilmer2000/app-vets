@@ -1,25 +1,23 @@
 <div class="flex flex-col">
-  <div class="card shadow-lg w-full">
-    <div class="card-body">
-      <h5>Mascotas</h5>
-      <ul class="flex w-full gap-4">
-        @for (pet of pets(); track pet.id) {
-          <li>
-            <div class="avatar ">
-              <div class="w-16 rounded-full border-4 border-zinc-300">
-                <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
-              </div>
-            </div>
-            <p class="text-center">{{ pet.name }}</p>
-          </li>
-        }
-          <li>
-              <div class="w-16 h-16 rounded-full border-4 border-zinc-300 flex items-center justify-center cursor-pointer" (click)="addPet()">
-                  <i class="ri-add-line text-4xl"></i>
-              </div>
-              <p class="text-center">Agregar</p>
-          </li>
-      </ul>
-    </div>
-  </div>
+  <h6 class="mb-3">Mascotas</h6>
+  <ul class="flex w-full gap-4">
+    @for (pet of pets(); track pet.id) {
+      <li>
+        <div class="avatar cursor-pointer" (click)="viewPet(pet.id)">
+          <div class="w-16 rounded-full border-4 border-zinc-300">
+            <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
+          </div>
+        </div>
+        <p class="text-center">{{ pet.name }}</p>
+      </li>
+    }
+    <li>
+      <div
+        (click)="addPet()"
+        class="w-16 h-16 rounded-full border-4 border-zinc-300 flex items-center justify-center cursor-pointer"
+      >
+        <i class="ri-add-line text-4xl"></i>
+      </div>
+    </li>
+  </ul>
 </div>

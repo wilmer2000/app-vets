@@ -43,23 +43,23 @@
   strategy: 'base';
 }
 
-/*:root {*/
-/*    !* Fonts *!*/
-/*    --default-font-family: 'Outfit', Arial, 'sans-serif';*/
-/*    --default-font-color: #030712;*/
-/*    --default-font-size: 16px;*/
+:root {
+  /* Fonts */
+  --default-font-family: 'Lexend Deca', Arial, sans-serif;
+  --default-font-color: #030712;
+  --default-font-size: 16px;
 
-/*    !* Container *!*/
-/*    --default-container: 96rem;*/
+  /* Container */
+  --default-container: 96rem;
 
-/*    !* Colors *!*/
-/*    --primary: #1447e6;*/
-/*    --primary-light: #51a2ff;*/
-/*    --primary-dark: #193cb8;*/
-/*}*/
+  /* Colors */
+  --primary: #1447e6;
+  --primary-light: #51a2ff;
+  --primary-dark: #193cb8;
+}
 
 @theme {
-  --default-font-family: 'Lexend Deca', Arial, sans-serif;
+  --default-font-family: var(--default-font-family);
 }
 
 @layer base {
@@ -74,13 +74,13 @@
   }
 }
 
-/** {*/
-/*    font-size: var(--default-font-size);*/
-/*    font-family: var(--default-font-family), sans-serif;*/
-/*    font-optical-sizing: auto;*/
-/*    font-style: normal;*/
-/*    box-sizing: border-box;*/
-/*}*/
+* {
+  font-family: var(--default-font-family), sans-serif;
+  font-optical-sizing: auto;
+  font-style: normal;
+  font-weight: 300;
+  box-sizing: border-box;
+}
 
 html,
 body {
@@ -135,4 +135,10 @@ h5 {
 
 h6 {
   @apply text-base;
+}
+
+span {
+  font-size: inherit;
+  color: inherit;
+  line-height: inherit;
 }
