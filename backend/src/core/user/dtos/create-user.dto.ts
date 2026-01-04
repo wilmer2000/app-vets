@@ -5,10 +5,12 @@ import {
   IsNotEmpty,
   IsOptional,
   IsString,
+  ValidateNested,
 } from 'class-validator';
 import { Role } from '../../../../prisma/generated/prisma/enums.js';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
+import { AddressUserDto } from './address-user.dto.js';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -54,4 +56,10 @@ export class CreateUserDto {
   @IsString()
   @Transform(({ value }) => value.trim())
   phone: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @ValidateNested()
+  @Type(() => AddressUserDto)
+  address: AddressUserDto;
 }

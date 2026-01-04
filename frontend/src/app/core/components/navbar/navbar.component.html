@@ -1,28 +1,32 @@
 <nav class="w-full flex justify-center p-4">
-  <ul class="flex gap-4">
-    <li>
-      <a [routerLinkActive]="'active'" [routerLink]="'home'" class="navbar-button">
-        <i class="ri-home-4-line"></i>
-      </a>
-    </li>
-    <li>
-      <a [routerLinkActive]="'active'" [routerLink]="'appointment'" class="navbar-button">
-        <i class="ri-calendar-event-line"></i>
-      </a>
-    </li>
+    <div class="card">
+        <div class="card-body">
+            <ul class="flex gap-4">
+                <li>
+                    <a [routerLinkActive]="'active'" [routerLink]="'home'" class="navbar-button">
+                        <i class="ri-home-4-line"></i>
+                    </a>
+                </li>
+                <li>
+                    <a [routerLinkActive]="'active'" [routerLink]="'appointment'" class="navbar-button">
+                        <i class="ri-calendar-event-line"></i>
+                    </a>
+                </li>
 
-    <li>
-      <a [routerLinkActive]="'active'" [routerLink]="'dashboard'" class="navbar-button">
-        <i class="ri-dashboard-line"></i>
-      </a>
-    </li>
+                <li>
+                    <a [routerLinkActive]="'active'" [routerLink]="'dashboard'" class="navbar-button">
+                        <i class="ri-dashboard-line"></i>
+                    </a>
+                </li>
 
-    @if (userRole() === roleList.ADMIN) {
-      <li>
-        <a [routerLinkActive]="'active'" [routerLink]="'profile'" class="navbar-button">
-          <i class="ri-profile-line"></i>
-        </a>
-      </li>
-    }
-  </ul>
+                @if (userRole() === roleList.ADMIN) {
+                    <li>
+                        <a [routerLinkActive]="'active'" [routerLink]="'profile'" class="navbar-button">
+                            <i class="ri-profile-line"></i>
+                        </a>
+                    </li>
+                }
+            </ul>
+        </div>
+    </div>
 </nav>

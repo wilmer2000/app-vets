@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Outfit:wght@100..900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lexend+Deca:wght@100..900&display=swap');
 @import 'tailwindcss';
 
 @plugin "daisyui" {
@@ -59,7 +59,7 @@
 /*}*/
 
 @theme {
-  --default-font-family: 'Montserrat', Arial, sans-serif;
+  --default-font-family: 'Lexend Deca', Arial, sans-serif;
 }
 
 @layer base {
@@ -91,117 +91,48 @@ body {
 body {
   overscroll-behavior-y: contain;
 }
+
 @layer components {
-    .navbar-button {
-        @apply text-center text-3xl shadow-md flex justify-center items-center h-14 w-14 leading-none rounded-2xl;
+  .navbar-button {
+    @apply text-center text-3xl shadow-md flex justify-center items-center h-14 w-14 leading-none rounded-2xl;
 
-        &.active {
-            @apply bg-primary/30;
-        }
+    &.active {
+      @apply bg-primary/30;
     }
+  }
 }
-/*b,*/
-/*strong,*/
-/*h1,*/
-/*h2,*/
-/*h3,*/
-/*h4,*/
-/*h5,*/
-/*h6 {*/
-/*    @apply font-medium tracking-tight mb-4;*/
-/*}*/
 
-/*h1 {*/
-/*    @apply text-4xl;*/
-/*}*/
+b,
+strong,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-medium tracking-tight mb-4;
+}
 
-/*h2 {*/
-/*    @apply text-3xl;*/
-/*}*/
+h1 {
+  @apply text-4xl;
+}
 
-/*h3 {*/
-/*    @apply text-2xl;*/
-/*}*/
+h2 {
+  @apply text-3xl;
+}
 
-/*h4 {*/
-/*    @apply text-xl;*/
-/*}*/
+h3 {
+  @apply text-2xl;
+}
 
-/*h5 {*/
-/*    @apply text-lg;*/
-/*}*/
+h4 {
+  @apply text-xl;
+}
 
-/*h6 {*/
-/*    @apply text-base;*/
-/*}*/
+h5 {
+  @apply text-lg;
+}
 
-/*hr {*/
-/*    @apply border-t border-[var(--border-color)] my-[1.8rem];*/
-/*}*/
-
-/*@layer components {*/
-/*    .wrapper-content {*/
-/*        @apply flex flex-col h-screen w-100;*/
-/*    }*/
-
-/*    .btn {*/
-/*        @apply rounded py-3 px-4 text-white font-semibold text-center transition-colors cursor-pointer;*/
-
-/*        &.btn-primary {*/
-/*            background-color: var(--primary);*/
-
-/*            &:hover {*/
-/*                background-color: var(--primary-dark);*/
-/*            }*/
-/*        }*/
-
-/*        .btn-secondary {*/
-/*        }*/
-/*    }*/
-
-/*    .form-control,*/
-/*    .form-select {*/
-/*        @apply border border-[var(--border-color)] rounded-xl py-2.5 px-4 bg-white block w-full min-h-[46px];*/
-/*    }*/
-
-/*    .form-switch {*/
-/*        @apply h-6*/
-/*        w-11*/
-/*        rounded-full*/
-/*        border*/
-/*        border-[var(--primary-light)]*/
-/*        bg-red-300*/
-/*        after:absolute*/
-/*        after:left-[2px]*/
-/*        after:top-0.5*/
-/*        after:h-5*/
-/*        after:w-5*/
-/*        after:rounded-full*/
-/*        after:border*/
-/*        after:border-rose-300*/
-/*        after:bg-white*/
-/*        after:transition-all*/
-/*        after:content-['']*/
-/*        peer-checked:bg-[var(--primary-light)]*/
-/*        peer-checked:after:translate-x-full*/
-/*        peer-checked:after:border-white;*/
-
-/*        &.disabled {*/
-/*            @apply cursor-not-allowed*/
-/*            border-rose-200*/
-/*            bg-red-200;*/
-/*        }*/
-/*    }*/
-
-/*    .form-label {*/
-/*        @apply block font-medium ps-2;*/
-/*    }*/
-
-/*    .card {*/
-/*        @apply bg-white rounded-2xl shadow-2xl p-6;*/
-/*    }*/
-
-/*    .container {*/
-/*        @apply max-w-[var(--default-container)] mx-auto grid grid-cols-12 gap-6 px-4;*/
-/*    }*/
-/*}*/
+h6 {
+  @apply text-base;
+}

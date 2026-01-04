@@ -6,6 +6,13 @@ export interface User {
   name?: string;
   lastname?: string;
   phone?: string;
+  address?: Address;
+}
+
+export interface Address {
+  street?: string;
+  city?: string;
+  country?: string;
 }
 
 export interface UpdateUser {

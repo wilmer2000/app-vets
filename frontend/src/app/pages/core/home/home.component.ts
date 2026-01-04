@@ -1,5 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { ContainerComponent } from '../../../shared/components/container/container.component';
+import { AccountService } from '../../../core/modules/auth/services/account.service';
 
 @Component({
   selector: 'app-home',
@@ -14,4 +15,6 @@ import { ContainerComponent } from '../../../shared/components/container/contain
     }
   `
 })
-export class HomeComponent {}
+export class HomeComponent {
+  private readonly accountService = inject(AccountService);
+}

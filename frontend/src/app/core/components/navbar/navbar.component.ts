@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angul
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../modules/auth/services/auth.service';
 import { Role } from '../../modules/auth/enums/auth.enum';
+import { AccountService } from '../../modules/auth/services/account.service';
 
 @Component({
   selector: 'app-navbar',
@@ -10,8 +11,8 @@ import { Role } from '../../modules/auth/enums/auth.enum';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class NavbarComponent {
-  private readonly authService = inject(AuthService);
+  private readonly accountService = inject(AccountService);
 
-  userRole = linkedSignal(() => this.authService.userRole);
+  userRole = linkedSignal(() => this.accountService.getInfoUser());
   protected roleList = Role;
 }
