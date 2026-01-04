@@ -17,4 +17,5 @@ import { AccountService } from '../../../core/modules/auth/services/account.serv
 })
 export class HomeComponent {
   private readonly accountService = inject(AccountService);
+  profile = this.accountService.getInfoUser();
 }

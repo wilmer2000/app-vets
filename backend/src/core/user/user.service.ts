@@ -121,7 +121,12 @@ export class UserService {
             },
           },
         },
-        omit: { password: true, addressId: true, createdAt: true, updatedAt: true },
+        omit: {
+          password: true,
+          addressId: true,
+          createdAt: true,
+          updatedAt: true,
+        },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);

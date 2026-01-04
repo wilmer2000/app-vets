@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { EMPTY, Observable, switchMap } from 'rxjs';
 import { TOKEN_KEY } from '../../storage/constants/constant';
 import { StorageService } from '../../storage/services/storage.service';
 import { Role } from '../enums/auth.enum';
@@ -25,7 +25,7 @@ export class AuthService {
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
-      map((response: any) => {
+      switchMap((response: any) => {
         const accessToken = response[TOKEN_KEY] as string;
 
         if (accessToken) {
@@ -34,11 +34,12 @@ export class AuthService {
           this.storageService.set(TOKEN_KEY, accessToken);
           this.loginState.set({
             isLoggedIn: true,
-            role: tokenDecoded.role as Role
+            role: tokenDecoded.role as Role,
+            userId: tokenDecoded.sub as string
           });
         }
 
-        return response;
+        return EMPTY;
       })
     );
   }
@@ -52,13 +53,15 @@ export class AuthService {
       this.storageService.set(TOKEN_KEY, accessToken);
       return {
         isLoggedIn: true,
-        role: tokenDecoded.role as Role
+        role: tokenDecoded.role as Role,
+        userId: tokenDecoded.sub as string
       };
     }
 
     return {
       isLoggedIn: false,
-      role: undefined
+      role: undefined,
+      userId: undefined
     };
   }
 
@@ -69,7 +72,8 @@ export class AuthService {
       this.storageService.remove(TOKEN_KEY);
       this.loginState.set({
         isLoggedIn: false,
-        role: undefined
+        role: undefined,
+        userId: undefined
       });
     }
   }
