@@ -92,6 +92,13 @@ body {
   overscroll-behavior-y: contain;
 }
 @layer components {
+    .navbar-button {
+        @apply text-center text-3xl shadow-md flex justify-center items-center h-14 w-14 leading-none rounded-2xl;
+
+        &.active {
+            @apply bg-primary/30;
+        }
+    }
 }
 /*b,*/
 /*strong,*/

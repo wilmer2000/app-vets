@@ -1,24 +1,24 @@
-<nav class="w-full px-4 py-2">
-  <ul class="flex">
+<nav class="w-full flex justify-center p-4">
+  <ul class="flex gap-4">
     <li>
-      <a [routerLink]="'home'" class="text-center p-2 text-3xl">
+      <a [routerLink]="'home'" [routerLinkActive]="'active'" class="navbar-button">
         <i class="ri-home-4-line"></i>
       </a>
     </li>
     <li>
-      <a [routerLink]="'appointment'" class="text-center p-2 text-3xl">
+      <a [routerLink]="'appointment'" [routerLinkActive]="'active'" class="navbar-button">
         <i class="ri-calendar-event-line"></i>
       </a>
     </li>
 
     <li>
-      <a [routerLink]="'dashboard'" class="text-center p-2 text-3xl">
+      <a [routerLink]="'dashboard'" [routerLinkActive]="'active'" class="navbar-button">
         <i class="ri-dashboard-line"></i>
       </a>
     </li>
 
     <li>
-      <a [routerLink]="'profile'" class="text-center p-2 text-3xl">
+      <a [routerLink]="'profile'" [routerLinkActive]="'active'" class="navbar-button">
         <i class="ri-profile-line"></i>
       </a>
     </li>
