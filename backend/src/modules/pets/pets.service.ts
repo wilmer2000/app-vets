@@ -6,6 +6,7 @@ import {
 import { CreatePetDto } from './dto/create-pet.dto.js';
 import { UpdatePetDto } from './dto/update-pet.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
+import { Prisma } from '../../../generated/prisma/client.js';
 
 @Injectable()
 export class PetsService {
@@ -14,7 +15,6 @@ export class PetsService {
   async create(dto: CreatePetDto) {
     const name = dto.name;
     const breed = dto.breed;
-
     try {
       return await this.prisma.pet.create({
         data: {
@@ -26,7 +26,9 @@ export class PetsService {
               create: { userId: dto.ownerId },
             },
           },
-          veterinary: { connect: { id: dto.veterinaryId } },
+          veterinary: dto.veterinaryId
+            ? { connect: { id: dto.veterinaryId } }
+            : Prisma.skip,
         },
       });
     } catch (error) {

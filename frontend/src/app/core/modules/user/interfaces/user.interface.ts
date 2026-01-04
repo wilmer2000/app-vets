@@ -18,12 +18,12 @@ export interface Address {
   country: string;
 }
 
-export interface OwnerProfile {
+export interface VetProfile {
   specialty: any;
   appointments: any[];
 }
 
-export interface VetProfile {
+export interface OwnerProfile {
   pets: any[];
   appointments: any[];
   veterinary: any;

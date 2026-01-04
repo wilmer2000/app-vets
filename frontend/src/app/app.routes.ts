@@ -15,7 +15,7 @@ export const routes: Routes = [
     children: [
       {
         path: 'home',
-        loadComponent: () => import('./pages/core/home/home.component').then((m) => m.HomeComponent)
+        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
       },
       {
         path: 'dashboard',
@@ -34,8 +34,20 @@ export const routes: Routes = [
       },
       {
         path: 'user',
-        loadComponent: () =>
-          import('./pages/core/user/user.component').then((m) => m.UserComponent)
+        loadComponent: () => import('./pages/core/user/user.component').then((m) => m.UserComponent)
+      },
+      {
+        path: 'pet',
+        loadComponent: () => import('./pages/pet/pet.component').then((m) => m.PetComponent),
+        children: [
+          {
+            path: ':id',
+            loadComponent: () =>
+              import('./modules/pet/components/pet-profile/pet-profile.component').then(
+                (m) => m.PetProfileComponent
+              )
+          }
+        ]
       }
     ]
   },
