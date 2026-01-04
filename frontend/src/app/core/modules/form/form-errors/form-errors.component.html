@@ -3,7 +3,7 @@
 @if (control() && errorList() && hasError) {
   <div class="text-red-500 h-auto leading-none">
     @if (control().hasError('required')) {
-      {{ this.errorList()['required'] }}
+      {{ this.errorList()["required"] }}
     }
     @if (control().hasError('pattern')) {
       {{ this.errorList()['pattern'] }}
