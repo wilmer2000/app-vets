@@ -6,8 +6,5 @@ import { AuthService } from './auth.service';
 })
 export class AccountService {
   private readonly authService = inject(AuthService);
-
-  getInfoUser() {
-    return this.authService.userRole;
-  }
+  readonly currentUser = this.authService.currentUser.asReadonly();
 }

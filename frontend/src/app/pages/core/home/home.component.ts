@@ -1,6 +1,7 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { ContainerComponent } from '../../../shared/components/container/container.component';
 import { AccountService } from '../../../core/modules/auth/services/account.service';
+import { User } from '../../../core/modules/user/interfaces/user.interface';
 
 @Component({
   selector: 'app-home',
@@ -17,5 +18,5 @@ import { AccountService } from '../../../core/modules/auth/services/account.serv
 })
 export class HomeComponent {
   private readonly accountService = inject(AccountService);
-  profile = this.accountService.getInfoUser();
+  currentUser: Signal<User> = this.accountService.currentUser as Signal<User>;
 }

@@ -1,19 +1,19 @@
 export interface User {
-  id?: string;
+  id: string;
   email: string;
-  password?: string;
-  role?: string;
-  isActive?: boolean;
-  name?: string;
-  lastname?: string;
-  phone?: string;
-  address?: Address;
+  password: string;
+  role: string;
+  isActive: boolean;
+  name: string;
+  lastname: string;
+  phone: string;
+  address: Address;
 }
 
 export interface Address {
-  street?: string;
-  city?: string;
-  country?: string;
+  street: string;
+  city: string;
+  country: string;
 }
 
 export interface UpdateUser {

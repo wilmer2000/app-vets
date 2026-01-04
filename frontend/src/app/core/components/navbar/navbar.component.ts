@@ -1,8 +1,8 @@
-import { ChangeDetectionStrategy, Component, inject, linkedSignal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { AuthService } from '../../modules/auth/services/auth.service';
 import { Role } from '../../modules/auth/enums/auth.enum';
 import { AccountService } from '../../modules/auth/services/account.service';
+import { User } from '../../modules/user/interfaces/user.interface';
 
 @Component({
   selector: 'app-navbar',
@@ -13,6 +13,6 @@ import { AccountService } from '../../modules/auth/services/account.service';
 export class NavbarComponent {
   private readonly accountService = inject(AccountService);
 
-  userRole = linkedSignal(() => this.accountService.getInfoUser());
   protected roleList = Role;
+  currentUser = this.accountService.currentUser as Signal<User>;
 }

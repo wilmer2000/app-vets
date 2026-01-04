@@ -19,7 +19,7 @@
                     </a>
                 </li>
 
-                @if (userRole() === roleList.ADMIN) {
+                @if (currentUser().role === roleList.ADMIN) {
                     <li>
                         <a [routerLinkActive]="'active'" [routerLink]="'profile'" class="navbar-button">
                             <i class="ri-profile-line"></i>

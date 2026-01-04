@@ -16,7 +16,7 @@ export const authInterceptor: HttpInterceptorFn = (request, next) => {
   const newHeaders: Record<string, string> = {};
 
   if (!isAuthRequest && !isStaticAsset && token) {
-    newHeaders['Authorization'] = token;
+    newHeaders['Authorization'] = `Bearer ${token}`;
   }
 
   if (!request.headers.has('Content-Type') && ['POST', 'PUT', 'PATCH'].includes(request.method)) {
