@@ -6,7 +6,7 @@ export function authGuard(): boolean {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.loginState().isLoggedIn) {
+  if (authService.isLoggedIn) {
     return true;
   }
 

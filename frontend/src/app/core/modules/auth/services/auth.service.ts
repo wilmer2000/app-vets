@@ -13,6 +13,7 @@ export class AuthService {
   private readonly apiUrl = '/api/auth';
   private readonly http = inject(HttpClient);
   private readonly storageService = inject(StorageService);
+  private loginState = signal<AuthState>(this.loadState());
 
   get isLoggedIn(): boolean {
     return this.loginState().isLoggedIn;
@@ -21,11 +22,6 @@ export class AuthService {
   get userRole(): Role | undefined {
     return this.loginState().role;
   }
-
-  loginState = signal<AuthState>({
-    isLoggedIn: this.storageService.get(TOKEN_KEY) ?? false,
-    role: undefined
-  });
 
   login(email: string, password: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/login`, { email, password }).pipe(
@@ -45,6 +41,25 @@ export class AuthService {
         return response;
       })
     );
+  }
+
+  private loadState(): AuthState {
+    const accessToken = this.storageService.get(TOKEN_KEY) as string;
+
+    if (accessToken) {
+      const tokenDecoded = this.decodeToken(accessToken);
+
+      this.storageService.set(TOKEN_KEY, accessToken);
+      return {
+        isLoggedIn: true,
+        role: tokenDecoded.role as Role
+      };
+    }
+
+    return {
+      isLoggedIn: false,
+      role: undefined
+    };
   }
 
   private decodeToken(token: string): any {
