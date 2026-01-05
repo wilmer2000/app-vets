@@ -1,0 +1,25 @@
+meta {
+  name: Update service
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{apiUrl}}/service/80b1ecac-5d8b-429b-9cd0-35052d2fedd9
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  "type": "GROOMING",
+  "name": "TEST",
+  "isActive": true,
+  "price": 5003
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

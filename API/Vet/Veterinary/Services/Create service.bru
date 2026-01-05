@@ -1,0 +1,26 @@
+meta {
+  name: Create service
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/service
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+  "type": "GROOMING",
+  "name": "GROOMING",
+  "isActive": true,
+  "veterinaryId": "666b67a2-4ebb-4500-b610-6f26c99ef24e",
+  "price": 500
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

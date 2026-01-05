@@ -1,0 +1,29 @@
+meta {
+  name: Update
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{apiUrl}}/veterinary/b3e21653-71e3-4b67-bed9-e5140e475b77
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Veterinaria 1 update",
+    "description": "Veterinaria 1",
+    "phone": "32432323",
+    "street": "Maldonado y Florida 1137",
+    "city": "Montevideo",
+    "country": "UY",
+    "businessHours": "09:00 - 17:00",
+    "isActive": false
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

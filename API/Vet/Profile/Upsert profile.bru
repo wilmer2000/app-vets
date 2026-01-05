@@ -1,0 +1,23 @@
+meta {
+  name: Upsert profile
+  type: http
+  seq: 1
+}
+
+post {
+  url: {{apiUrl}}/profile/d54c8472-b4aa-43ee-9ed2-3189bedead88
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "specialty": "SURGERY",
+    "pets": ["3234243"]
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

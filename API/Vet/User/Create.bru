@@ -1,0 +1,28 @@
+meta {
+  name: Create
+  type: http
+  seq: 3
+}
+
+post {
+  url: {{apiUrl}}/user
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "tes5@gmail.com  ",
+    "password": "passwordTest",
+    "role": "VET",
+    "isActive": true,
+    "name": "Veterinario 3",
+    "lastname": "veterrinario TEST",
+    "phone": "23234234"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

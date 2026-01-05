@@ -1,0 +1,28 @@
+meta {
+  name: Create appointment
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/appointment
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "ownerId": "1bf60307-94f9-494c-802b-11b6235012c5",
+    "vetId": "79dff776-3839-46e9-bd0d-88bbec7669ef",
+    "veterinaryId": "73309d72-26fe-4b3b-8661-4fb8229472a3",
+    "pets": ["efdc5dfb-a00d-496f-b07a-d839f70e43bc"],
+    "startTime": "2026-06-01",
+    "endTime": "2026-06-02",
+    "service": "CONSULTATION"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

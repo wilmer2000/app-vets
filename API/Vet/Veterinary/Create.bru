@@ -1,0 +1,30 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/veterinary
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "name": "Veterinaria",
+    "email": "veterinaria@email.com",
+    "description": "Veterinaria",
+    "phone": "7846872363",
+    "street": "18 y andes",
+    "city": "Montevideo",
+    "country": "UY",
+    "businessHours": "09:00 - 17:00",
+    "isActive": true
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
