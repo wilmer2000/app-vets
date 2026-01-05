@@ -1,0 +1,28 @@
+<app-container>
+  @if (petDetail()) {
+    <div class="col-span-12">
+      <h4 class="mb-3">{{ petDetail()?.name }}</h4>
+    </div>
+
+    <div class="col-span-12">
+      <div class="flex flex-col gap-4">
+        <p>
+          <b class="block">Nombre</b>
+          {{ petDetail()?.name }}
+        </p>
+        <p>
+          <b class="block">Raza</b>
+          {{ petDetail()?.breed }}
+        </p>
+        <p>
+          <b class="block">Asociado</b>
+          {{ petDetail()?.veterinaryId ?? '-' }}
+        </p>
+        <p>
+          <b class="block">Cita</b>
+          {{ petDetail()?.appointmentId  ?? '-'}}
+        </p>
+      </div>
+    </div>
+  }
+</app-container>

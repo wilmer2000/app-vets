@@ -41,7 +41,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/pet/pet.component').then((m) => m.PetComponent),
         children: [
           {
-            path: 'profile/:id',
+            path: 'profile/:petId',
             loadComponent: () =>
               import('./modules/pet/components/pet-profile/pet-profile.component').then(
                 (m) => m.PetProfileComponent

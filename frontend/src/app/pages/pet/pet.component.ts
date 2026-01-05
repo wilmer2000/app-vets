@@ -1,15 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-pet',
-  imports: [],
-  template: `
-    <p>
-      pet works!
-    </p>
-  `,
-  styles: ``,
+  imports: [RouterOutlet],
+  template: ` <router-outlet /> `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class PetComponent {
-
-}
+export class PetComponent {}
