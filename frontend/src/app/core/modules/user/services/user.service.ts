@@ -1,6 +1,6 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { map, Observable } from 'rxjs';
 import { UpdateUser, User } from '../interfaces/user.interface';
 
 @Injectable({
@@ -11,6 +11,13 @@ export class UserService {
   private readonly profileApiUrl = '/api/profile';
   private readonly http = inject(HttpClient);
 
+  readonly currentUser = signal<User | null>(null);
+
+  getCurrentUser(id: string): Observable<void> {
+    return this.http
+      .get<User>(`${this.profileApiUrl}/${id}`)
+      .pipe(map((user) => this.currentUser.set(user)));
+  }
   getProfile(id: string): Observable<User> {
     return this.http.get<User>(`${this.profileApiUrl}/${id}`);
   }

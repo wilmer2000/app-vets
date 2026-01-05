@@ -1,7 +1,7 @@
 import { Component, inject, linkedSignal, Signal } from '@angular/core';
-import { ProfileService } from '../../../../core/modules/auth/services/profile.service';
 import { User } from '../../../../core/modules/user/interfaces/user.interface';
 import { Router } from '@angular/router';
+import { UserService } from '../../../../core/modules/user/services/user.service';
 
 @Component({
   selector: 'app-pets-list',
@@ -9,10 +9,10 @@ import { Router } from '@angular/router';
   templateUrl: './pets-grid.component.html'
 })
 export class PetsGridComponent {
-  private readonly accountService = inject(ProfileService);
+  private readonly userService = inject(UserService);
   private readonly router = inject(Router);
 
-  currentUser: Signal<User> = this.accountService.currentUser as Signal<User>;
+  currentUser = this.userService.currentUser as Signal<User>;
   pets = linkedSignal(() => {
     const user = this.currentUser();
     return user.ownerProfile ? user.ownerProfile.pets : [];

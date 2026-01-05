@@ -3,12 +3,11 @@ import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { Role } from '../enums/auth.enum';
 
-export const authRoleGuard: CanActivateFn = () => {
+export const authAdminRoleGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
-  const userRole = authService.userRole() as Role;
 
-  if (authService.isLoggedIn() && userRole === Role.ADMIN) {
+  if (authService.state().role === Role.ADMIN) {
     return true;
   }
 

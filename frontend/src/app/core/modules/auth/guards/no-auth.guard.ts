@@ -6,8 +6,8 @@ export function noAuthGuard(): boolean {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.isLoggedIn()) {
-    void router.navigateByUrl('/home');
+  if (authService.state().isLoggedIn) {
+    router.navigateByUrl('/home');
     return false;
   }
 
