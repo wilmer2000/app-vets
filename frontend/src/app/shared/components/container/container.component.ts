@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 @Component({
   selector: 'app-container',
@@ -6,4 +6,6 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
   templateUrl: './container.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class ContainerComponent {}
+export class ContainerComponent {
+  gap = input<string>('')
+}

@@ -1,6 +1,6 @@
-<app-container>
+<app-container [gap]="'gap-4'">
   <div class="col-span-12">
-    <h4 class="mb-3"><span class="font-light">Hola,</span> {{ currentUser().name }}</h4>
+    <h4><span class="font-light">Hola,</span> {{ currentUser().name }}</h4>
   </div>
 
   @if (currentUser().ownerProfile) {
@@ -8,6 +8,7 @@
       <app-pet-list/>
     </div>
     <div class="col-span-12">
+      <app-services-list/>
     </div>
   }
 </app-container>

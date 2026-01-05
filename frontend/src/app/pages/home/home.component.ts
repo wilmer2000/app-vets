@@ -3,10 +3,11 @@ import { ContainerComponent } from '../../shared/components/container/container.
 import { ProfileService } from '../../core/modules/auth/services/profile.service';
 import { User } from '../../core/modules/user/interfaces/user.interface';
 import { PetListComponent } from '../../modules/pet/components/pet-list/pet-list.component';
+import { ServicesListComponent } from '../../modules/services/services-list/services-list.component';
 
 @Component({
   selector: 'app-home',
-  imports: [ContainerComponent, PetListComponent],
+  imports: [ContainerComponent, PetListComponent, ServicesListComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
