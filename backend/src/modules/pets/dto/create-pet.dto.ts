@@ -1,5 +1,6 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { PetSex } from '../../../../prisma/generated/prisma/enums.js';
 
 export class CreatePetDto {
   @ApiProperty()
@@ -16,6 +17,10 @@ export class CreatePetDto {
   @IsNotEmpty()
   @IsString()
   ownerId: string;
+
+  @ApiProperty()
+  @IsEnum(PetSex)
+  sex: PetSex;
 
   @ApiProperty()
   @IsOptional()
