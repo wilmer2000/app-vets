@@ -67,7 +67,8 @@ export class ServiceService {
 
       return await this.prisma.service.update({
         where: { id },
-        data: updateServiceDto,
+        data: { ...updateServiceDto },
+        omit: { veterinaryId: true },
       });
     } catch (error) {
       throw new InternalServerErrorException(error);

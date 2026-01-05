@@ -7,6 +7,7 @@ import {
   IsString,
 } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { Transform } from 'class-transformer';
 
 export class CreateServiceDto {
   @ApiProperty()
@@ -19,6 +20,9 @@ export class CreateServiceDto {
   name: string;
 
   @ApiProperty()
+  @Transform(({ value }) =>
+    typeof value === 'string' ? value === 'true' : value,
+  )
   @IsBoolean()
   isActive: boolean;
 
