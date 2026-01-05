@@ -18,12 +18,16 @@ export class AuthService {
   private readonly redirectService = inject(RedirectService);
   private readonly userService = inject(UserService);
   private readonly authState = signal<AuthState>({
-    isLoggedIn: !!this.storage.get(TOKEN_KEY),
+    isLoggedIn: false,
     role: undefined,
     userId: undefined
   });
 
   readonly state = this.authState.asReadonly();
+
+  constructor() {
+    this.checkAuthState();
+  }
 
   login(email: string, password: string): Observable<any> {
     return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
@@ -42,6 +46,16 @@ export class AuthService {
     this.storage.remove(TOKEN_KEY);
     this.authState.set({ isLoggedIn: false, role: undefined, userId: undefined });
     this.redirectService.redirectTo('/login');
+  }
+
+  private checkAuthState(): void {
+    if (this.authState().isLoggedIn) return;
+
+    const token = this.storage.get(TOKEN_KEY) as string | null;
+    if (token) {
+      this.saveSession(token);
+      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
+    }
   }
 
   private saveSession(token: string): void {

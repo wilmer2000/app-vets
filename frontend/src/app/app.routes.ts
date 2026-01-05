@@ -40,8 +40,8 @@ export const routes: Routes = [
           {
             path: 'list',
             loadComponent: () =>
-              import('./modules/pets/components/pet-profile/pet-profile.component').then(
-                (m) => m.PetProfileComponent
+              import('./modules/pets/components/pets-list/pets-list.component').then(
+                (m) => m.PetsListComponent
               )
           },
           {
