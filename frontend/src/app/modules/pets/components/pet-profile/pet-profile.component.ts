@@ -14,7 +14,7 @@ import { Pet } from '../../interfaces/pet.interfaces';
 import { ContainerComponent } from '../../../../shared/components/container/container.component';
 
 @Component({
-  selector: 'app-pet-profile',
+  selector: 'app-pets-profile',
   imports: [ContainerComponent],
   templateUrl: './pet-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush

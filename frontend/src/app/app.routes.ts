@@ -34,20 +34,27 @@ export const routes: Routes = [
           import('./pages/core/profile/profile.component').then((m) => m.ProfileComponent)
       },
       {
-        path: 'pet',
+        path: 'pets',
         loadComponent: () => import('./pages/pet/pet.component').then((m) => m.PetComponent),
         children: [
           {
+            path: 'list',
+            loadComponent: () =>
+              import('./modules/pets/components/pet-profile/pet-profile.component').then(
+                (m) => m.PetProfileComponent
+              )
+          },
+          {
             path: 'profile/:petId',
             loadComponent: () =>
-              import('./modules/pet/components/pet-profile/pet-profile.component').then(
+              import('./modules/pets/components/pet-profile/pet-profile.component').then(
                 (m) => m.PetProfileComponent
               )
           },
           {
             path: 'add',
             loadComponent: () =>
-              import('./modules/pet/components/pet-profile/pet-profile.component').then(
+              import('./modules/pets/components/pet-profile/pet-profile.component').then(
                 (m) => m.PetProfileComponent
               )
           }

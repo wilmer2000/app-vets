@@ -4,11 +4,11 @@ import { User } from '../../../../core/modules/user/interfaces/user.interface';
 import { Router } from '@angular/router';
 
 @Component({
-  selector: 'app-pet-list',
+  selector: 'app-pets-list',
   imports: [],
-  templateUrl: './pet-list.component.html'
+  templateUrl: './pets-grid.component.html'
 })
-export class PetListComponent {
+export class PetsGridComponent {
   private readonly accountService = inject(ProfileService);
   private readonly router = inject(Router);
 

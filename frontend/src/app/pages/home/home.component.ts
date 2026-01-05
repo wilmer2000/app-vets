@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/cor
 import { ContainerComponent } from '../../shared/components/container/container.component';
 import { ProfileService } from '../../core/modules/auth/services/profile.service';
 import { User } from '../../core/modules/user/interfaces/user.interface';
-import { PetListComponent } from '../../modules/pet/components/pet-list/pet-list.component';
+import { PetsGridComponent } from '../../modules/pets/components/pets-grid/pets-grid.component';
 import { ServicesListComponent } from '../../modules/services/services-list/services-list.component';
 
 @Component({
   selector: 'app-home',
-  imports: [ContainerComponent, PetListComponent, ServicesListComponent],
+  imports: [ContainerComponent, PetsGridComponent, ServicesListComponent],
   templateUrl: './home.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
