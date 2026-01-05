@@ -6,12 +6,12 @@ import { authAdminRoleGuard } from './core/modules/auth/guards/auth-admin-role.g
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./pages/core/login/login.component').then((m) => m.LoginComponent),
+    loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
     canActivate: [noAuthGuard]
   },
   {
     path: '',
-    loadComponent: () => import('./pages/core/base/base.component').then((m) => m.BaseComponent),
+    loadComponent: () => import('./pages/base/base.component').then((m) => m.BaseComponent),
     canActivate: [authGuard],
     children: [
       {
@@ -24,54 +24,10 @@ export const routes: Routes = [
           import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent)
       },
       {
-        path: 'profile',
-        loadComponent: () =>
-          import('./pages/core/profile/profile.component').then((m) => m.ProfileComponent)
-      },
-      {
-        path: 'pets',
-        loadComponent: () => import('./pages/pet/pet.component').then((m) => m.PetComponent),
-        children: [
-          {
-            path: '',
-            loadComponent: () =>
-              import('./modules/pets/components/pets-list/pets-list.component').then(
-                (m) => m.PetsListComponent
-              )
-          },
-          {
-            path: 'profile/:petId',
-            loadComponent: () =>
-              import('./modules/pets/components/pet-profile/pet-profile.component').then(
-                (m) => m.PetProfileComponent
-              )
-          },
-          {
-            path: 'add',
-            loadComponent: () =>
-              import('./modules/pets/components/pet-profile/pet-profile.component').then(
-                (m) => m.PetProfileComponent
-              )
-          },
-          { path: '**', redirectTo: 'pets/list', pathMatch: 'full' }
-        ]
-      },
-      {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./pages/dashboard/dashboard.component').then((m) => m.DashboardComponent)
-      },
-      {
         path: 'admin',
         loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
         canActivate: [authGuard, authAdminRoleGuard],
-        children: [
-          {
-            path: 'user',
-            loadComponent: () =>
-              import('./pages/core/user/user.component').then((m) => m.UserComponent)
-          }
-        ]
+        children: []
       }
     ]
   },

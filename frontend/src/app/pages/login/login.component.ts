@@ -7,9 +7,9 @@ import {
   Validators
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { AuthService } from '../../../core/modules/auth/services/auth.service';
-import { InputFormComponent } from '../../../core/modules/form/input-form/input-form.component';
 import { Router } from '@angular/router';
+import { InputFormComponent } from '../../core/modules/form/input-form/input-form.component';
+import { AuthService } from '../../core/modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-login',

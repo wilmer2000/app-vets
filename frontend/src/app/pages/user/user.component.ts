@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ContainerComponent } from '../../../shared/components/container/container.component';
+import { ContainerComponent } from '../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-user',
