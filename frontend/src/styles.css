@@ -136,9 +136,3 @@ h5 {
 h6 {
   @apply text-base;
 }
-
-span {
-  font-size: inherit;
-  color: inherit;
-  line-height: inherit;
-}
