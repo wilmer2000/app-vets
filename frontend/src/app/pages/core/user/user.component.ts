@@ -1,15 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ContainerComponent } from '../../../shared/components/container/container.component';
 
 @Component({
   selector: 'app-user',
-  imports: [],
-  template: `
-    <p>
-      user works!
-    </p>
-  `,
-  styles: ``,
+  imports: [ContainerComponent],
+  templateUrl: './user.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class UserComponent {
-
-}
+export class UserComponent {}

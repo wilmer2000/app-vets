@@ -34,10 +34,6 @@ export const routes: Routes = [
           import('./pages/core/profile/profile.component').then((m) => m.ProfileComponent)
       },
       {
-        path: 'user',
-        loadComponent: () => import('./pages/core/user/user.component').then((m) => m.UserComponent)
-      },
-      {
         path: 'pet',
         loadComponent: () => import('./pages/pet/pet.component').then((m) => m.PetComponent),
         children: [
@@ -62,7 +58,13 @@ export const routes: Routes = [
   {
     path: 'admin',
     loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
-    canActivate: [authGuard, authRoleGuard]
+    canActivate: [authGuard, authRoleGuard],
+    children: [
+      {
+        path: 'user',
+        loadComponent: () => import('./pages/core/user/user.component').then((m) => m.UserComponent)
+      }
+    ]
   },
   { path: '**', redirectTo: 'home', pathMatch: 'full' }
 ];
