@@ -19,11 +19,6 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
       },
       {
-        path: 'dashboard',
-        loadComponent: () =>
-          import('./pages/dashboard/dashboard.component').then((m) => m.DashboardComponent)
-      },
-      {
         path: 'appointment',
         loadComponent: () =>
           import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent)
@@ -38,7 +33,7 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/pet/pet.component').then((m) => m.PetComponent),
         children: [
           {
-            path: 'list',
+            path: '',
             loadComponent: () =>
               import('./modules/pets/components/pets-list/pets-list.component').then(
                 (m) => m.PetsListComponent
@@ -57,19 +52,26 @@ export const routes: Routes = [
               import('./modules/pets/components/pet-profile/pet-profile.component').then(
                 (m) => m.PetProfileComponent
               )
+          },
+          { path: '**', redirectTo: 'pets/list', pathMatch: 'full' }
+        ]
+      },
+      {
+        path: 'dashboard',
+        loadComponent: () =>
+          import('./pages/dashboard/dashboard.component').then((m) => m.DashboardComponent)
+      },
+      {
+        path: 'admin',
+        loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
+        canActivate: [authGuard, authAdminRoleGuard],
+        children: [
+          {
+            path: 'user',
+            loadComponent: () =>
+              import('./pages/core/user/user.component').then((m) => m.UserComponent)
           }
         ]
-      }
-    ]
-  },
-  {
-    path: 'admin',
-    loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
-    canActivate: [authGuard, authAdminRoleGuard],
-    children: [
-      {
-        path: 'user',
-        loadComponent: () => import('./pages/core/user/user.component').then((m) => m.UserComponent)
       }
     ]
   },
