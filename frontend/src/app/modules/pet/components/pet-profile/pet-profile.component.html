@@ -1,4 +1,4 @@
-<app-container>
+<app-container [gap]="'gap-4'">
   @if (petDetail()) {
     <div class="col-span-12">
       <h4>{{ petDetail()?.name }}</h4>
