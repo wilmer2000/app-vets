@@ -24,10 +24,30 @@ export const routes: Routes = [
           import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent)
       },
       {
+        path: 'pets',
+        loadComponent: () => import('./pages/pets/pets.component').then((m) => m.PetsComponent),
+        children: [
+          {
+            path: ':petId',
+            loadComponent: () =>
+              import('./modules/pets/components/pet-profile/pet-profile.component').then(
+                (m) => m.PetProfileComponent
+              )
+          }
+        ]
+      },
+      {
         path: 'admin',
         loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
         canActivate: [authGuard, authAdminRoleGuard],
-        children: []
+        children: [
+          // {
+          //   path: 'users'
+          // },
+          // {
+          //   path: 'dashboard'
+          // }
+        ]
       }
     ]
   },

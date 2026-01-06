@@ -2,25 +2,37 @@
 @if (hasForm) {
   <div [formGroup]="form()" class="fieldset p-0 m-0 leading-none">
     @if (label()) {
-      <legend class="fieldset-legend p-0 m-0 mb-2">{{ label() }}</legend>
+      <legend class="fieldset-legend p-0 m-0 text-xs">{{ label() }}</legend>
     }
 
-    <input
-      [attr.data-test]="controlName()"
-      [attr.maxlength]="maxLength()"
-      [attr.minlength]="minLength()"
-      [attr.pattern]="pattern()"
-      [attr.size]="size()"
-      [formControlName]="controlName()"
-      [id]="controlName()"
-      [placeholder]="placeholder()"
-      [type]="type()"
-      autocomplete="true"
-      class="input m-0"
-    />
+    @switch (type()) {
+      @case ('select') {
+        <select class="select">
+          <option disabled selected>Pick a color</option>
+          <option>Crimson</option>
+          <option>Amber</option>
+          <option>Velvet</option>
+        </select>
+      }
+      @default {
+        <input
+          [attr.data-test]="controlName()"
+          [attr.maxlength]="maxLength()"
+          [attr.minlength]="minLength()"
+          [attr.pattern]="pattern()"
+          [attr.size]="size()"
+          [formControlName]="controlName()"
+          [id]="controlName()"
+          [placeholder]="placeholder()"
+          [type]="type()"
+          autocomplete="true"
+          class="input m-0"
+        />
+      }
+    }
 
     @if (errors()) {
-      <app-form-errors [control]="control()" [errors]="errors()" />
+      <app-form-errors [control]="control" [errors]="errors()" />
     }
   </div>
 }

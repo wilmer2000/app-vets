@@ -1,27 +1,29 @@
 <app-container [gap]="'gap-4'">
-  @if (petDetail()) {
+  @if (loading()) {
+
+  } @else {
     <div class="col-span-12">
       <h4>{{ petDetail()?.name }}</h4>
     </div>
 
     <div class="col-span-12">
       <div class="flex flex-col gap-4">
-        <p>
-          <b class="block">Nombre</b>
-          {{ petDetail()?.name }}
-        </p>
-        <p>
-          <b class="block">Raza</b>
-          {{ petDetail()?.breed }}
-        </p>
-        <p>
-          <b class="block">Asociado</b>
-          {{ petDetail()?.veterinaryId ?? '-' }}
-        </p>
-        <p>
-          <b class="block">Cita</b>
-          {{ petDetail()?.appointmentId  ?? '-'}}
-        </p>
+        <app-input-form
+          [controlName]="'name'"
+          [form]="form()"
+          [label]="'Nombre'"
+        />
+        <app-input-form
+          [controlName]="'breed'"
+          [form]="form()"
+          [label]="'Raza'"
+        />
+        <app-input-form
+          [controlName]="'sex'"
+          [form]="form()"
+          [label]="'Sexo'"
+          [type]="'select'"
+        />
       </div>
     </div>
   }

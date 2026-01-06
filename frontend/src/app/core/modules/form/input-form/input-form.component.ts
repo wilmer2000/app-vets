@@ -1,11 +1,5 @@
 import { Component, forwardRef, input, OnInit, output } from '@angular/core';
-import {
-  ControlValueAccessor,
-  FormControl,
-  FormGroup,
-  NG_VALUE_ACCESSOR,
-  ReactiveFormsModule
-} from '@angular/forms';
+import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
 
@@ -23,7 +17,6 @@ import { FormErrorsComponent } from '../form-errors/form-errors.component';
 })
 export class InputFormComponent implements OnInit, ControlValueAccessor {
   form = input<FormGroup>(new FormGroup({}));
-  control = input<FormControl>(new FormControl());
   controlName = input('');
   label = input<string | null>(null);
   pattern = input<string | null>(null);
@@ -32,8 +25,12 @@ export class InputFormComponent implements OnInit, ControlValueAccessor {
   minLength = input<number | null>(null);
   placeholder = input('');
   errors = input<Record<string, string>>({});
-  type = input<'text' | 'email' | 'tel' | 'date' | 'password'>('text');
+  type = input<'text' | 'email' | 'tel' | 'date' | 'password' | 'select'>('text');
   valueChanged = output<any>();
+
+  get control(): FormControl {
+    return this.form().get(this.controlName()) as FormControl;
+  }
 
   private isSettingValue = false;
 
@@ -45,8 +42,8 @@ export class InputFormComponent implements OnInit, ControlValueAccessor {
   };
 
   ngOnInit(): void {
-    if (this.control()) {
-      this.control()
+    if (this.control) {
+      this.control
         .valueChanges.pipe(distinctUntilChanged())
         .subscribe((value) => {
           this.onChange(value);
@@ -67,7 +64,7 @@ export class InputFormComponent implements OnInit, ControlValueAccessor {
   writeValue(value: any): void {
     if (!this.isSettingValue) {
       this.isSettingValue = true;
-      this.control().setValue(value, { emitEvent: false });
+      this.control.setValue(value, { emitEvent: false });
       this.isSettingValue = false;
     }
   }

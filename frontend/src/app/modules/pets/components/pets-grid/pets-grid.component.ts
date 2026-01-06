@@ -5,7 +5,6 @@ import { UserService } from '../../../../core/modules/user/services/user.service
 
 @Component({
   selector: 'app-pets-list',
-  imports: [],
   templateUrl: './pets-grid.component.html'
 })
 export class PetsGridComponent {
@@ -19,10 +18,10 @@ export class PetsGridComponent {
   });
 
   addPet(): void {
-    this.router.navigateByUrl(`pet/add`).then();
+    this.router.navigateByUrl(`pets/add`).then();
   }
 
   viewPet(petId: string): void {
-    this.router.navigateByUrl(`pet/profile/${petId}`).then();
+    this.router.navigateByUrl(`pets/${petId}`).then();
   }
 }
