@@ -7,11 +7,16 @@
 
     @switch (type()) {
       @case ('select') {
-        <select class="select">
-          <option disabled selected>Pick a color</option>
-          <option>Crimson</option>
-          <option>Amber</option>
-          <option>Velvet</option>
+        <select class="select w-full">
+          @for (option of options(); track option.key) {
+            <option
+              [id]="option.key"
+              [selected]="option.key === defaultValue()"
+              [value]="option.key"
+            >
+              {{ option.value }}
+            </option>
+          }
         </select>
       }
       @default {
@@ -26,7 +31,7 @@
           [placeholder]="placeholder()"
           [type]="type()"
           autocomplete="true"
-          class="input m-0"
+          class="input m-0 w-full"
         />
       }
     }

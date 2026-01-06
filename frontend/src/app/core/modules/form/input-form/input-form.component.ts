@@ -2,6 +2,7 @@ import { Component, forwardRef, input, OnInit, output } from '@angular/core';
 import { ControlValueAccessor, FormControl, FormGroup, NG_VALUE_ACCESSOR, ReactiveFormsModule } from '@angular/forms';
 import { distinctUntilChanged } from 'rxjs/operators';
 import { FormErrorsComponent } from '../form-errors/form-errors.component';
+import { SelectOption } from '../interfaces/form.interface';
 
 @Component({
   selector: 'app-input-form',
@@ -26,6 +27,8 @@ export class InputFormComponent implements OnInit, ControlValueAccessor {
   placeholder = input('');
   errors = input<Record<string, string>>({});
   type = input<'text' | 'email' | 'tel' | 'date' | 'password' | 'select'>('text');
+  options = input<SelectOption[]>([]);
+  defaultValue = input<any | null>(null);
   valueChanged = output<any>();
 
   get control(): FormControl {
@@ -43,13 +46,11 @@ export class InputFormComponent implements OnInit, ControlValueAccessor {
 
   ngOnInit(): void {
     if (this.control) {
-      this.control
-        .valueChanges.pipe(distinctUntilChanged())
-        .subscribe((value) => {
-          this.onChange(value);
-          this.onTouch(value);
-          this.valueChanged.emit(value);
-        });
+      this.control.valueChanges.pipe(distinctUntilChanged()).subscribe((value) => {
+        this.onChange(value);
+        this.onTouch(value);
+        this.valueChanged.emit(value);
+      });
     }
   }
 

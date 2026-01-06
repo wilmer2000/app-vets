@@ -14,10 +14,12 @@ import { Pet } from '../../interfaces/pet.interfaces';
 import { ContainerComponent } from '../../../../shared/components/container/container.component';
 import { FormControl, FormGroup } from '@angular/forms';
 import { InputFormComponent } from '../../../../core/modules/form/input-form/input-form.component';
+import { PetSex } from '../../enums/pet.enum';
+import { KeyValuePipe } from '@angular/common';
 
 @Component({
   selector: 'app-pets-profile',
-  imports: [ContainerComponent, InputFormComponent],
+  imports: [ContainerComponent, InputFormComponent, KeyValuePipe],
   templateUrl: './pet-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
@@ -50,7 +52,9 @@ export class PetProfileComponent implements OnInit {
 
   private setValues(pet: Pet): void {
     this.petDetail.set(pet);
-    this.form().patchValue(pet)
+    this.form().patchValue(pet);
     this.form().updateValueAndValidity();
   }
+
+  protected readonly PetSex = PetSex;
 }
