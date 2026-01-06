@@ -16,10 +16,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { InputFormComponent } from '../../../../core/modules/form/input-form/input-form.component';
 import { PetSex } from '../../enums/pet.enum';
 import { KeyValuePipe } from '@angular/common';
+import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
 
 @Component({
   selector: 'app-pets-profile',
-  imports: [ContainerComponent, InputFormComponent, KeyValuePipe],
+  imports: [ContainerComponent, InputFormComponent, KeyValuePipe, LoaderComponent],
   templateUrl: './pet-profile.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
