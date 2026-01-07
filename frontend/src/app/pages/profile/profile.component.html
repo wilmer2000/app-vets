@@ -24,7 +24,14 @@
   </div>
   <div class="col-span-12">
     <div class="flex flex-col gap-4">
-      <button class="btn btn-primary mt-8">Cerrar sesión</button>
+      <button class="btn btn-outline" (click)="save()">
+        <i class="ti ti-device-floppy text-[1.3rem]"></i>
+        Guardar cambios
+      </button>
+      <button class="btn btn-primary" (click)="logout()">
+        <i class="ti ti-door-exit text-[1.3rem]"></i>
+        Cerrar sesión
+      </button>
     </div>
   </div>
 </app-container>

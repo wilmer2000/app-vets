@@ -103,7 +103,7 @@ export class UserService {
       if (!userFound) {
         throw new NotFoundException(`User with id ${id} not found`);
       }
-
+      console.log('WILMER');
       return await this.prisma.user.update({
         where: { id },
         include: {

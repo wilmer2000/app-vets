@@ -2,8 +2,9 @@ import { ChangeDetectionStrategy, Component, inject, OnInit, signal, Signal } fr
 import { ContainerComponent } from '../../shared/components/container/container.component';
 import { InputFormComponent } from '../../core/modules/form/input-form/input-form.component';
 import { UserService } from '../../core/modules/user/services/user.service';
-import { Address, User } from '../../core/modules/user/interfaces/user.interface';
+import { Address, UpdateUser, User } from '../../core/modules/user/interfaces/user.interface';
 import { FormControl, FormGroup } from '@angular/forms';
+import { AuthService } from '../../core/modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-profile',
@@ -12,6 +13,7 @@ import { FormControl, FormGroup } from '@angular/forms';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ProfileComponent implements OnInit {
+  private readonly authService = inject(AuthService);
   private readonly userService = inject(UserService);
 
   currentUser = this.userService.currentUser as Signal<User>;
@@ -35,4 +37,28 @@ export class ProfileComponent implements OnInit {
     this.form().patchValue({ name, lastname, phone });
     this.formAddress().patchValue({ street, city });
   }
+
+  save(): void {
+    if (this.form().invalid || this.formAddress().invalid) {
+      this.form().markAllAsTouched();
+      this.formAddress().markAllAsTouched();
+
+      return;
+    }
+
+    const userId = this.currentUser().id;
+    const { name, lastname, phone } = this.form().value;
+    const { street, city } = this.formAddress().value;
+    const values = {
+      name,
+      lastname,
+      phone,
+      address: { street, city }
+    } as UpdateUser;
+
+    this.userService.updateProfile(userId, values).subscribe();
+  };
+  logout(): void {
+    this.authService.logout();
+  };
 }

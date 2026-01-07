@@ -1,14 +1,13 @@
 import {
-  ForbiddenException,
   Injectable,
   InternalServerErrorException,
   NotFoundException,
 } from '@nestjs/common';
-import { CreateProfileDto } from './dto/create-profile.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Prisma } from '../../../prisma/generated/prisma/client.js';
 import { Role } from '@prisma/client';
 import { UserService } from '../user/user.service.js';
+import { UpdateProfileDto } from './dto/update-profile.dto.js';
 
 @Injectable()
 export class ProfileService {
@@ -25,46 +24,58 @@ export class ProfileService {
     }
   }
 
-  async upsert(id: string, dto: CreateProfileDto) {
+  async upsert(id: string, dto: UpdateProfileDto) {
     try {
       const user = await this.prisma.user.findUnique({ where: { id } });
       if (!user) {
         throw new NotFoundException(`User with ID ${id} not found`);
       }
 
-      if (user.role === Role.OWNER) {
-        const connectPets = dto.pets?.length
-          ? dto.pets.map((id: string) => ({ id }))
-          : Prisma.skip;
+      const { address, pets, specialty, ...userData } = dto;
 
-        return await this.prisma.ownerProfile.upsert({
-          where: { userId: user.id },
-          update: {
-            pets: connectPets ? { connect: connectPets } : Prisma.skip,
+      return await this.prisma.user.update({
+        where: { id },
+        data: {
+          ...userData,
+          ...(address && {
+            address: {
+              upsert: {
+                create: {
+                  street: dto.address?.street ?? Prisma.skip,
+                  city: dto.address?.city ?? Prisma.skip,
+                },
+                update: {
+                  street: dto.address?.street ?? Prisma.skip,
+                  city: dto.address?.city ?? Prisma.skip,
+                },
+              },
+            },
+          }),
+          ...(user.role === Role.OWNER && {
+            ownerProfile: {
+              update: {
+                pets: pets?.length
+                  ? { set: pets.map((id) => ({ id })) }
+                  : Prisma.skip,
+              },
+            },
+          }),
+          ...(user.role === Role.VET && {
+            vetProfile: {
+              update: { specialty },
+            },
+          }),
+        },
+        include: {
+          address: true,
+          ownerProfile: {
+            include: {
+              pets: true,
+            },
           },
-          create: {
-            userId: user.id,
-            pets: connectPets ? { connect: connectPets } : Prisma.skip,
-          },
-        });
-      }
-
-      if (user.role === Role.VET) {
-        const connectSpeciality = dto.specialty ?? Prisma.skip;
-
-        return await this.prisma.vetProfile.upsert({
-          where: { userId: user.id },
-          update: {
-            specialty: connectSpeciality,
-          },
-          create: {
-            userId: user.id,
-            specialty: connectSpeciality,
-          },
-        });
-      }
-
-      throw new ForbiddenException('Profile creation failed');
+          vetProfile: true,
+        },
+      });
     } catch (error) {
       throw new InternalServerErrorException(error);
     }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
@@ -7,17 +7,20 @@ export class AddressUserDto {
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   @IsString()
-  street: string;
+  @IsOptional()
+  street?: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   @IsString()
-  city: string;
+  @IsOptional()
+  city?: string;
 
   @ApiProperty()
   @IsNotEmpty()
   @Transform(({ value }) => value.trim())
   @IsString()
-  country: string;
+  @IsOptional()
+  country?: string;
 }

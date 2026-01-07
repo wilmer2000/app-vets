@@ -19,8 +19,8 @@ export class UserService {
       .pipe(map((user) => this.currentUser.set(user)));
   }
 
-  getProfile(id: string): Observable<User> {
-    return this.http.get<User>(`${this.profileApiUrl}/${id}`);
+  updateProfile(id: string, values: UpdateUser): Observable<User> {
+    return this.http.patch<User>(`${this.profileApiUrl}/${id}`,values);
   }
 
   create(user: User): Observable<User> {

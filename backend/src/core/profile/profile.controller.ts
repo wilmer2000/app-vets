@@ -6,6 +6,7 @@ import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';
 import { Role } from '@prisma/client';
 import { ApiBearerAuth } from '@nestjs/swagger';
+import { UpdateProfileDto } from './dto/update-profile.dto.js';
 
 @ApiBearerAuth()
 @Controller({ path: 'profile' })
@@ -20,7 +21,7 @@ export class ProfileController {
   }
 
   @Patch(':id')
-  upsert(@Param('id') id: string, @Body() createProfileDto: CreateProfileDto) {
-    return this.profileService.upsert(id, createProfileDto);
+  upsert(@Param('id') id: string, @Body() profileUpdated: UpdateProfileDto) {
+    return this.profileService.upsert(id, profileUpdated);
   }
 }
