@@ -2,8 +2,8 @@ import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/cor
 import { ContainerComponent } from '../../shared/components/container/container.component';
 import { User } from '../../core/modules/user/interfaces/user.interface';
 import { PetsGridComponent } from '../../modules/pets/components/pets-grid/pets-grid.component';
-import { ServicesListComponent } from '../../modules/services/services-list/services-list.component';
 import { UserService } from '../../core/modules/user/services/user.service';
+import { ServicesListComponent } from '../../modules/services/components/services-list/services-list.component';
 
 @Component({
   selector: 'app-home',

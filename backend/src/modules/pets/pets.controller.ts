@@ -39,6 +39,11 @@ export class PetsController {
     return this.petsService.findOne(id);
   }
 
+  @Get('owner/:ownerId')
+  findAllByOwner(@Param('ownerId') ownerId: string) {
+    return this.petsService.findAllByOwner(ownerId);
+  }
+
   @Patch(':id')
   update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
     return this.petsService.update(id, updatePetDto);

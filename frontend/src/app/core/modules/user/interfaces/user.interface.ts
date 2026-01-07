@@ -24,6 +24,7 @@ export interface VetProfile {
 }
 
 export interface OwnerProfile {
+  id: string;
   pets: any[];
   appointments: any[];
   veterinary: any;

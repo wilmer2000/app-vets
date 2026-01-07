@@ -2,6 +2,7 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/modules/auth/guards/auth.guard';
 import { noAuthGuard } from './core/modules/auth/guards/no-auth.guard';
 import { authAdminRoleGuard } from './core/modules/auth/guards/auth-admin-role.guard';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -19,9 +20,23 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
       },
       {
+        path: 'profile',
+        loadComponent: () =>
+          import('./pages/profile/profile.component').then((m) => m.ProfileComponent)
+      },
+      {
         path: 'appointment',
         loadComponent: () =>
-          import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent)
+          import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent),
+        children: [
+          {
+            path: 'create',
+            loadComponent: () =>
+              import(
+                './modules/appointment/components/create-appointment/create-appointment.component'
+              ).then((m) => m.CreateAppointmentComponent)
+          }
+        ]
       },
       {
         path: 'pets',

@@ -1,0 +1,21 @@
+<app-container [gap]="'gap-4'">
+  <div class="col-span-12">
+    <h4>Perfil</h4>
+  </div>
+
+  <div class="col-span-12">
+    <div class="flex flex-col gap-4">
+      <h5>Datos personales</h5>
+      <app-input-form [controlName]="'name'" [form]="form()" [label]="'Nombre'"/>
+      <app-input-form [controlName]="'lastname'" [form]="form()" [label]="'Apellido'"/>
+      <app-input-form [controlName]="'phone'" [form]="form()" [label]="'Telefono'"/>
+    </div>
+  </div>
+  <div class="col-span-12">
+    <div class="flex flex-col gap-4">
+      <h5>Dirección</h5>
+      <app-input-form [controlName]="'street'" [form]="formAddress()" [label]="'Calle'"/>
+      <app-input-form [controlName]="'city'" [form]="formAddress()" [label]="'Ciudad'"/>
+    </div>
+  </div>
+</app-container>

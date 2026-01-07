@@ -1,6 +1,6 @@
 <div class="flex flex-col">
   <h6 class="mb-3">Mascotas</h6>
-  <ul class="flex w-full gap-4">
+  <ul class="flex w-full gap-3">
     @for (pet of pets(); track pet.id) {
       <li>
         <div class="avatar cursor-pointer" (click)="viewPet(pet.id)">
@@ -8,7 +8,7 @@
             <img src="https://img.daisyui.com/images/profile/demo/yellingcat@192.webp" />
           </div>
         </div>
-        <p class="text-center">{{ pet.name }}</p>
+        <p class="text-center text-sm mt-1">{{ pet.name }}</p>
       </li>
     }
     <li>
@@ -16,6 +16,7 @@
         (click)="addPet()"
         class="w-16 h-16 rounded-full border-4 border-zinc-300 flex items-center justify-center cursor-pointer"
       >
+        <i class="ti ti-plus text-[1.8rem]"></i>
       </div>
     </li>
   </ul>

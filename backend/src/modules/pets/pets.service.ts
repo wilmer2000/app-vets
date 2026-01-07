@@ -44,6 +44,16 @@ export class PetsService {
     }
   }
 
+  async findAllByOwner(ownerId: string) {
+    try {
+      return await this.prisma.pet.findMany({
+        where: { ownerId },
+      });
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async findOne(id: string) {
     try {
       const pet = await this.prisma.pet.findUnique({

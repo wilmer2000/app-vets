@@ -1,0 +1,16 @@
+meta {
+  name: Get pets by owner
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{apiUrl}}/pets/owner/d797f04d-84c9-4732-bce6-b9b9098a2a9c
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
