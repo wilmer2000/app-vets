@@ -76,6 +76,7 @@ export class UserService {
         include: {
           ownerProfile: { include: { pets: true } },
           vetProfile: true,
+          address: true
         },
       });
     } catch (error: unknown) {
