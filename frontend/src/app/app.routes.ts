@@ -66,6 +66,41 @@ export const routes: Routes = [
               import('./modules/users/component/users-list/users-list.component').then(
                 (m) => m.UsersListComponent
               )
+          },
+          {
+            path: 'veterinaries',
+            loadComponent: () =>
+              import(
+                './modules/veterinary/components/veterinary-base/veterinary-base.component'
+              ).then((m) => m.VeterinaryBaseComponent),
+            children: [
+              {
+                path: 'list',
+                loadComponent: () =>
+                  import(
+                    './modules/veterinary/components/veterinary-list/veterinary-list.component'
+                  ).then((m) => m.VeterinaryListComponent)
+              },
+              {
+                path: 'create',
+                loadComponent: () =>
+                  import(
+                    './modules/veterinary/components/veterinary-create/veterinary-create.component'
+                  ).then((m) => m.VeterinaryCreateComponent)
+              },
+              {
+                path: 'edit/:veterinaryId',
+                loadComponent: () =>
+                  import(
+                    './modules/veterinary/components/veterinary-edit/veterinary-edit.component'
+                  ).then((m) => m.VeterinaryEditComponent)
+              },
+              {
+                path: '**',
+                redirectTo: 'list',
+                pathMatch: 'full'
+              }
+            ]
           }
           // {
           //   path: 'dashboard'
