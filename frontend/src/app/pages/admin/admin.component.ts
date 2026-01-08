@@ -1,15 +1,10 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
-  imports: [],
-  template: `
-    <p>
-      admin works!
-    </p>
-  `,
-  styles: ``,
+  imports: [RouterOutlet],
+  template: `<router-outlet /> `,
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class AdminComponent {
-
-}
+export class AdminComponent {}

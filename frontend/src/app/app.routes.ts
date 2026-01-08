@@ -2,7 +2,6 @@ import { Routes } from '@angular/router';
 import { authGuard } from './core/modules/auth/guards/auth.guard';
 import { noAuthGuard } from './core/modules/auth/guards/no-auth.guard';
 import { authAdminRoleGuard } from './core/modules/auth/guards/auth-admin-role.guard';
-import { ProfileComponent } from './pages/profile/profile.component';
 
 export const routes: Routes = [
   {
@@ -56,9 +55,13 @@ export const routes: Routes = [
         loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
         canActivate: [authGuard, authAdminRoleGuard],
         children: [
-          // {
-          //   path: 'users'
-          // },
+          {
+            path: 'users',
+            loadComponent: () =>
+              import('./modules/users/component/users-list/users-list.component').then(
+                (m) => m.UsersListComponent
+              )
+          }
           // {
           //   path: 'dashboard'
           // }
