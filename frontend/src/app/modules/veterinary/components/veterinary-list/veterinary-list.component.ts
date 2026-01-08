@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ContainerComponent } from '../../../../shared/components/container/container.component';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-veterinary-list',
-  imports: [ContainerComponent],
+  imports: [RouterLink],
   templateUrl: './veterinary-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
