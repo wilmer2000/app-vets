@@ -1,9 +1,9 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { ContainerComponent } from '../../shared/components/container/container.component';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-appointment',
-  imports: [ContainerComponent],
+  imports: [RouterOutlet],
   templateUrl: './appointment.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })

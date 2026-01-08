@@ -34,6 +34,11 @@ export const routes: Routes = [
               import(
                 './modules/appointment/components/create-appointment/create-appointment.component'
               ).then((m) => m.CreateAppointmentComponent)
+          },
+          {
+            path: '**',
+            redirectTo: 'create',
+            pathMatch: 'full'
           }
         ]
       },

@@ -14,9 +14,11 @@ import { FormControl, FormGroup } from '@angular/forms';
 import { UserService } from '../../../../core/modules/user/services/user.service';
 import { OwnerProfile, User } from '../../../../core/modules/user/interfaces/user.interface';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { finalize, map } from 'rxjs';
+import { finalize, forkJoin, map } from 'rxjs';
 import { Pet } from '../../../pets/interfaces/pet.interfaces';
 import { PetService } from '../../../pets/services/pet.service';
+import { ServicesService } from '../../../services/services/services.service';
+import { SelectOption } from '../../../../core/modules/form/interfaces/form.interface';
 
 @Component({
   selector: 'app-create-appointment',
@@ -28,6 +30,7 @@ export class CreateAppointmentComponent implements OnInit {
   private readonly petService = inject(PetService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly userService = inject(UserService);
+  private readonly service = inject(ServicesService);
 
   currentUser = this.userService.currentUser as Signal<User>;
   loading = signal(false);
@@ -40,16 +43,26 @@ export class CreateAppointmentComponent implements OnInit {
     })
   );
   pets = signal<Pet[]>([]);
+  servicesOptions = signal<SelectOption[]>([]);
 
   ngOnInit() {
     const owner = this.currentUser().ownerProfile as OwnerProfile;
 
     this.loading.set(true);
-    this.petService
-      .findAllByOwner(owner.id)
+    forkJoin([
+      this.service.findByVeterinary(owner.veterinary),
+      this.petService.findAllByOwner(owner.id)
+    ])
       .pipe(
         takeUntilDestroyed(this.destroyRef),
-        map((pets: Pet[]) => this.pets.set(pets)),
+        map(([services, pets]) => {
+          const options = services.map((service) => {
+            return { label: service.name, key: service.id } as SelectOption;
+          });
+
+          this.pets.set(pets);
+          this.servicesOptions.set(options);
+        }),
         finalize(() => this.loading.set(false))
       )
       .subscribe();

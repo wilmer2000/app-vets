@@ -31,6 +31,11 @@ export class VeterinaryController {
     return this.veterinaryService.findOne(id);
   }
 
+  @Get('veterinary/:id')
+  findByVeterinary(@Param('id') veterinaryId: string) {
+    return this.veterinaryService.findByVeterinary(veterinaryId);
+  }
+
   @Patch(':id')
   update(
     @Param('id') id: string,

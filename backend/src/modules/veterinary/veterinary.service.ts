@@ -57,6 +57,23 @@ export class VeterinaryService {
     }
   }
 
+  async findByVeterinary(id: string) {
+    try {
+      const veterinary = await this.prisma.veterinary.findUnique({
+        where: { id },
+        include: { services: true, payments: true },
+      });
+
+      if (!veterinary) {
+        throw new NotFoundException(`Veterinary with ID ${id} not found`);
+      }
+
+      return veterinary;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async update(id: string, updateVeterinaryDto: UpdateVeterinaryDto) {
     try {
       const veterinary = await this.prisma.veterinary.findUnique({
