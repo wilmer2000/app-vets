@@ -17,6 +17,7 @@ import { InputFormComponent } from '../../../../core/modules/form/input-form/inp
 import { PetSex } from '../../enums/pet.enum';
 import { KeyValuePipe } from '@angular/common';
 import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
+import { SelectOption } from '../../../../core/modules/form/interfaces/form.interface';
 
 @Component({
   selector: 'app-pets-profile',
@@ -39,6 +40,15 @@ export class PetProfileComponent implements OnInit {
     })
   );
 
+  get sexOpts(): SelectOption[] {
+    return Object.keys(PetSex).map((key: string) => {
+      return {
+        label: key,
+        key
+      };
+    })
+  }
+
   ngOnInit() {
     this.loading.set(true);
     this.petService
@@ -56,6 +66,4 @@ export class PetProfileComponent implements OnInit {
     this.form().patchValue(pet);
     this.form().updateValueAndValidity();
   }
-
-  protected readonly PetSex = PetSex;
 }
