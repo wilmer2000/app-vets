@@ -31,17 +31,17 @@ export class UserController {
     return this.usersService.create(createUserDto);
   }
 
-  @Patch(':id')
+  @Patch(':userId')
   update(
-    @Param('id') id: string,
+    @Param('userId') userId: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
-    return this.usersService.update(id, updateUserDto);
+    return this.usersService.update(userId, updateUserDto);
   }
 
-  @Delete(':id')
-  delete(@Param('id') id: string): Promise<string> {
-    return this.usersService.delete(id);
+  @Delete(':userId')
+  delete(@Param('userId') userId: string): Promise<string> {
+    return this.usersService.delete(userId);
   }
 
   @Get()
@@ -49,8 +49,8 @@ export class UserController {
     return this.usersService.findAll(query);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string): Promise<Partial<User>> {
-    return this.usersService.findOne(id);
+  @Get(':userId')
+  findOne(@Param('userId') userId: string): Promise<Partial<User>> {
+    return this.usersService.findOne(userId);
   }
 }

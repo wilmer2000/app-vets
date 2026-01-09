@@ -1,6 +1,7 @@
-import { PrismaClient, Role } from './generated/prisma/client.js';
 import { PrismaPg } from '@prisma/adapter-pg';
 import * as bcrypt from 'bcrypt';
+import { PrismaClient } from './generated/prisma/client.js';
+import { Role } from './generated/prisma/enums.js';
 import { UserCreateInput } from './generated/prisma/models/User.js';
 
 const adapter = new PrismaPg({
@@ -53,7 +54,7 @@ async function main() {
     };
 
     const user = await prisma.user.create({ data });
-    console.log(`Created user ${user.email} with id: ${user.id}`);
+    console.log(`Created user ${user.email} with id: ${user.userId}`);
   }
   console.log(`Seeding finished.`);
 }

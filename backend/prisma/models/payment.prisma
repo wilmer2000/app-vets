@@ -1,8 +1,0 @@
-model Payment {
-  id       String      @id @default(uuid())
-  isActive Boolean     @default(false)
-  type     TypePayment
-
-  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String?
-}

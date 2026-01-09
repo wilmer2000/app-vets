@@ -68,15 +68,13 @@ export class UserService {
     }
   }
 
-  async findOne(id: string): Promise<Partial<User>> {
+  async findOne(userId: string): Promise<Partial<User>> {
     try {
       return await this.prisma.user.findUniqueOrThrow({
-        where: { id },
+        where: { userId },
         omit: { password: true },
         include: {
-          ownerProfile: { include: { pets: true } },
-          vetProfile: true,
-          address: true
+          address: true,
         },
       });
     } catch (error: unknown) {
@@ -84,13 +82,13 @@ export class UserService {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        throw new NotFoundException(`User with id ${id} not found`);
+        throw new NotFoundException(`User with id ${userId} not found`);
       }
       throw new InternalServerErrorException(error);
     }
   }
 
-  async update(id: string, dto: UpdateUserDto): Promise<Partial<User>> {
+  async update(userId: string, dto: UpdateUserDto): Promise<Partial<User>> {
     const data = {};
     Object.keys(dto).forEach((key) => {
       data[key] = (dto && dto[key as keyof UpdateUserDto]) ?? Prisma.skip;
@@ -98,18 +96,18 @@ export class UserService {
 
     try {
       const userFound = await this.prisma.user.findUnique({
-        where: { id },
+        where: { userId },
       });
       if (!userFound) {
-        throw new NotFoundException(`User with id ${id} not found`);
+        throw new NotFoundException(`User with id ${userId} not found`);
       }
-      console.log('WILMER');
+
       return await this.prisma.user.update({
-        where: { id },
+        where: { userId },
         include: {
           address: {
             omit: {
-              id: true,
+              addressId: true,
             },
           },
         },
@@ -125,8 +123,6 @@ export class UserService {
         omit: {
           password: true,
           addressId: true,
-          createdAt: true,
-          updatedAt: true,
         },
       });
     } catch (error: unknown) {
@@ -134,25 +130,18 @@ export class UserService {
     }
   }
 
-  async delete(id: string): Promise<string> {
+  async delete(userId: string): Promise<string> {
     try {
       const user = await this.prisma.user.findUniqueOrThrow({
-        where: { id },
+        where: { userId },
       });
 
       await this.prisma.user.delete({
-        where: { id },
+        where: { userId },
       });
 
-      return `User with id ${user.id} deleted`;
+      return `User with id ${user.userId} deleted`;
     } catch (error: unknown) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException(`User with id ${id} not found`);
-      }
-
       throw new InternalServerErrorException(error);
     }
   }
