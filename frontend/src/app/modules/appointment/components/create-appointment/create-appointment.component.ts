@@ -48,7 +48,12 @@ export class CreateAppointmentComponent implements OnInit {
   ngOnInit() {
     const owner = this.currentUser().ownerProfile as OwnerProfile;
 
+    if (!owner.veterinary) {
+      return;
+    }
+
     this.loading.set(true);
+
     forkJoin([
       this.service.findByVeterinary(owner.veterinary),
       this.petService.findAllByOwner(owner.id)

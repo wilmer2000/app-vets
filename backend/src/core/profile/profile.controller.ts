@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Param, Patch, UseGuards } from '@nestjs/common';
 import { ProfileService } from './profile.service.js';
-import { CreateProfileDto } from './dto/create-profile.dto.js';
 import { Roles } from '../auth/decorators/role.decorator.js';
 import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../auth/guards/roles.guard.js';

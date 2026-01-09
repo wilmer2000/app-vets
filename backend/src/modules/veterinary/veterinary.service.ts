@@ -57,23 +57,6 @@ export class VeterinaryService {
     }
   }
 
-  async findByVeterinary(id: string) {
-    try {
-      const veterinary = await this.prisma.veterinary.findUnique({
-        where: { id },
-        include: { services: true, payments: true },
-      });
-
-      if (!veterinary) {
-        throw new NotFoundException(`Veterinary with ID ${id} not found`);
-      }
-
-      return veterinary;
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
   async update(id: string, updateVeterinaryDto: UpdateVeterinaryDto) {
     try {
       const veterinary = await this.prisma.veterinary.findUnique({
@@ -108,6 +91,67 @@ export class VeterinaryService {
       });
     } catch (error) {
       throw new InternalServerErrorException(error);
+    }
+  }
+
+  // Owners
+
+  async findOwners(id: string) {
+    try {
+      const veterinary = await this.prisma.veterinary.findUnique({
+        where: { id },
+        select: { owners: true },
+      });
+
+      if (!veterinary) {
+        throw new NotFoundException(`Veterinary with ID ${id} not found`);
+      }
+
+      return veterinary;
+    } catch (error) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async addOwner(id: string, ownerId: string) {
+    try {
+      const veterinary = await this.prisma.veterinary.findUniqueOrThrow({
+        where: { id },
+        include: { owners: true },
+      });
+      if (!veterinary) {
+        throw new InternalServerErrorException(
+          `Veterinary with ID ${veterinary} not found`,
+        );
+      }
+
+      const ownerExisted = veterinary.owners.find(
+        (owner) => owner.id === ownerId,
+      );
+      if (!ownerExisted) {
+        throw new NotFoundException(`Owner with ID ${ownerId} not found`);
+      }
+
+      return await this.prisma.veterinary.update({
+        where: { id },
+        data: {
+          owners: {
+            connect: [{ id: ownerId }],
+          },
+        },
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(e);
+    }
+  }
+
+  async removeOwner(id: string, ownerId: string) {
+    try {
+      const veterinary = await this.prisma.veterinary.findUniqueOrThrow({
+        where: { id },
+      });
+    } catch (e) {
+      throw new InternalServerErrorException(e);
     }
   }
 }
