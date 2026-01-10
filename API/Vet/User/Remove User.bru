@@ -1,0 +1,16 @@
+meta {
+  name: Remove User
+  type: http
+  seq: 5
+}
+
+get {
+  url: {{apiUrl}}/user/d5cb9186-5039-43ec-b69d-5f35468f6bc3
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
