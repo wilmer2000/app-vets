@@ -5,13 +5,12 @@ enum Role {
   OWNER
 }
 
-// enum Status {
-//   PENDING
-//   COMPLETED
-//   CANCELLED
-// }
+enum Status {
+  PENDING
+  COMPLETED
+  CANCELLED
+}
 
-//
 enum Specialty {
   SURGERY
   DERMATOLOGY
@@ -20,13 +19,12 @@ enum Specialty {
   NEUROLOGY
 }
 
-//
-// enum TypeService {
-//   CONSULTATION
-//   SURGERY
-//   GROOMING
-//   EMERGENCY
-// }
+enum TypeService {
+  CONSULTATION
+  SURGERY
+  GROOMING
+  EMERGENCY
+}
 //
 // enum TypePayment {
 //   MERCADOPAGO

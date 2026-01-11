@@ -1,0 +1,20 @@
+model Service {
+  serviceId String @id @default(uuid())
+
+  type  TypeService
+  name  String
+  price Float
+
+  entityId String?
+  entity   Entity? @relation(fields: [entityId], references: [entityId])
+
+  // entity   Entity? @relation("EntityService", fields: [entityId], references: [entityId])
+  // entityId String?
+  //
+  // appointment   Appointment? @relation(fields: [appointmentId], references: [appointmentId])
+  // appointmentId String?
+
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
