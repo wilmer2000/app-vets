@@ -1,9 +1,3 @@
-enum Status {
-  PENDING
-  COMPLETED
-  CANCELLED
-}
-
 enum Role {
   USER
   ADMIN
@@ -11,30 +5,37 @@ enum Role {
   OWNER
 }
 
-enum Specialty {
-  SURGERY
-  DERMATOLOGY
-  CARDIOLOGY
-  ONCOLOGY
-  NEUROLOGY
-}
+// enum Status {
+//   PENDING
+//   COMPLETED
+//   CANCELLED
+// }
 
-enum TypeService {
-  CONSULTATION
-  SURGERY
-  GROOMING
-  EMERGENCY
-}
-
-enum TypePayment {
-  MERCADOPAGO
-  VISA
-  MASTERCARD
-  PREX
-  CASH
-}
-
-enum PetSex {
-  MALE
-  FEMALE
-}
+//
+// enum Specialty {
+//   SURGERY
+//   DERMATOLOGY
+//   CARDIOLOGY
+//   ONCOLOGY
+//   NEUROLOGY
+// }
+//
+// enum TypeService {
+//   CONSULTATION
+//   SURGERY
+//   GROOMING
+//   EMERGENCY
+// }
+//
+// enum TypePayment {
+//   MERCADOPAGO
+//   VISA
+//   MASTERCARD
+//   PREX
+//   CASH
+// }
+//
+// enum PetSex {
+//   MALE
+//   FEMALE
+// }

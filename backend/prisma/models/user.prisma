@@ -1,14 +1,22 @@
 model User {
-  userId    String   @id @default(uuid())
-  email     String   @unique
-  password  String?
-  name      String?
-  lastname  String?
-  phone     String?
-  address   Address? @relation(fields: [addressId], references: [addressId])
-  addressId String?
-  role      Role     @default(USER)
-  isActive  Boolean  @default(false)
+  userId   String  @id @default(uuid())
+  role     Role    @default(USER)
+  isActive Boolean @default(false)
+
+  email    String  @unique
+  password String?
+  name     String?
+  lastname String?
+
+  contact Contact?
+  address Address?
+  //
+  // client   Client? @relation(fields: [clientId], references: [clientId])
+  // clientId String?
+  //
+  // staff   Staff?  @relation(fields: [staffId], references: [staffId])
+  // staffId String?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }

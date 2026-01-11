@@ -1,0 +1,18 @@
+model Entity {
+  entityId String @id @default(uuid())
+
+  name        String
+  description String
+
+  // clients      Client[]
+  // staff        Staff[]
+  // services     Service[]     @relation("EntityService")
+  // appointments Appointment[]
+  contact       Contact?
+  address       Address?
+  configuration Configuration?
+
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
