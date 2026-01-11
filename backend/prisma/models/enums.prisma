@@ -34,7 +34,7 @@ enum TypeService {
 //   CASH
 // }
 //
-// enum PetSex {
-//   MALE
-//   FEMALE
-// }
+enum PetSex {
+  MALE
+  FEMALE
+}
