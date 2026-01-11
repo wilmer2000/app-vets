@@ -1,0 +1,14 @@
+model Client {
+  clientId String @id @default(uuid())
+
+  user         User   @relation(fields: [userClientId], references: [userId])
+  userClientId String
+  // pets Pet[]
+
+  entity   Entity? @relation(fields: [entityId], references: [entityId])
+  entityId String?
+
+  isActive  Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

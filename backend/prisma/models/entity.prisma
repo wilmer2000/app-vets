@@ -4,8 +4,8 @@ model Entity {
   name        String
   description String
 
-  // clients      Client[]
-  // staff        Staff[]
+  clients       Client[]
+  staff         Staff[]
   // services     Service[]     @relation("EntityService")
   // appointments Appointment[]
   contact       Contact?

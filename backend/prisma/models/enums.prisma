@@ -12,13 +12,14 @@ enum Role {
 // }
 
 //
-// enum Specialty {
-//   SURGERY
-//   DERMATOLOGY
-//   CARDIOLOGY
-//   ONCOLOGY
-//   NEUROLOGY
-// }
+enum Specialty {
+  SURGERY
+  DERMATOLOGY
+  CARDIOLOGY
+  ONCOLOGY
+  NEUROLOGY
+}
+
 //
 // enum TypeService {
 //   CONSULTATION
