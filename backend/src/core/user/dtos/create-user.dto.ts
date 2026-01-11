@@ -11,6 +11,7 @@ import { Role } from '../../../../prisma/generated/prisma/enums.js';
 import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { AddressUserDto } from './address-user.dto.js';
+import { ContactUserDto } from './contact-user.dto.js';
 
 export class CreateUserDto {
   @ApiProperty()
@@ -20,7 +21,6 @@ export class CreateUserDto {
   email: string;
 
   @ApiProperty()
-  @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
   password: string;
@@ -28,7 +28,7 @@ export class CreateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsEnum(Role)
-  role: Role;
+  role?: Role;
 
   @ApiProperty()
   @IsOptional()
@@ -37,29 +37,29 @@ export class CreateUserDto {
   )
   @ApiProperty()
   @IsBoolean()
-  isActive: boolean;
+  isActive?: boolean;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
-  name: string;
+  name?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
   @Transform(({ value }) => value.trim())
-  lastname: string;
+  lastname?: string;
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value.trim())
-  phone: string;
+  @ValidateNested()
+  @Type(() => ContactUserDto)
+  contact?: ContactUserDto;
 
   @ApiProperty()
   @IsOptional()
   @ValidateNested()
   @Type(() => AddressUserDto)
-  address: AddressUserDto;
+  address?: AddressUserDto;
 }

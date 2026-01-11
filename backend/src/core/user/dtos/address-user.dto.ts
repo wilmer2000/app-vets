@@ -4,23 +4,16 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class AddressUserDto {
   @ApiProperty()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
   @IsString()
+  @IsNotEmpty() // Ensures it's not "" or " "
+  @Transform(({ value }) => value?.trim())
   @IsOptional()
   street?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
   @IsString()
+  @IsNotEmpty() // Ensures it's not "" or " "
+  @Transform(({ value }) => value?.trim())
   @IsOptional()
   city?: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  @IsString()
-  @IsOptional()
-  country?: string;
 }

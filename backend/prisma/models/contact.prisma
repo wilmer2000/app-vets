@@ -1,8 +1,8 @@
 model Contact {
   contactId String @id @default(uuid())
 
-  phone String
-  email String
+  phone String?
+  email String?
 
   userId   String? @unique
   user     User?   @relation(fields: [userId], references: [userId])

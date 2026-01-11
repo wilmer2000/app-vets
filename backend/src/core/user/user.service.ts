@@ -105,14 +105,16 @@ export class UserService {
       return await this.prisma.user.update({
         where: { userId },
         include: {
-          address: {
-            omit: {
-              addressId: true,
-            },
-          },
+          address: true,
         },
         data: {
           ...dto,
+          contact: {
+            upsert: {
+              create: { ...dto.contact },
+              update: { ...dto.contact },
+            },
+          },
           address: {
             upsert: {
               create: { ...dto.address },
@@ -122,7 +124,6 @@ export class UserService {
         },
         omit: {
           password: true,
-          addressId: true,
         },
       });
     } catch (error: unknown) {
