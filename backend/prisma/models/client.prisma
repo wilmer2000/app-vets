@@ -1,9 +1,11 @@
 model Client {
   clientId String @id @default(uuid())
 
+  pets         Pet[]
+  appointments Appointment[]
+
   user         User   @relation(fields: [userClientId], references: [userId])
   userClientId String
-  pets         Pet[]
 
   entity   Entity? @relation(fields: [entityId], references: [entityId])
   entityId String?
