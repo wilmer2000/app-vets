@@ -4,9 +4,11 @@ model Address {
   street String?
   city   String?
 
-  user   User?   @relation(fields: [userId], references: [userId])
-  userId String? @unique
-
+  user     User?   @relation(fields: [userId], references: [userId])
+  userId   String? @unique
   entity   Entity? @relation(fields: [entityId], references: [entityId])
   entityId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

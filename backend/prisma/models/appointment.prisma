@@ -6,17 +6,14 @@ model Appointment {
   endTime   DateTime
   notes     String?  @db.VarChar(255)
 
-  entityId String?
-  entity   Entity? @relation(fields: [entityId], references: [entityId])
-
-  client   Client @relation(fields: [clientId], references: [clientId])
-  clientId String
-
-  // staff     Staff    @relation(fields: [staffId], references: [staffId])
-  // staffId   String
-  //
-  // service   Service  @relation(fields: [serviceId], references: [serviceId])
-  // serviceId String
+  entityId  String?
+  entity    Entity? @relation(fields: [entityId], references: [entityId])
+  clientId  String
+  client    Client  @relation(fields: [clientId], references: [clientId])
+  staffId   String
+  staff     Staff   @relation(fields: [staffId], references: [staffId])
+  serviceId String
+  service   Service @relation(fields: [serviceId], references: [serviceId])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

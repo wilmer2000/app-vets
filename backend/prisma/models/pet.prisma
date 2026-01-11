@@ -8,7 +8,6 @@ model Pet {
   clientId String?
   client   Client? @relation(fields: [clientId], references: [clientId])
 
-  isActive  Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
