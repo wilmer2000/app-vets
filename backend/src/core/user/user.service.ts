@@ -79,6 +79,7 @@ export class UserService {
         where: { userId },
         omit: { password: true },
         include: {
+          contact: true,
           address: true,
         },
       });
