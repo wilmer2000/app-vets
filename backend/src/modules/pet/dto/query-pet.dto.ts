@@ -1,12 +1,13 @@
+import { CreatePetDto } from './create-pet.dto.js';
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
-import { PetSex } from '../../../../prisma/generated/prisma/enums.js';
 
-export class CreatePetDto {
+export class QueryPetDto extends CreatePetDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
   })
@@ -15,6 +16,7 @@ export class CreatePetDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
   })
@@ -23,13 +25,9 @@ export class CreatePetDto {
   @ApiProperty()
   @IsNotEmpty()
   @IsString()
+  @IsOptional()
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
   })
   clientId: string;
-
-  @ApiProperty()
-  @IsOptional()
-  @IsEnum(PetSex)
-  sex: PetSex;
 }

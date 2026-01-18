@@ -5,8 +5,8 @@ model Pet {
   breed String
   sex   PetSex
 
-  clientId String?
   client   Client? @relation(fields: [clientId], references: [clientId])
+  clientId String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

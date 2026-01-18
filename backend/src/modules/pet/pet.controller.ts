@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UseGuards,
 } from '@nestjs/common';
 import { PetService } from './pet.service.js';
@@ -16,6 +17,8 @@ import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
+import { Pet } from '@prisma/client';
+import { QueryPetDto } from './dto/query-pet.dto.js';
 
 @ApiBearerAuth()
 @Controller({ path: 'pet' })
@@ -25,27 +28,30 @@ export class PetController {
   constructor(private readonly petService: PetService) {}
 
   @Post()
-  create(@Body() dto: CreatePetDto) {
+  async create(@Body() dto: CreatePetDto): Promise<Partial<Pet>> {
     return this.petService.create(dto);
   }
 
   @Get()
-  findAll() {
-    return this.petService.findAll();
+  async findAll(@Query() query: QueryPetDto): Promise<Partial<Pet>[]> {
+    return this.petService.findAll(query);
   }
 
-  @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.petService.findOne(+id);
+  @Get(':petId')
+  async findOne(@Param('petId') petId: string): Promise<Partial<Pet>> {
+    return this.petService.findOne(petId);
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updatePetDto: UpdatePetDto) {
-    return this.petService.update(+id, updatePetDto);
+  @Patch(':petId')
+  async update(
+    @Param('petId') petId: string,
+    @Body() updatePetDto: UpdatePetDto,
+  ): Promise<Partial<Pet>> {
+    return this.petService.update(petId, updatePetDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.petService.remove(+id);
+  async remove(@Param('id') petId: string): Promise<string> {
+    return this.petService.remove(petId);
   }
 }

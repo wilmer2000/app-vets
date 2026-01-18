@@ -1,8 +1,8 @@
 enum Role {
   USER
   ADMIN
-  VET
-  OWNER
+  STAFF
+  CLIENT
 }
 
 enum Status {

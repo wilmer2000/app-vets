@@ -20,14 +20,14 @@ const userData: UserCreateInput[] = [
     role: Role.USER,
   },
   {
-    email: 'vet@email.com',
+    email: 'staff@email.com',
     password: 'passwordTest',
-    role: Role.VET,
+    role: Role.STAFF,
   },
   {
-    email: 'owner@email.com',
+    email: 'client@email.com',
     password: 'passwordTest',
-    role: Role.OWNER,
+    role: Role.CLIENT,
   },
 ];
 

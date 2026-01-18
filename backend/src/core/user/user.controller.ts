@@ -31,8 +31,18 @@ export class UserController {
     return this.usersService.create(createUserDto);
   }
 
+  @Get()
+  async findAll(@Query() query: QueryUserDto): Promise<Partial<User>[]> {
+    return this.usersService.findAll(query);
+  }
+
+  @Get(':userId')
+  async findOne(@Param('userId') userId: string): Promise<Partial<User>> {
+    return this.usersService.findOne(userId);
+  }
+
   @Patch(':userId')
-  update(
+  async update(
     @Param('userId') userId: string,
     @Body() updateUserDto: UpdateUserDto,
   ): Promise<Partial<User>> {
@@ -40,17 +50,7 @@ export class UserController {
   }
 
   @Delete(':userId')
-  delete(@Param('userId') userId: string): Promise<string> {
+  async delete(@Param('userId') userId: string): Promise<string> {
     return this.usersService.delete(userId);
-  }
-
-  @Get()
-  findAll(@Query() query: QueryUserDto): Promise<Partial<User>[]> {
-    return this.usersService.findAll(query);
-  }
-
-  @Get(':userId')
-  findOne(@Param('userId') userId: string): Promise<Partial<User>> {
-    return this.usersService.findOne(userId);
   }
 }

@@ -16,26 +16,6 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
-  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
-    const where: Partial<Prisma.UserWhereInput> = {};
-    Object.keys(query).forEach((key) => {
-      where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
-    });
-
-    try {
-      return await this.prisma.user.findMany({
-        omit: { password: true },
-        where,
-        include: {
-          address: true,
-          contact: true,
-        },
-      });
-    } catch (error: unknown) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
   async create(dto: CreateUserDto): Promise<Partial<User>> {
     try {
       const role = dto.role ?? Role.USER;
@@ -69,6 +49,26 @@ export class UserService {
         throw new ConflictException('Email already registered');
       }
 
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
+    const where: Partial<Prisma.UserWhereInput> = {};
+    Object.keys(query).forEach((key) => {
+      where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
+    });
+
+    try {
+      return await this.prisma.user.findMany({
+        omit: { password: true },
+        where,
+        include: {
+          address: true,
+          contact: true,
+        },
+      });
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
@@ -127,7 +127,7 @@ export class UserService {
       ) {
         throw new NotFoundException(`User with id ${userId} not found`);
       }
-      throw error;
+      throw new InternalServerErrorException(error);
     }
   }
 
