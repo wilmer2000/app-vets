@@ -25,6 +25,7 @@ enum TypeService {
   GROOMING
   EMERGENCY
 }
+
 //
 // enum TypePayment {
 //   MERCADOPAGO

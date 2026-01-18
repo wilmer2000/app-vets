@@ -16,6 +16,26 @@ import * as bcrypt from 'bcrypt';
 export class UserService {
   constructor(private prisma: PrismaService) {}
 
+  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
+    const where: Partial<Prisma.UserWhereInput> = {};
+    Object.keys(query).forEach((key) => {
+      where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
+    });
+
+    try {
+      return await this.prisma.user.findMany({
+        omit: { password: true },
+        where,
+        include: {
+          address: true,
+          contact: true,
+        },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
   async create(dto: CreateUserDto): Promise<Partial<User>> {
     const data = {} as Prisma.UserCreateInput;
     Object.keys(dto).forEach((key) => {
@@ -52,22 +72,6 @@ export class UserService {
     }
   }
 
-  async findAll(query: QueryUserDto): Promise<Partial<User>[]> {
-    const where: Partial<Prisma.UserWhereInput> = {};
-    Object.keys(query).forEach((key) => {
-      where[key] = (query && query[key as keyof QueryUserDto]) ?? Prisma.skip;
-    });
-
-    try {
-      return await this.prisma.user.findMany({
-        omit: { password: true },
-        where,
-      });
-    } catch (error: unknown) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
   async findOne(userId: string): Promise<Partial<User>> {
     try {
       return await this.prisma.user.findUniqueOrThrow({
@@ -89,45 +93,39 @@ export class UserService {
   }
 
   async update(userId: string, dto: UpdateUserDto): Promise<Partial<User>> {
-    const data = {};
-    Object.keys(dto).forEach((key) => {
-      data[key] = (dto && dto[key as keyof UpdateUserDto]) ?? Prisma.skip;
-    });
-
     try {
-      const userFound = await this.prisma.user.findUnique({
-        where: { userId },
-      });
-      if (!userFound) {
-        throw new NotFoundException(`User with id ${userId} not found`);
-      }
-
       return await this.prisma.user.update({
         where: { userId },
-        include: {
-          address: true,
-        },
+        include: { address: true },
         data: {
           ...dto,
-          contact: {
-            upsert: {
-              create: { ...dto.contact },
-              update: { ...dto.contact },
-            },
-          },
-          address: {
-            upsert: {
-              create: { ...dto.address },
-              update: { ...dto.address },
-            },
-          },
+          contact: dto.contact
+            ? {
+                upsert: {
+                  create: dto.contact,
+                  update: dto.contact,
+                },
+              }
+            : Prisma.skip,
+          address: dto.address
+            ? {
+                upsert: {
+                  create: dto.address,
+                  update: dto.address,
+                },
+              }
+            : Prisma.skip,
         },
-        omit: {
-          password: true,
-        },
+        omit: { password: true },
       });
     } catch (error: unknown) {
-      throw new InternalServerErrorException(error);
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`User with id ${userId} not found`);
+      }
+      throw error;
     }
   }
 

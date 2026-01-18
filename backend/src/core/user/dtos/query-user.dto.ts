@@ -7,7 +7,9 @@ import { ApiProperty } from '@nestjs/swagger';
 export class QueryUserDto extends OmitType(CreateUserDto, ['password']) {
   @ApiProperty()
   @IsOptional()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   @IsEmail()
   email: string;
 }

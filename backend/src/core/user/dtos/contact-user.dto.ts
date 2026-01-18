@@ -6,14 +6,20 @@ export class ContactUserDto {
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @Transform(({ value }) => value?.trim())
-    @IsOptional()
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
+  @IsOptional()
+  @IsDefined({ each: true })
   phone?: string;
 
   @ApiProperty()
   @IsString()
   @IsNotEmpty()
-  @Transform(({ value }) => value?.trim())
-    @IsOptional()
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
+  @IsOptional()
+  @IsDefined({ each: true })
   email?: string;
 }

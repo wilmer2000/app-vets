@@ -16,13 +16,17 @@ import { ContactUserDto } from './contact-user.dto.js';
 export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   @IsEmail()
   email: string;
 
   @ApiProperty()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   password: string;
 
   @ApiProperty()
@@ -32,9 +36,9 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsOptional()
-  @Transform(({ value }) =>
-    typeof value === 'string' ? value === 'true' : value,
-  )
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   @ApiProperty()
   @IsBoolean()
   isActive?: boolean;
@@ -42,13 +46,17 @@ export class CreateUserDto {
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   name?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   lastname?: string;
 
   @ApiProperty()
