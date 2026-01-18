@@ -1,11 +1,11 @@
 meta {
-  name: Remove User
+  name: Get pet by ID
   type: http
-  seq: 5
+  seq: 4
 }
 
-delete {
-  url: {{apiUrl}}/user/a01962af-2eb7-47e4-8d76-e914f4fbe5b9
+get {
+  url: {{apiUrl}}/pet/id
   body: none
   auth: inherit
 }

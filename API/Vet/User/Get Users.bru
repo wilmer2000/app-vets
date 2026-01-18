@@ -5,13 +5,13 @@ meta {
 }
 
 get {
-  url: {{apiUrl}}/user?email=admin@email.com
+  url: {{apiUrl}}/user
   body: none
   auth: inherit
 }
 
 params:query {
-  email: admin@email.com
+  ~email: admin@email.com
   ~role: OWNER
   ~isActive: true
   ~lastname: Admin TEST
