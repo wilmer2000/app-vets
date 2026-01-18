@@ -37,11 +37,6 @@ export class UserService {
   }
 
   async create(dto: CreateUserDto): Promise<Partial<User>> {
-    const data = {} as Prisma.UserCreateInput;
-    Object.keys(dto).forEach((key) => {
-      data[key] = (dto && dto[key as keyof CreateUserDto]) ?? Prisma.skip;
-    });
-
     try {
       const role = dto.role ?? Role.USER;
       const hasPassword = !!dto.password;
@@ -53,12 +48,18 @@ export class UserService {
 
       return await this.prisma.user.create({
         data: {
-          ...data,
+          ...dto,
           role,
           password: hasPassword ? dto.password : null,
           isActive: dto.isActive ?? false,
+          contact: dto.contact ? { create: dto.contact } : Prisma.skip,
+          address: dto.address ? { create: dto.address } : Prisma.skip,
         },
         omit: { password: true },
+        include: {
+          address: true,
+          contact: true,
+        },
       });
     } catch (error: unknown) {
       if (
