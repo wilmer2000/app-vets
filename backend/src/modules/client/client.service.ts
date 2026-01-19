@@ -2,10 +2,12 @@ import {
   ConflictException,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
 import { Client } from '../../../prisma/generated/prisma/client.js';
+import { Prisma } from '../../../generated/prisma/client.js';
 
 @Injectable()
 export class ClientService {
@@ -49,8 +51,24 @@ export class ClientService {
     try {
       return await this.prisma.client.findUniqueOrThrow({
         where: { clientId },
+        include: {
+          user: {
+            select: {
+              email: true,
+              name: true,
+              lastname: true,
+            },
+          },
+        },
       });
     } catch (error: unknown) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`Client with ID ${clientId} not found`);
+      }
+
       throw new InternalServerErrorException(error);
     }
   }
