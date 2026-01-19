@@ -17,6 +17,10 @@ export class EntityService {
           contact: dto.contact ? { create: dto.contact } : Prisma.skip,
           address: dto.address ? { create: dto.address } : Prisma.skip,
         },
+        include: {
+          address: true,
+          contact: true,
+        },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
