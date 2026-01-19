@@ -6,9 +6,8 @@ import {
 } from '@nestjs/common';
 import { CreateClientDto } from './dto/create-client.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { Client, Staff } from '../../../prisma/generated/prisma/client.js';
+import { Client } from '../../../prisma/generated/prisma/client.js';
 import { Prisma } from '../../../generated/prisma/client.js';
-import { UpdateStaffDto } from '../staff/dto/update-staff.dto.js';
 
 @Injectable()
 export class ClientService {

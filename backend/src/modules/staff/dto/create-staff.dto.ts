@@ -13,9 +13,9 @@ export class CreateStaffDto {
 
   @ApiProperty()
   @IsOptional()
-  @Transform(({ value }): string | never => {
-    return typeof value === 'string' ? value.trim() : value;
-  })
+  @Transform(({ value }): boolean =>
+    typeof value === 'string' ? value === 'true' : value,
+  )
   @IsBoolean()
   isActive: boolean;
 

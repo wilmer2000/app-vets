@@ -9,6 +9,7 @@ import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
 import { PetModule } from './modules/pet/pet.module.js';
 import { ClientModule } from './modules/client/client.module.js';
 import { StaffModule } from './modules/staff/staff.module.js';
+import { EntityModule } from './modules/entity/entity.module';
 
 @Module({
   providers: [
@@ -31,6 +32,7 @@ import { StaffModule } from './modules/staff/staff.module.js';
     PetModule,
     ClientModule,
     StaffModule,
+    EntityModule,
   ],
 })
 export class AppModule {}
