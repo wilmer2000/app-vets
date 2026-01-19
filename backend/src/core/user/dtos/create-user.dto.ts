@@ -39,7 +39,6 @@ export class CreateUserDto {
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
   })
-  @ApiProperty()
   @IsBoolean()
   isActive?: boolean;
 

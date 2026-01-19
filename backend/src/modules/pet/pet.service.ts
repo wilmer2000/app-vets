@@ -12,7 +12,7 @@ import { QueryPetDto } from './dto/query-pet.dto.js';
 
 @Injectable()
 export class PetService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreatePetDto): Promise<Partial<Pet>> {
     const { clientId, ...petData } = dto;

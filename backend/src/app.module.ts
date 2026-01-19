@@ -7,6 +7,7 @@ import { jwtConstants } from './core/auth/constants/auth.constants.js';
 import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
 import { PetModule } from './modules/pet/pet.module.js';
+import { ClientModule } from './modules/client/client.module.js';
 
 @Module({
   providers: [
@@ -27,6 +28,7 @@ import { PetModule } from './modules/pet/pet.module.js';
     }),
     CoreModule,
     PetModule,
+    ClientModule,
   ],
 })
 export class AppModule {}

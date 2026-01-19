@@ -22,7 +22,7 @@ import { PasswordChangeDto } from './dtos/password-change.dto.js';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private prisma: PrismaService,
+    private readonly prisma: PrismaService,
     private emailService: EmailService,
   ) {}
 

@@ -5,17 +5,14 @@ meta {
 }
 
 post {
-  url: {{apiUrl}}/pet
+  url: {{apiUrl}}/client
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "name": "Rayo",
-    "breed": "Kelpie",
-    "clientId": "92f208b4-a83a-4bab-941b-2a44ffd66c5c",
-    "sex": "MALE"
+    "email": "client@email.com"
   }
 }
 
