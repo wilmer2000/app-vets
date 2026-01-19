@@ -1,0 +1,29 @@
+meta {
+  name: Create appointment
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/appointment
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "status": "PENDING",
+    "startTime": "1:00",
+    "endTime": "2:00",
+    "notes": "Appointment notes",
+    "entityId": "e8f13080-c515-4628-a41f-afe9ff1b5253",
+    "clientId": "e3d00115-a182-4252-a599-44887197e6af",
+    "staffId": "dcd960a3-2d4f-49a3-bde4-1f755738d34e",
+    "serviceId": "serviceId"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
