@@ -11,15 +11,6 @@ import { ContactEntityDto } from './contact-entity.dto.js';
 
 export class CreateEntityDto {
   @ApiProperty()
-  @IsOptional()
-  @Transform(({ value }): boolean =>
-    typeof value === 'string' ? value === 'true' : value,
-  )
-  @IsBoolean()
-  isActive?: boolean;
-
-  @ApiProperty()
-  @IsOptional()
   @IsString()
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
@@ -27,12 +18,19 @@ export class CreateEntityDto {
   name: string;
 
   @ApiProperty()
-  @IsOptional()
   @IsString()
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
   })
-  description?: string;
+  description: string;
+
+  @ApiProperty()
+  @IsOptional()
+  @Transform(({ value }): boolean =>
+    typeof value === 'string' ? value === 'true' : value,
+  )
+  @IsBoolean()
+  isActive?: boolean;
 
   @ApiProperty()
   @IsOptional()
