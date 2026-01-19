@@ -6,10 +6,10 @@ model Staff {
 
   appointments Appointment[]
 
-  userStaffId String
   user        User    @relation(fields: [userStaffId], references: [userId])
-  entityId    String?
+  userStaffId String
   entity      Entity? @relation(fields: [entityId], references: [entityId])
+  entityId    String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

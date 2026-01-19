@@ -1,0 +1,23 @@
+meta {
+  name: Create staff
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/staff
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "staff@email.com",
+    "specialty": "DERMATOLOGY"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

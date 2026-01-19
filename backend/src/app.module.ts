@@ -8,6 +8,7 @@ import { APP_FILTER } from '@nestjs/core';
 import { HttpExceptionFilter } from './core/filters/http-exception.filter.js';
 import { PetModule } from './modules/pet/pet.module.js';
 import { ClientModule } from './modules/client/client.module.js';
+import { StaffModule } from './modules/staff/staff.module.js';
 
 @Module({
   providers: [
@@ -29,6 +30,7 @@ import { ClientModule } from './modules/client/client.module.js';
     CoreModule,
     PetModule,
     ClientModule,
+    StaffModule,
   ],
 })
 export class AppModule {}
