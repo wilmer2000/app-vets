@@ -1,0 +1,27 @@
+meta {
+  name: Create entity
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/entity
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "isActive": "false",
+    "name": "Entity 2 name",
+    "description": "Entity 2 description",
+    "address": {
+      "city": "City 2"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

@@ -90,6 +90,10 @@ export class EntityService {
               }
             : Prisma.skip,
         },
+        include: {
+          address: true,
+          contact: true,
+        },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
