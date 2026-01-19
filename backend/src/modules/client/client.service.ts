@@ -41,7 +41,18 @@ export class ClientService {
 
   async findAll(): Promise<Partial<Client[]>> {
     try {
-      return await this.prisma.client.findMany();
+      return await this.prisma.client.findMany({
+        include: {
+          pets: true,
+          user: {
+            select: {
+              email: true,
+              name: true,
+              lastname: true,
+            },
+          },
+        },
+      });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
@@ -52,6 +63,7 @@ export class ClientService {
       return await this.prisma.client.findUniqueOrThrow({
         where: { clientId },
         include: {
+          pets: true,
           user: {
             select: {
               email: true,

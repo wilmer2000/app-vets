@@ -5,9 +5,16 @@ meta {
 }
 
 patch {
-  url: {{apiUrl}}/pet/id
-  body: none
+  url: {{apiUrl}}/pet/2b9ef151-db93-4a06-b48a-e6c3b8a9bae3
+  body: json
   auth: inherit
+}
+
+body:json {
+  {
+    "name": "Rayo Blanco",
+    "breed": "Kelpie Australiano"
+  }
 }
 
 settings {

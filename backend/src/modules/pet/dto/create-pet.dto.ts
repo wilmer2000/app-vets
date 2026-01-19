@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEnum, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsEnum, IsNotEmpty, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { PetSex } from '../../../../prisma/generated/prisma/enums.js';
 
@@ -29,7 +29,6 @@ export class CreatePetDto {
   clientId: string;
 
   @ApiProperty()
-  @IsOptional()
   @IsEnum(PetSex)
   sex: PetSex;
 }
