@@ -9,10 +9,16 @@ export class AppointmentService {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateAppointmentDto): Promise<Partial<Appointment>> {
+    const { clientId, staffId, entityId, serviceId, ...appointmentData } = dto;
+    console.log(entityId);
     try {
       return this.prisma.appointment.create({
         data: {
-          ...dto,
+          ...appointmentData,
+          client: { connect: { clientId } },
+          staff: { connect: { staffId } },
+          entity: { connect: { entityId } },
+          service: { connect: { serviceId } },
         },
       });
     } catch (error: unknown) {

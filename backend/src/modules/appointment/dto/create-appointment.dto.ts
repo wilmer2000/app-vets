@@ -30,7 +30,7 @@ export class CreateAppointmentDto {
 
   @ApiProperty()
   @IsString()
-  staffId?: string;
+  staffId: string;
 
   @ApiProperty()
   @IsString()
