@@ -11,6 +11,7 @@ import { ClientModule } from './modules/client/client.module.js';
 import { StaffModule } from './modules/staff/staff.module.js';
 import { EntityModule } from './modules/entity/entity.module.js';
 import { AppointmentModule } from './modules/appointment/appointment.module.js';
+import { ServiceModule } from './modules/service/service.module.js';
 
 @Module({
   providers: [
@@ -35,6 +36,7 @@ import { AppointmentModule } from './modules/appointment/appointment.module.js';
     StaffModule,
     EntityModule,
     AppointmentModule,
+    ServiceModule,
   ],
 })
 export class AppModule {}

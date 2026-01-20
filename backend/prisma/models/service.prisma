@@ -8,8 +8,8 @@ model Service {
 
   appointments Appointment[]
 
-  entityId String?
-  entity   Entity? @relation(fields: [entityId], references: [entityId])
+  entityId String
+  entity   Entity @relation(fields: [entityId], references: [entityId])
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
