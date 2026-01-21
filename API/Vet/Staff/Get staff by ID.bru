@@ -1,0 +1,16 @@
+meta {
+  name: Get staff by ID
+  type: http
+  seq: 3
+}
+
+get {
+  url: {{apiUrl}}/staff/7ff347bf-7af7-4ddd-b224-6c8714026fac
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

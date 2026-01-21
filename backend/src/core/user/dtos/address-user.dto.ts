@@ -1,26 +1,21 @@
-import { IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import { IsOptional, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 
 export class AddressUserDto {
   @ApiProperty()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  @IsString()
   @IsOptional()
+  @IsString()
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   street?: string;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  @IsString()
   @IsOptional()
+  @IsString()
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   city?: string;
-
-  @ApiProperty()
-  @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
-  @IsString()
-  @IsOptional()
-  country?: string;
 }

@@ -1,0 +1,16 @@
+meta {
+  name: Remove staff
+  type: http
+  seq: 4
+}
+
+delete {
+  url: {{apiUrl}}/staff/de0f0aee-e89a-4dac-96d0-cabbfc3d5b75
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

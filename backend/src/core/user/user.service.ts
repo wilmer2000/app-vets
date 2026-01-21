@@ -14,14 +14,9 @@ import * as bcrypt from 'bcrypt';
 
 @Injectable()
 export class UserService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
   async create(dto: CreateUserDto): Promise<Partial<User>> {
-    const data = {} as Prisma.UserCreateInput;
-    Object.keys(dto).forEach((key) => {
-      data[key] = (dto && dto[key as keyof CreateUserDto]) ?? Prisma.skip;
-    });
-
     try {
       const role = dto.role ?? Role.USER;
       const hasPassword = !!dto.password;
@@ -33,12 +28,18 @@ export class UserService {
 
       return await this.prisma.user.create({
         data: {
-          ...data,
+          ...dto,
           role,
           password: hasPassword ? dto.password : null,
           isActive: dto.isActive ?? false,
+          contact: dto.contact ? { create: dto.contact } : Prisma.skip,
+          address: dto.address ? { create: dto.address } : Prisma.skip,
         },
         omit: { password: true },
+        include: {
+          address: true,
+          contact: true,
+        },
       });
     } catch (error: unknown) {
       if (
@@ -62,21 +63,24 @@ export class UserService {
       return await this.prisma.user.findMany({
         omit: { password: true },
         where,
+        include: {
+          address: true,
+          contact: true,
+        },
       });
     } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findOne(id: string): Promise<Partial<User>> {
+  async findOne(userId: string): Promise<Partial<User>> {
     try {
       return await this.prisma.user.findUniqueOrThrow({
-        where: { id },
+        where: { userId },
         omit: { password: true },
         include: {
-          ownerProfile: { include: { pets: true } },
-          vetProfile: true,
-          address: true
+          contact: true,
+          address: true,
         },
       });
     } catch (error: unknown) {
@@ -84,75 +88,61 @@ export class UserService {
         error instanceof Prisma.PrismaClientKnownRequestError &&
         error.code === 'P2025'
       ) {
-        throw new NotFoundException(`User with id ${id} not found`);
+        throw new NotFoundException(`User with id ${userId} not found`);
       }
       throw new InternalServerErrorException(error);
     }
   }
 
-  async update(id: string, dto: UpdateUserDto): Promise<Partial<User>> {
-    const data = {};
-    Object.keys(dto).forEach((key) => {
-      data[key] = (dto && dto[key as keyof UpdateUserDto]) ?? Prisma.skip;
-    });
-
+  async update(userId: string, dto: UpdateUserDto): Promise<Partial<User>> {
     try {
-      const userFound = await this.prisma.user.findUnique({
-        where: { id },
-      });
-      if (!userFound) {
-        throw new NotFoundException(`User with id ${id} not found`);
-      }
-      console.log('WILMER');
       return await this.prisma.user.update({
-        where: { id },
-        include: {
-          address: {
-            omit: {
-              id: true,
-            },
-          },
-        },
+        where: { userId },
+        include: { address: true },
         data: {
           ...dto,
-          address: {
-            upsert: {
-              create: { ...dto.address },
-              update: { ...dto.address },
-            },
-          },
+          contact: dto.contact
+            ? {
+                upsert: {
+                  create: dto.contact,
+                  update: dto.contact,
+                },
+              }
+            : Prisma.skip,
+          address: dto.address
+            ? {
+                upsert: {
+                  create: dto.address,
+                  update: dto.address,
+                },
+              }
+            : Prisma.skip,
         },
-        omit: {
-          password: true,
-          addressId: true,
-          createdAt: true,
-          updatedAt: true,
-        },
+        omit: { password: true },
       });
     } catch (error: unknown) {
+      if (
+        error instanceof Prisma.PrismaClientKnownRequestError &&
+        error.code === 'P2025'
+      ) {
+        throw new NotFoundException(`User with id ${userId} not found`);
+      }
       throw new InternalServerErrorException(error);
     }
   }
 
-  async delete(id: string): Promise<string> {
+  async delete(userId: string): Promise<string> {
     try {
       const user = await this.prisma.user.findUniqueOrThrow({
-        where: { id },
+        where: { userId },
       });
 
       await this.prisma.user.delete({
-        where: { id },
+        where: { userId },
       });
 
-      return `User with id ${user.id} deleted`;
+      return `User with id ${user.userId} deleted`;
     } catch (error: unknown) {
-      if (
-        error instanceof Prisma.PrismaClientKnownRequestError &&
-        error.code === 'P2025'
-      ) {
-        throw new NotFoundException(`User with id ${id} not found`);
-      }
-
       throw new InternalServerErrorException(error);
     }
   }

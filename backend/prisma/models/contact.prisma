@@ -1,0 +1,14 @@
+model Contact {
+  contactId String @id @default(uuid())
+
+  phone String?
+  email String?
+
+  userId   String? @unique
+  user     User?   @relation(fields: [userId], references: [userId])
+  entityId String? @unique
+  entity   Entity? @relation(fields: [entityId], references: [entityId])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

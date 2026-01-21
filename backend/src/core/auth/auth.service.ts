@@ -22,7 +22,7 @@ import { PasswordChangeDto } from './dtos/password-change.dto.js';
 export class AuthService {
   constructor(
     private jwtService: JwtService,
-    private prisma: PrismaService,
+    private readonly prisma: PrismaService,
     private emailService: EmailService,
   ) {}
 
@@ -30,7 +30,7 @@ export class AuthService {
     try {
       const user = await this.validateUserAndPassword(loginUserDto);
       const payload: UserPayload = {
-        sub: user.id,
+        sub: user.userId,
         email: user.email,
         role: user.role,
       };
@@ -60,12 +60,12 @@ export class AuthService {
         throw new NotFoundException(`Email does not exist`);
       }
 
-      const id = user.id;
+      const userId = user.userId;
       const salt = await bcrypt.genSalt(10);
       const hash = await bcrypt.hash(dto.password, salt);
 
       await this.prisma.user.update({
-        where: { id },
+        where: { userId },
         data: { password: hash },
       });
 

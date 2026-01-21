@@ -1,10 +1,13 @@
 model Configuration {
-  id       String  @id @default(uuid())
-  isActive Boolean @default(false)
-  logo     String?
-  color1   String?
-  color2   String?
+  configId String @id @default(uuid())
 
-  veterinary   Veterinary @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String     @unique
+  logo   String
+  color1 String
+  color2 String
+
+  entity   Entity @relation(fields: [entityId], references: [entityId])
+  entityId String @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

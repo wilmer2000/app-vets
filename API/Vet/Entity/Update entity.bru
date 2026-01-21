@@ -1,0 +1,27 @@
+meta {
+  name: Update entity
+  type: http
+  seq: 4
+}
+
+patch {
+  url: {{apiUrl}}/entity/b749923e-83d1-4fc0-8443-623c6bed8020
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "isActive": "false",
+    "name": "Entity Updated name",
+    "description": "Entity Updated description",
+    "address": {
+      "city": "City Updated 2"
+    }
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

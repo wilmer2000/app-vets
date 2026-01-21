@@ -14,6 +14,10 @@ async function bootstrap() {
       whitelist: true,
       enableDebugMessages: true,
       transform: true,
+      transformOptions: {
+        enableImplicitConversion: true,
+        exposeUnsetFields: false,
+      },
     }),
   );
   app.useGlobalFilters(new HttpExceptionFilter());

@@ -1,17 +1,20 @@
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String?
-  name      String?
-  lastname  String?
-  phone     String?
-  address   Address? @relation(fields: [addressId], references: [id])
-  addressId String?
-  role      Role     @default(USER)
-  isActive  Boolean  @default(false)
+  userId String @id @default(uuid())
+
+  isActive Boolean @default(false)
+  role     Role    @default(USER)
+
+  email    String  @unique
+  password String?
+  name     String?
+  lastname String?
+
+  clients Client[]
+  staff   Staff[]
+
+  contact Contact?
+  address Address?
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
-
-  vetProfile   VetProfile?
-  ownerProfile OwnerProfile?
 }

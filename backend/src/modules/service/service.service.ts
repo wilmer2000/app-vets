@@ -1,36 +1,25 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateServiceDto } from './dto/create-service.dto.js';
 import { UpdateServiceDto } from './dto/update-service.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { VeterinaryWhereUniqueInput } from '../../../prisma/generated/prisma/models/Veterinary.js';
 
 @Injectable()
 export class ServiceService {
-  constructor(private prisma: PrismaService) {}
-  async create(dto: CreateServiceDto) {
-    try {
-      const type = dto.type;
-      const name = dto.name;
-      const price = dto.price;
-      const isActive = dto.isActive ?? false;
-      const veterinaryId = {
-        id: dto.veterinaryId,
-      } as VeterinaryWhereUniqueInput;
+  constructor(private readonly prisma: PrismaService) {}
 
+  async create(dto: CreateServiceDto) {
+    const { entityId, ...serviceData } = dto;
+    try {
       return await this.prisma.service.create({
         data: {
-          type,
-          name,
-          isActive,
-          price,
-          veterinary: { connect: veterinaryId },
+          ...serviceData,
+          entity: { connect: { entityId } },
+        },
+        include: {
+          entity: true,
         },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
@@ -38,53 +27,43 @@ export class ServiceService {
   async findAll() {
     try {
       return await this.prisma.service.findMany();
-    } catch (error) {
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findOne(id: string) {
+  async findOne(serviceId: string) {
     try {
-      const service = await this.prisma.service.findUnique({ where: { id } });
-
-      if (!service) {
-        throw new NotFoundException(`Service with ID ${id} not found`);
-      }
-
-      return service;
-    } catch (error) {
-      throw new InternalServerErrorException(error);
-    }
-  }
-
-  async update(id: string, updateServiceDto: UpdateServiceDto) {
-    try {
-      const service = await this.prisma.service.findUnique({ where: { id } });
-
-      if (!service) {
-        throw new NotFoundException(`Service with ID ${id} not found`);
-      }
-
-      return await this.prisma.service.update({
-        where: { id },
-        data: { ...updateServiceDto },
-        omit: { veterinaryId: true },
+      return await this.prisma.service.findUniqueOrThrow({
+        where: { serviceId },
+        include: {
+          entity: true,
+        },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async remove(id: string) {
+  async update(serviceId: string, updateServiceDto: UpdateServiceDto) {
     try {
-      const service = await this.prisma.service.findUnique({ where: { id } });
+      return await this.prisma.service.update({
+        data: { ...updateServiceDto },
+        where: { serviceId },
+        include: {
+          entity: true,
+        },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
 
-      if (!service) {
-        throw new NotFoundException(`Service with ID ${id} not found`);
-      }
-
-      return await this.prisma.service.delete({ where: { id } });
-    } catch (error) {
+  async remove(serviceId: string) {
+    try {
+      await this.prisma.service.delete({ where: { serviceId } });
+      return `Service with id ${serviceId} has been deleted`;
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }

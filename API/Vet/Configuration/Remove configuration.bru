@@ -1,0 +1,16 @@
+meta {
+  name: Remove configuration
+  type: http
+  seq: 5
+}
+
+delete {
+  url: {{apiUrl}}/configuration/0ac718e4-dd77-42c4-827c-bbdf64585f00
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

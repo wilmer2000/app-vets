@@ -1,0 +1,22 @@
+meta {
+  name: Create
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/client
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "email": "client@email.com"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

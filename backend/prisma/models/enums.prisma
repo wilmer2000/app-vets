@@ -1,14 +1,14 @@
+enum Role {
+  USER
+  ADMIN
+  STAFF
+  CLIENT
+}
+
 enum Status {
   PENDING
   COMPLETED
   CANCELLED
-}
-
-enum Role {
-  USER
-  ADMIN
-  VET
-  OWNER
 }
 
 enum Specialty {
@@ -26,14 +26,15 @@ enum TypeService {
   EMERGENCY
 }
 
-enum TypePayment {
-  MERCADOPAGO
-  VISA
-  MASTERCARD
-  PREX
-  CASH
-}
-
+//
+// enum TypePayment {
+//   MERCADOPAGO
+//   VISA
+//   MASTERCARD
+//   PREX
+//   CASH
+// }
+//
 enum PetSex {
   MALE
   FEMALE

@@ -1,38 +1,29 @@
-import { TypeService } from '../../../../prisma/generated/prisma/enums.js';
-import {
-  IsBoolean,
-  IsEnum,
-  IsNotEmpty,
-  IsNumber,
-  IsString,
-} from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
+import { IsBoolean, IsEnum, IsNumber, IsString } from 'class-validator';
 import { Transform } from 'class-transformer';
+import { TypeService } from '../../../../prisma/generated/prisma/enums.js';
 
 export class CreateServiceDto {
   @ApiProperty()
-  @IsEnum(TypeService)
-  type: TypeService;
-
-  @ApiProperty()
-  @IsString()
-  @IsNotEmpty()
-  name: string;
-
-  @ApiProperty()
-  @Transform(({ value }) =>
+  @Transform(({ value }): boolean =>
     typeof value === 'string' ? value === 'true' : value,
   )
   @IsBoolean()
   isActive: boolean;
 
   @ApiProperty()
-  @IsNotEmpty()
-  @IsString()
-  veterinaryId: string;
+  @IsEnum(TypeService)
+  type: TypeService;
 
   @ApiProperty()
-  @IsNotEmpty()
+  @IsString()
+  name: string;
+
+  @ApiProperty()
   @IsNumber()
   price: number;
+
+  @ApiProperty()
+  @IsString()
+  entityId: string;
 }

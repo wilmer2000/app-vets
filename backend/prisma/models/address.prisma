@@ -1,8 +1,14 @@
 model Address {
-  id      String  @id @default(uuid())
-  street  String?
-  city    String?
-  country String?
+  addressId String @id @default(uuid())
 
-  users User[]
+  street String?
+  city   String?
+
+  user     User?   @relation(fields: [userId], references: [userId])
+  userId   String? @unique
+  entity   Entity? @relation(fields: [entityId], references: [entityId])
+  entityId String? @unique
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

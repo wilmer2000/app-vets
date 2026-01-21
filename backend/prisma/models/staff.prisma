@@ -1,0 +1,16 @@
+model Staff {
+  staffId String @id @default(uuid())
+
+  isActive  Boolean   @default(false)
+  specialty Specialty
+
+  appointments Appointment[]
+
+  user        User    @relation(fields: [userStaffId], references: [userId])
+  userStaffId String
+  entity      Entity? @relation(fields: [entityId], references: [entityId])
+  entityId    String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}

@@ -11,55 +11,62 @@ import { Role } from '../../../../prisma/generated/prisma/enums.js';
 import { Transform, Type } from 'class-transformer';
 import { ApiProperty } from '@nestjs/swagger';
 import { AddressUserDto } from './address-user.dto.js';
+import { ContactUserDto } from './contact-user.dto.js';
 
 export class CreateUserDto {
   @ApiProperty()
   @IsNotEmpty()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   @IsEmail()
   email: string;
 
   @ApiProperty()
-  @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
   password: string;
 
   @ApiProperty()
   @IsOptional()
   @IsEnum(Role)
-  role: Role;
+  role?: Role;
 
   @ApiProperty()
   @IsOptional()
-  @Transform(({ value }) =>
+  @Transform(({ value }): boolean =>
     typeof value === 'string' ? value === 'true' : value,
   )
-  @ApiProperty()
   @IsBoolean()
-  isActive: boolean;
+  isActive?: boolean;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
-  name: string;
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
+  name?: string;
 
   @ApiProperty()
   @IsOptional()
   @IsString()
-  @Transform(({ value }) => value.trim())
-  lastname: string;
+  @Transform(({ value }): string | never => {
+    return typeof value === 'string' ? value.trim() : value;
+  })
+  lastname?: string;
 
   @ApiProperty()
   @IsOptional()
-  @IsString()
-  @Transform(({ value }) => value.trim())
-  phone: string;
+  @ValidateNested()
+  @Type(() => ContactUserDto)
+  contact?: ContactUserDto;
 
   @ApiProperty()
   @IsOptional()
   @ValidateNested()
   @Type(() => AddressUserDto)
-  address: AddressUserDto;
+  address?: AddressUserDto;
 }

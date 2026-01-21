@@ -1,0 +1,24 @@
+meta {
+  name: Update configuration
+  type: http
+  seq: 3
+}
+
+patch {
+  url: {{apiUrl}}/configuration/0b445fd3-7536-443d-acbd-bc74e165cb2a
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "logo": "logo2",
+    "color1": "color122",
+    "color2": "color233"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

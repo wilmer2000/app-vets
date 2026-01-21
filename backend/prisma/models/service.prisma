@@ -1,10 +1,16 @@
 model Service {
-  id       String      @id @default(uuid())
+  serviceId String @id @default(uuid())
+
   isActive Boolean     @default(false)
   type     TypeService
   name     String
   price    Float
 
-  veterinary   Veterinary? @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String?
+  appointments Appointment[]
+
+  entityId String
+  entity   Entity @relation(fields: [entityId], references: [entityId])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

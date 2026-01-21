@@ -1,0 +1,16 @@
+meta {
+  name: Get appointment
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/appointment
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

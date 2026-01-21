@@ -1,26 +1,69 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { CreateConfigurationDto } from './dto/create-configuration.dto.js';
 import { UpdateConfigurationDto } from './dto/update-configuration.dto.js';
+import { PrismaService } from '../../../prisma/prisma.service.js';
 
 @Injectable()
 export class ConfigurationService {
-  create(createConfigurationDto: CreateConfigurationDto) {
-    return 'This action adds a new configuration';
+  constructor(private readonly prisma: PrismaService) {}
+
+  async create(dto: CreateConfigurationDto) {
+    const { entityId, ...config } = dto;
+
+    try {
+      return await this.prisma.configuration.create({
+        data: {
+          ...config,
+          entity: {
+            connect: { entityId },
+          },
+        },
+        include: {
+          entity: true,
+        },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findAll() {
-    return `This action returns all configuration`;
+  async findAll() {
+    try {
+      return await this.prisma.configuration.findMany();
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} configuration`;
+  async findOne(configId: string) {
+    try {
+      return await this.prisma.configuration.findUniqueOrThrow({
+        where: { configId },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  update(id: number, updateConfigurationDto: UpdateConfigurationDto) {
-    return `This action updates a #${id} configuration`;
+  async update(configId: string, dto: UpdateConfigurationDto) {
+    try {
+      return await this.prisma.configuration.update({
+        data: { ...dto },
+        where: { configId },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} configuration`;
+  async remove(configId: string) {
+    try {
+      await this.prisma.configuration.delete({
+        where: { configId },
+      });
+      return `Configuration with id ${configId} deleted`;
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
   }
 }

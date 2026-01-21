@@ -1,24 +1,19 @@
 meta {
   name: Update
   type: http
-  seq: 2
+  seq: 3
 }
 
 patch {
-  url: {{apiUrl}}/user/2c362528-44c3-4a99-98b9-2e20b785f0d7
+  url: {{apiUrl}}/user/a83f727a-1bd8-4b43-a2ef-2c3637f08e82
   body: json
   auth: inherit
 }
 
 body:json {
   {
-    "name": "Wilmer",
-    "lastname": "Blanco",
-    "phone": "238232382343",
     "address": {
-      "street": "street",
-      "city": "city",
-      "country": "country"
+      "street": "street street street"
     }
   }
 }

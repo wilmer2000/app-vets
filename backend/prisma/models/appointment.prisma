@@ -1,17 +1,20 @@
 model Appointment {
-  id        String      @id @default(uuid())
-  pets      Pet[]
-  service   TypeService
+  appointmentId String @id @default(uuid())
+
+  status    Status
   startTime DateTime
   endTime   DateTime
-  status    Status
-  createdAt DateTime    @default(now())
-  updatedAt DateTime    @updatedAt
+  notes     String?  @db.VarChar(255)
 
-  owner        OwnerProfile @relation(fields: [ownerId], references: [id])
-  ownerId      String
-  vet          VetProfile   @relation(fields: [vetId], references: [id])
-  vetId        String
-  veterinary   Veterinary   @relation(fields: [veterinaryId], references: [id])
-  veterinaryId String
+  entity    Entity  @relation(fields: [entityId], references: [entityId])
+  entityId  String
+  client    Client  @relation(fields: [clientId], references: [clientId])
+  clientId  String
+  staff     Staff   @relation(fields: [staffId], references: [staffId])
+  staffId   String
+  service   Service @relation(fields: [serviceId], references: [serviceId])
+  serviceId String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

@@ -1,0 +1,16 @@
+meta {
+  name: Get client
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/client
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

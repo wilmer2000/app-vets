@@ -1,0 +1,26 @@
+meta {
+  name: Create service
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/service
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "isActive": "false",
+    "type": "CONSULTATION",
+    "name": "Consulta",
+    "price": 1200,
+    "entityId": "e56642e2-8fc1-4203-8c0f-12974c5bf77a"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

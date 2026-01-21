@@ -1,164 +1,88 @@
-import {
-  Injectable,
-  InternalServerErrorException,
-  NotFoundException,
-} from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
 import { UpdateAppointmentDto } from './dto/update-appointment.dto.js';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { Status } from '../../../prisma/generated/prisma/enums.js';
-import { CreateAppointmentDto } from './dto/create-appointment.dto.js';
-import { OwnerProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/OwnerProfile.js';
-import { VetProfileWhereUniqueInput } from '../../../prisma/generated/prisma/models/VetProfile.js';
-import { VeterinaryWhereUniqueInput } from '../../../prisma/generated/prisma/models/Veterinary.js';
-import { Prisma } from '../../../prisma/generated/prisma/client.js';
-import { Role } from '@prisma/client';
+import { Appointment } from '../../../prisma/generated/prisma/client.js';
 
 @Injectable()
 export class AppointmentService {
-  constructor(private prisma: PrismaService) {}
+  constructor(private readonly prisma: PrismaService) {}
 
-  async create(dto: CreateAppointmentDto) {
+  async create(dto: CreateAppointmentDto): Promise<Partial<Appointment>> {
+    const { clientId, staffId, entityId, serviceId, ...appointmentData } = dto;
+    console.log(entityId);
     try {
-      const service = dto.service;
-      const startTime = new Date(dto.startTime);
-      const endTime = new Date(dto.endTime);
-      const ownerId = { userId: dto.ownerId } as OwnerProfileWhereUniqueInput;
-      const vetId = { userId: dto.vetId } as VetProfileWhereUniqueInput;
-      const veterinaryId = {
-        id: dto.veterinaryId,
-      } as VeterinaryWhereUniqueInput;
-
-      if (startTime >= endTime) {
-        throw new InternalServerErrorException(
-          'Start time must be before end time',
-        );
-      }
-      if (startTime < new Date()) {
-        throw new InternalServerErrorException(
-          'Start time must be in the future',
-        );
-      }
-
-      const owner = await this.prisma.user.findFirst({
-        where: { id: dto.ownerId, role: Role.OWNER },
-        include: { ownerProfile: { include: { pets: true } } },
-      });
-      if (!owner) {
-        throw new NotFoundException('Owner does not exist');
-      }
-
-      const hasPets = owner.ownerProfile?.pets;
-      if (hasPets) {
-        throw new InternalServerErrorException('Owner does not have pets');
-      }
-      const petsExist = owner.ownerProfile?.pets.filter(
-        (pet) => pet.id !== dto.pets[0],
-      );
-
-      if (!petsExist) {
-        throw new InternalServerErrorException('Owner does not own all pets');
-      }
-
-      const pets = dto.pets
-        ? dto.pets.map((petId: string) => ({ id: petId }))
-        : Prisma.skip;
-
-      return await this.prisma.appointment.create({
+      return this.prisma.appointment.create({
         data: {
-          startTime,
-          endTime,
-          service,
-          owner: { connect: ownerId },
-          vet: { connect: vetId },
-          veterinary: { connect: veterinaryId },
-          pets: { connect: pets },
-          status: Status.PENDING,
+          ...appointmentData,
+          client: { connect: { clientId } },
+          staff: { connect: { staffId } },
+          entity: { connect: { entityId } },
+          service: { connect: { serviceId } },
         },
       });
-    } catch (error) {
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findAll() {
+  async findAll(): Promise<Partial<Appointment[]>> {
     try {
-      return await this.prisma.appointment.findMany();
-    } catch (error) {
+      return this.prisma.appointment.findMany({
+        include: {
+          service: true,
+        },
+      });
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
   }
 
-  async findOne(id: string) {
+  async findOne(appointmentId: string): Promise<Partial<Appointment>> {
     try {
-      const appointment = await this.prisma.appointment.findUnique({
-        where: { id },
+      return await this.prisma.appointment.findUniqueOrThrow({
+        where: { appointmentId },
+        include: {
+          entity: true,
+          client: true,
+          staff: true,
+          service: true,
+        },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async update(
+    appointmentId: string,
+    dto: UpdateAppointmentDto,
+  ): Promise<Partial<Appointment>> {
+    try {
+      return await this.prisma.appointment.update({
+        where: { appointmentId },
+        data: { ...dto },
+        include: {
+          entity: true,
+          client: true,
+          staff: true,
+          service: true,
+        },
+      });
+    } catch (error: unknown) {
+      throw new InternalServerErrorException(error);
+    }
+  }
+
+  async remove(appointmentId: string): Promise<string> {
+    try {
+      await this.prisma.appointment.delete({
+        where: { appointmentId },
       });
 
-      if (!appointment) {
-        throw new NotFoundException(`Appointment with ID ${id} not found`);
-      }
-
-      return appointment;
-    } catch (error) {
+      return `Appointment with id ${appointmentId} has been deleted`;
+    } catch (error: unknown) {
       throw new InternalServerErrorException(error);
     }
-  }
-
-  async update(id: string, dto: UpdateAppointmentDto) {
-    const appointment = await this.prisma.appointment.findUnique({
-      where: { id },
-    });
-
-    if (!appointment) {
-      throw new NotFoundException(`Appointment with ID ${id} not found`);
-    }
-
-    const service = dto.service;
-    const startTime = new Date(dto.startTime);
-    const endTime = new Date(dto.endTime);
-    const vetId = { id: dto.vetId } as VetProfileWhereUniqueInput;
-
-    if (startTime >= endTime) {
-      throw new InternalServerErrorException(
-        'Start time must be before end time',
-      );
-    }
-    if (startTime < new Date()) {
-      throw new InternalServerErrorException(
-        'Start time must be in the future',
-      );
-    }
-
-    // TODO: Validate pets list with the orwner pets
-
-    const pets = dto.pets
-      ? dto.pets.map((petId: string) => ({ id: petId }))
-      : Prisma.skip;
-
-    return await this.prisma.appointment.update({
-      data: {
-        startTime,
-        endTime,
-        service,
-        vet: { connect: vetId },
-        pets: { connect: pets },
-        status: dto.status,
-      },
-      where: { id },
-    });
-  }
-
-  async remove(id: string) {
-    const appointment = await this.prisma.appointment.findUnique({
-      where: { id },
-    });
-
-    if (!appointment) {
-      throw new NotFoundException(`Appointment with ID ${id} not found`);
-    }
-
-    return await this.prisma.appointment.delete({
-      where: { id },
-    });
   }
 }
