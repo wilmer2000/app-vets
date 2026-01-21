@@ -1,0 +1,25 @@
+meta {
+  name: Create configuration
+  type: http
+  seq: 2
+}
+
+post {
+  url: {{apiUrl}}/configuration
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "logo": "logo",
+    "color1": "color1",
+    "color2": "color2",
+    "entityId": "e56642e2-8fc1-4203-8c0f-12974c5bf77a"
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

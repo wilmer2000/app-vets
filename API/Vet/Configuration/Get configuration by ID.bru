@@ -1,0 +1,16 @@
+meta {
+  name: Get configuration by ID
+  type: http
+  seq: 4
+}
+
+get {
+  url: {{apiUrl}}/configuration/0b445fd3-7536-443d-acbd-bc74e165cb2a
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}

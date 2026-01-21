@@ -1,0 +1,25 @@
+meta {
+  name: Update service
+  type: http
+  seq: 5
+}
+
+patch {
+  url: {{apiUrl}}/service/ae3724aa-8ef3-4f69-9b47-442ffc5e8d98
+  body: json
+  auth: inherit
+}
+
+body:json {
+  {
+    "isActive": "true",
+    "type": "SURGERY",
+    "name": "SURGERY",
+    "price": 1200
+  }
+}
+
+settings {
+  encodeUrl: true
+  timeout: 0
+}
