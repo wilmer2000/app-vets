@@ -1,0 +1,9 @@
+<div (click)="toggleStatus($event)" class="flex items-center gap-3 mt-2 ms-2 cursor-pointer">
+  <label [class.opacity-60]="disabled()" class="relative inline-flex items-center">
+    <input [checked]="status()" [disabled]="disabled()" class="peer sr-only" role="switch" type="checkbox" />
+    <div class="form-switch"></div>
+  </label>
+  @if (label()) {
+    <p>{{ label() }}</p>
+  }
+</div>

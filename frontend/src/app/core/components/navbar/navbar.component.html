@@ -1,0 +1,34 @@
+<div class="dock dock-xl">
+  <button [routerLinkActive]="'dock-active'" [routerLink]="'home'">
+    <i class="ti ti-home text-[1.8rem]"></i>
+  </button>
+
+  @if (currentUser().role === roleList.USER) {
+  }
+
+  @if (currentUser().role === roleList.VET) {
+  }
+
+  @if (currentUser().role === roleList.OWNER) {
+    <button [routerLinkActive]="'dock-active'" [routerLink]="'appointment'">
+      <i class="ti ti-calendar text-[1.8rem]"></i>
+    </button>
+    <button [routerLinkActive]="'dock-active'" [routerLink]="'pets'">
+      <i class="ti ti-paw text-[1.8rem]"></i>
+    </button>
+  }
+
+
+  @if (currentUser().role === roleList.ADMIN) {
+    <button [routerLinkActive]="'dock-active'" [routerLink]="'admin/users'">
+      <i class="ti ti-users text-[1.8rem]"></i>
+    </button>
+    <button [routerLinkActive]="'dock-active'" [routerLink]="'admin/veterinaries'">
+      <i class="ti ti-building-hospital text-[1.8rem]"></i>
+    </button>
+  }
+
+  <button [routerLinkActive]="'dock-active'" [routerLink]="'profile'">
+    <i class="ti ti-user text-[1.8rem]"></i>
+  </button>
+</div>
