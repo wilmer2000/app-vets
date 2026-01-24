@@ -18,7 +18,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./pages/home-base/home-base.component').then((m) => m.HomeBaseComponent),
       },
-
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ],
   },

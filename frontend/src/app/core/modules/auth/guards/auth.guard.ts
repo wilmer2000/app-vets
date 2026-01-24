@@ -10,6 +10,6 @@ export function authGuard(): boolean {
     return true;
   }
 
-  router.navigateByUrl('/login');
+  router.navigateByUrl('/login').then();
   return false;
 }

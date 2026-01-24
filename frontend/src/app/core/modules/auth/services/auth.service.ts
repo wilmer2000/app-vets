@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, map, Observable, switchMap } from 'rxjs';
+import { EMPTY, map, Observable } from 'rxjs';
 import { TOKEN_KEY } from '../../storage/constants/constant';
 import { StorageService } from '../../storage/services/storage.service';
 import { AuthState } from '../interfaces/auth.interface';
@@ -9,7 +9,7 @@ import { Role } from '../enums/auth.enum';
 import { UserService } from '../../user/services/user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly apiUrl = '/api/auth';
@@ -20,7 +20,7 @@ export class AuthService {
   private readonly authState = signal<AuthState>({
     isLoggedIn: false,
     role: undefined,
-    userId: undefined
+    userId: undefined,
   });
 
   readonly state = this.authState.asReadonly();
@@ -54,7 +54,7 @@ export class AuthService {
     const token = this.storage.get(TOKEN_KEY) as string | null;
     if (token) {
       this.saveSession(token);
-      // this.userService.getCurrentUser(this.authState().userId as string).subscribe();
+      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
     }
   }
 
@@ -63,12 +63,10 @@ export class AuthService {
     if (!decoded) return;
 
     this.storage.set(TOKEN_KEY, token);
-
-    console.log(token);
     this.authState.set({
       isLoggedIn: true,
       role: decoded.role as Role,
-      userId: decoded.sub
+      userId: decoded.sub,
     });
   }
 
