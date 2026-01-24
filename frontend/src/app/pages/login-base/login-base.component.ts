@@ -12,9 +12,9 @@ import { AuthService } from '../../core/modules/auth/services/auth.service';
 import { FormControlComponent } from '../../core/modules/form/form-control/form-control.component';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-login-base',
   imports: [FormsModule, ReactiveFormsModule, FormControlComponent],
-  templateUrl: './login.component.html',
+  templateUrl: './login-base.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
@@ -24,7 +24,7 @@ import { FormControlComponent } from '../../core/modules/form/form-control/form-
     }
   `,
 })
-export class LoginComponent {
+export class LoginBaseComponent {
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
   private readonly router = inject(Router);
