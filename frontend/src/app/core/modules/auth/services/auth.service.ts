@@ -63,6 +63,8 @@ export class AuthService {
     if (!decoded) return;
 
     this.storage.set(TOKEN_KEY, token);
+
+    console.log(token);
     this.authState.set({
       isLoggedIn: true,
       role: decoded.role as Role,

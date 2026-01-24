@@ -7,7 +7,7 @@
 
 :root {
   --default-font-family: 'TASA Explorer', 'sans-serif';
-  --default-font-color: #1f1f1f;
+  --default-font-color: #1F1F1F;
   --default-container: 86rem;
   --primary: #5a81fa;
   --secondary: #2b308a;
@@ -128,7 +128,7 @@ input[type='number'] {
 
 @layer components {
   .btn {
-    @apply rounded-lg py-2 px-4 text-white font-semibold text-center transition-colors cursor-pointer;
+    @apply rounded-lg py-2 px-4 text-white font-semibold text-center transition-colors cursor-pointer min-h-11.5;
 
     &:disabled {
       @apply opacity-75 cursor-not-allowed pointer-events-none;
@@ -207,7 +207,7 @@ input[type='number'] {
   }
 
   .card {
-    @apply bg-white rounded-3xl shadow-md p-5;
+    @apply bg-white/90 backdrop-blur-sm rounded-3xl shadow-md p-5;
   }
 
   .container {
