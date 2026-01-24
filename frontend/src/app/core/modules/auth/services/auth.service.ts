@@ -38,7 +38,7 @@ export class AuthService {
         this.saveSession(token);
         return res;
       }),
-      switchMap(() => this.userService.getCurrentUser(this.authState().userId as string))
+      // switchMap(() => this.userService.getCurrentUser(this.authState().userId as string))
     );
   }
 
@@ -54,7 +54,7 @@ export class AuthService {
     const token = this.storage.get(TOKEN_KEY) as string | null;
     if (token) {
       this.saveSession(token);
-      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
+      // this.userService.getCurrentUser(this.authState().userId as string).subscribe();
     }
   }
 

@@ -10,16 +10,15 @@
           "inlineTemplate": true,
           "inlineStyle": true,
           "skipTests": true,
-          "type": "component",
-          "addTypeToClassName": false
+          "type": "component"
         },
         "@schematics/angular:class": {
-          "skipTests": true
+          "skipTests": true,
+          "type": "class"
         },
         "@schematics/angular:directive": {
           "skipTests": true,
-          "type": "directive",
-          "addTypeToClassName": false
+          "type": "directive"
         },
         "@schematics/angular:guard": {
           "skipTests": true,
@@ -39,11 +38,7 @@
         },
         "@schematics/angular:service": {
           "skipTests": true,
-          "type": "service",
-          "addTypeToClassName": false
-        },
-        "@schematics/angular:module": {
-          "typeSeparator": "."
+          "type": "service"
         }
       },
       "root": "",
@@ -61,9 +56,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ]
+            "styles": ["src/styles.css"]
           },
           "configurations": {
             "production": {
@@ -105,10 +98,7 @@
         "lint": {
           "builder": "@angular-eslint/builder:lint",
           "options": {
-            "lintFilePatterns": [
-              "src/**/*.ts",
-              "src/**/*.html"
-            ]
+            "lintFilePatterns": ["src/**/*.ts", "src/**/*.html"]
           }
         }
       }

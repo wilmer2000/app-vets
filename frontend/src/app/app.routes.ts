@@ -7,5 +7,18 @@ export const routes: Routes = [
     loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
     canActivate: [noAuthGuard],
   },
-  { path: '**', redirectTo: 'login', pathMatch: 'full' }
+  {
+    path: '',
+    loadComponent: () => import('./pages/base/base.component').then((m) => m.BaseComponent),
+    children: [
+      {
+        path: 'home',
+        loadComponent: () =>
+          import('./pages/home-base/home-base.component').then((m) => m.HomeBaseComponent),
+      },
+
+      { path: '**', redirectTo: 'home', pathMatch: 'full' },
+    ],
+  },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];
