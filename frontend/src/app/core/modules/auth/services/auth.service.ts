@@ -38,7 +38,6 @@ export class AuthService {
         this.saveSession(token);
         return res;
       }),
-      // switchMap(() => this.userService.getCurrentUser(this.authState().userId as string))
     );
   }
 
@@ -54,7 +53,6 @@ export class AuthService {
     const token = this.storage.get(TOKEN_KEY) as string | null;
     if (token) {
       this.saveSession(token);
-      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
     }
   }
 
@@ -68,6 +66,10 @@ export class AuthService {
       role: decoded.role as Role,
       userId: decoded.sub,
     });
+
+    if (this.authState().userId) {
+      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
+    }
   }
 
   private decodeToken(token: string): any {

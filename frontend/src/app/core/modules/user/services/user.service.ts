@@ -15,7 +15,7 @@ export class UserService {
 
   getCurrentUser(id: string): Observable<void> {
     return this.http
-      .get<User>(`${this.profileApiUrl}/${id}`)
+      .get<User>(`${this.apiUrl}/${id}`)
       .pipe(map((user) => this.currentUser.set(user)));
   }
 
