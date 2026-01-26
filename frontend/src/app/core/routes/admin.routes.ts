@@ -1,3 +1,12 @@
 import { Routes } from '@angular/router';
 
-export const adminRoutes: Routes = [{ path: '**', redirectTo: 'login', pathMatch: 'full' }];
+export const adminRoutes: Routes = [
+  {
+    path: '',
+    loadComponent: () => import('../../pages/admin/admin.component').then((m) => m.AdminComponent),
+    children: [
+
+    ]
+  },
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
+];
