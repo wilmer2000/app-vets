@@ -5,7 +5,8 @@ import { authGuard } from './core/modules/auth/guards/auth.guard';
 export const routes: Routes = [
   {
     path: 'login',
-    loadComponent: () => import('./pages/login-base/login-base.component').then((m) => m.LoginBaseComponent),
+    loadComponent: () =>
+      import('./pages/login-base/login-base.component').then((m) => m.LoginBaseComponent),
     canActivate: [noAuthGuard],
   },
   {
@@ -14,9 +15,8 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'home',
-        loadComponent: () =>
-          import('./pages/home-base/home-base.component').then((m) => m.HomeBaseComponent),
+        path: 'admin',
+        loadChildren: () => import('./core/routes/admin.routes').then((m) => m.adminRoutes),
       },
       { path: '**', redirectTo: 'home', pathMatch: 'full' },
     ],
