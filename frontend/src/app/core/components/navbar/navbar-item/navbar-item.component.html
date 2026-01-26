@@ -1,0 +1,8 @@
+<a class="flex justify-center items-center size-12">
+  <div class="flex flex-col justify-between h-full">
+    <app-icon [icon]="icon()" />
+    @if (label()) {
+      <small class="block mx-auto">{{ label() }}</small>
+    }
+  </div>
+</a>

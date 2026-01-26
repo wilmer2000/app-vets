@@ -7,12 +7,12 @@
 
 :root {
   --default-font-family: 'TASA Explorer', 'sans-serif';
-  --default-font-color: #1F1F1F;
+  --default-font-color: #1f1f1f;
   --default-container: 86rem;
   --primary: #5a81fa;
   --secondary: #2b308a;
   --primary-light: #cedeff;
-  --border-color: #696E82;
+  --border-color: #696e82;
 }
 
 @layer base {
@@ -126,7 +126,15 @@ input[type='number'] {
   -moz-appearance: textfield;
 }
 
+svg.icon {
+  @apply size-6 stroke-2;
+}
+
 @layer components {
+  .bg-blur {
+    @apply bg-white/90 backdrop-blur-sm;
+  }
+
   .btn {
     @apply rounded-lg py-2 px-4 text-white font-semibold text-center transition-colors cursor-pointer min-h-11.5;
 

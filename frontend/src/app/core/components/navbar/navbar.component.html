@@ -1,3 +1,19 @@
-<div class="flex p-4">
-  navbar
-</div>
+<nav class="flex p-4">
+  <ul class="flex gap-4 bg-blur p-4 rounded-2xl w-full justify-between">
+    <li>
+      <app-navbar-item [icon]="'LayoutDashboard'" [label]="'Dashboard'" />
+    </li>
+    <li>
+      <app-navbar-item [icon]="'UsersRound'" [label]="'Usuarios'" />
+    </li>
+    <li>
+      <app-navbar-item [icon]="'Store'" [label]="'Negocios'" />
+    </li>
+    <li>
+      <app-navbar-item [icon]="'CalendarDays'" [label]="'Agenda'" />
+    </li>
+    <li>
+      <app-navbar-item [icon]="'LogOut'" [label]="'Salir'" />
+    </li>
+  </ul>
+</nav>
