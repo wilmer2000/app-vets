@@ -127,7 +127,7 @@ input[type='number'] {
 }
 
 svg.icon {
-  @apply size-6 stroke-2;
+  @apply inline-block;
 }
 
 @layer components {

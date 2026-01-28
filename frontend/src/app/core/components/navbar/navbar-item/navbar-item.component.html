@@ -1,8 +1,8 @@
 <a class="flex justify-center items-center size-12">
   <div class="flex flex-col justify-between h-full">
-    <app-icon [icon]="icon()" />
+    <app-icon [icon]="icon()" class="self-center"/>
     @if (label()) {
-      <small class="block mx-auto">{{ label() }}</small>
+      <small class="self-center">{{ label() }}</small>
     }
   </div>
 </a>
