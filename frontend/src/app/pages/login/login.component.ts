@@ -4,10 +4,9 @@ import {
   FormGroup,
   FormsModule,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Router } from '@angular/router';
 import { AuthService } from '../../core/modules/auth/services/auth.service';
 import { FormControlComponent } from '../../core/modules/form/form-control/form-control.component';
 
@@ -27,7 +26,6 @@ import { FormControlComponent } from '../../core/modules/form/form-control/form-
 export class LoginComponent {
   private readonly authService = inject(AuthService);
   private readonly destroyRef = inject(DestroyRef);
-  private readonly router = inject(Router);
 
   form = signal(
     new FormGroup({
@@ -52,9 +50,6 @@ export class LoginComponent {
     const email = this.emailControl.value;
     const password = this.passwordControl.value;
 
-    this.authService
-      .login(email, password)
-      .pipe(takeUntilDestroyed(this.destroyRef))
-      .subscribe(() => this.router.navigateByUrl('/home'));
+    this.authService.login(email, password).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 }

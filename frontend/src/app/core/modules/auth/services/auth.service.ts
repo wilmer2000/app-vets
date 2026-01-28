@@ -1,6 +1,6 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { EMPTY, map, Observable } from 'rxjs';
+import { EMPTY, map, Observable, switchMap } from 'rxjs';
 import { TOKEN_KEY } from '../../storage/constants/constant';
 import { StorageService } from '../../storage/services/storage.service';
 import { AuthState } from '../interfaces/auth.interface';
@@ -38,6 +38,7 @@ export class AuthService {
         this.saveSession(token);
         return res;
       }),
+      switchMap(() => this.userService.getCurrentUser(this.authState().userId as string)),
     );
   }
 
@@ -66,10 +67,6 @@ export class AuthService {
       role: decoded.role as Role,
       userId: decoded.sub,
     });
-
-    if (this.authState().userId) {
-      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
-    }
   }
 
   private decodeToken(token: string): any {
