@@ -280,4 +280,8 @@ svg.icon {
   .loader-absolute {
     @apply absolute top-0 left-0 w-full h-full;
   }
+
+  .title {
+    @apply mb-4 flex items-center gap-2;
+  }
 }

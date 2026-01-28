@@ -15,7 +15,10 @@ import { icons, LucideAngularModule } from 'lucide-angular';
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
     :host {
-      display: inline-block;
+      display: block;
+      width: auto;
+      height: auto;
+      line-height: 1;
     }
   `,
 })
