@@ -6,7 +6,7 @@
   <div class="col-span-1">
     <div class="card">
       <div class="flex justify-end">
-        <button class="btn btn-primary">Crear usuario</button>
+        <button [routerLink]="'/admin/user/create'" class="btn btn-primary">Crear usuario</button>
       </div>
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
@@ -20,6 +20,7 @@
                   <th scope="col">Rol</th>
                   <th scope="col">Estado</th>
                   <th scope="col">Creado</th>
+                  <th scope="col">Acciones</th>
                 </tr>
               </thead>
               <tbody>
@@ -31,6 +32,11 @@
                     <td>{{ user.role }}</td>
                     <td>{{ user.isActive }}</td>
                     <td>{{ user.createdAt | date }}</td>
+                    <td>
+                      <button [routerLink]="`/admin/user/edit/${user.userId}`" class="btn btn-icon btn-primary">
+                        <app-icon [icon]="'Pencil'" />
+                      </button>
+                    </td>
                   </tr>
                 }
               </tbody>

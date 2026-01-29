@@ -26,6 +26,20 @@ export const adminRoutes: Routes = [
                 (m) => m.UserListComponent,
               ),
           },
+          {
+            path: 'create',
+            loadComponent: () =>
+              import('../modules/user/components/user-create/user-create.component').then(
+                (m) => m.UserCreateComponent,
+              ),
+          },
+          {
+            path: 'edit/:id',
+            loadComponent: () =>
+              import('../modules/user/components/user-edit/user-edit.component').then(
+                (m) => m.UserEditComponent,
+              ),
+          },
           { path: '**', redirectTo: 'list', pathMatch: 'full' },
         ],
       },
