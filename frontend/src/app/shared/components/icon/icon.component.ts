@@ -10,7 +10,7 @@ import { icons, LucideAngularModule } from 'lucide-angular';
     [class]="classes()"
     [strokeWidth]="stroke()"
     [absoluteStrokeWidth]="true"
-    class="icon"
+    class="icon text-({{ color() }})"
   />`,
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: `
@@ -26,6 +26,7 @@ export class IconComponent {
   protected iconRef = computed(() => (icons as any)[this.icon()] || icons.Smile);
   icon = input.required<string>();
   classes = input<string>('');
+  color = input<string>('');
   stroke = input<number>(2);
   size = input<number>(24);
 }

@@ -10,4 +10,5 @@ import { IconComponent } from '../../../../shared/components/icon/icon.component
 export class NavbarItemComponent {
   icon = input.required<string>();
   label = input.required<string>();
+  isActive = input<boolean>(false)
 }

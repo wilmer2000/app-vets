@@ -1,19 +1,19 @@
 <nav class="flex p-4">
   <ul class="card flex gap-4 w-full justify-between">
     <li>
-      <app-navbar-item [icon]="'LayoutDashboard'" [label]="'Dashboard'" [routerLink]="'/admin/dashboard'" />
+      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'LayoutDashboard'" [label]="'Dashboard'" [routerLink]="'/admin/dashboard'" />
     </li>
     <li>
-      <app-navbar-item [icon]="'UsersRound'" [label]="'Usuarios'" />
+      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'UsersRound'" [label]="'Usuarios'" />
     </li>
     <li>
-      <app-navbar-item [icon]="'Store'" [label]="'Negocios'" />
+      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'Store'" [label]="'Negocios'" />
     </li>
     <li>
-      <app-navbar-item [icon]="'CalendarDays'" [label]="'Agenda'" />
+      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'CalendarDays'" [label]="'Agenda'" />
     </li>
     <li>
-      <app-navbar-item [icon]="'LogOut'" [label]="'Salir'" (click)="logout()" />
+      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'LogOut'" [label]="'Salir'" (click)="logout()" />
     </li>
   </ul>
 </nav>
