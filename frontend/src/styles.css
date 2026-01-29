@@ -170,7 +170,7 @@ svg.icon {
 
   .form-control,
   .form-select {
-    @apply border border-(--border-color) rounded-lg py-2.5 px-4 bg-white block w-full min-h-11.5;
+    @apply border border-neutral-300 rounded-lg py-2.5 px-4 bg-white block w-full min-h-11.5;
 
     &.disabled {
       @apply bg-gray-100 cursor-not-allowed pointer-events-none;
@@ -187,7 +187,7 @@ svg.icon {
     rounded-full
     border
     border-(--primary-light)
-    bg-red-300
+    bg-(--primary-light)
     after:absolute
     after:left-0.5
     after:top-0.5
@@ -195,18 +195,18 @@ svg.icon {
     after:w-5
     after:rounded-full
     after:border
-    after:border-rose-300
+    after:border-(--primary-light)
     after:bg-white
     after:transition-all
     after:content-['']
-    peer-checked:bg-(--primary-light)
+    peer-checked:bg-(--primary)
     peer-checked:after:translate-x-full
-    peer-checked:after:border-white;
+    peer-checked:after:border-(--primary);
 
     &.disabled {
       @apply cursor-not-allowed
-      border-rose-200
-      bg-red-200;
+      border-gray-100
+      bg-gray-100;
     }
   }
 
