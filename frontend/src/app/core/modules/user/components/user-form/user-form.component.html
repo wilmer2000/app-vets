@@ -1,0 +1,15 @@
+<div class="flex flex-col">
+  <div>
+    <app-form-switch [label]="'Activo'" [status]="isActiveControl.value" />
+  </div>
+  <app-form-control [controlName]="'email'" [form]="form()" [label]="'Nombre'" />
+  <app-form-control [controlName]="'lastname'" [form]="form()" [label]="'Apellido'" />
+  <app-form-control [controlName]="'email'" [disabled]="true" [form]="form()" [label]="'Email'" />
+  <app-form-control
+    [controlName]="'email'"
+    [disabled]="true"
+    [form]="form()"
+    [label]="'Rol'"
+    [type]="'select'"
+  />
+</div>
