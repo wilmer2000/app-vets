@@ -1,19 +1,44 @@
 <nav class="flex p-4">
   <ul class="card flex gap-4 w-full justify-between">
     <li>
-      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'LayoutDashboard'" [label]="'Dashboard'" [routerLink]="'/admin/dashboard'" />
+      <app-navbar-item
+        [icon]="'LayoutDashboard'"
+        [label]="'Dashboard'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/dashboard'"
+      />
     </li>
     <li>
-      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'UsersRound'" [label]="'Usuarios'" />
+      <app-navbar-item
+        [icon]="'UsersRound'"
+        [label]="'Usuarios'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/user'"
+      />
     </li>
     <li>
-      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'Store'" [label]="'Negocios'" />
+      <app-navbar-item
+        [icon]="'Store'"
+        [label]="'Negocios'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/entity'"
+      />
     </li>
     <li>
-      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'CalendarDays'" [label]="'Agenda'" />
+      <app-navbar-item
+        [icon]="'CalendarDays'"
+        [label]="'Agenda'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/appointment'"
+      />
     </li>
     <li>
-      <app-navbar-item [routerLinkActive]="'text-(--primary)'" [icon]="'LogOut'" [label]="'Salir'" (click)="logout()" />
+      <app-navbar-item
+        (click)="logout()"
+        [icon]="'LogOut'"
+        [label]="'Salir'"
+        [routerLinkActive]="'text-(--primary)'"
+      />
     </li>
   </ul>
 </nav>

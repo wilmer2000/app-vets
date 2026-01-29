@@ -1,5 +1,5 @@
 <h4 class="title">
-  <app-icon [icon]="'LayoutDashboard'"/>
+  <app-icon [icon]="'LayoutDashboard'" />
   Dashboard
 </h4>
 <div class="grid grid-cols-2 gap-4">
@@ -9,10 +9,10 @@
         <p><b>Clientes</b></p>
       </div>
       <div class="grow relative">
-        @if (dashboard().loading) {
-          <app-loader class="loader-absolute"/>
+        @if (loading()) {
+          <app-loader class="loader-absolute" />
         }
-        <h2>{{ dashboard().data.userCount }}</h2>
+        <h2>{{ dashboard().userCount }}</h2>
       </div>
     </div>
   </div>
@@ -22,17 +22,11 @@
         <p><b>Entidades</b></p>
       </div>
       <div class="grow relative">
-        @if (dashboard().loading) {
-          <app-loader class="loader-absolute"/>
+        @if (loading()) {
+          <app-loader class="loader-absolute" />
         }
-        <h2>{{ dashboard().data.entityCount }}</h2>
+        <h2>{{ dashboard().entityCount }}</h2>
       </div>
     </div>
   </div>
-
-  @if (dashboard().error) {
-    <div class="col-span-2">
-      <div class="card flex flex-col gap-4">Error obteniendo la información</div>
-    </div>
-  }
 </div>

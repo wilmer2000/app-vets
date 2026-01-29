@@ -1,10 +1,16 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, OnInit, Signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
 import { LoaderComponent } from '../../../../shared/components/loader/loader.component';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { Resource } from '../../../../shared/interfaces/resource.interface';
-import { Dashboard } from '../../interfaces/dashboard.interface';
 import { IconComponent } from '../../../../shared/components/icon/icon.component';
+import { finalize } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,9 +22,16 @@ export class DashboardComponent implements OnInit {
   private readonly dashboardService = inject(DashboardService);
   private readonly destroyRef = inject(DestroyRef);
 
-  dashboard: Signal<Resource<Dashboard>> = this.dashboardService.data;
+  dashboard = signal({ userCount: 0, entityCount: 0 });
+  loading = signal(true);
 
   ngOnInit(): void {
-    this.dashboardService.getSummary().pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
+    this.dashboardService
+      .getSummary()
+      .pipe(
+        takeUntilDestroyed(this.destroyRef),
+        finalize(() => this.loading.set(false)),
+      )
+      .subscribe((data) => this.dashboard.set(data));
   }
 }

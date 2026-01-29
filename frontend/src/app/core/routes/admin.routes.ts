@@ -12,6 +12,23 @@ export const adminRoutes: Routes = [
             (m) => m.DashboardComponent,
           ),
       },
+      {
+        path: 'user',
+        loadComponent: () =>
+          import('../modules/user/components/user-base/user-base.component').then(
+            (m) => m.UserBaseComponent,
+          ),
+        children: [
+          {
+            path: 'list',
+            loadComponent: () =>
+              import('../modules/user/components/user-list/user-list.component').then(
+                (m) => m.UserListComponent,
+              ),
+          },
+          { path: '**', redirectTo: 'list', pathMatch: 'full' },
+        ],
+      },
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
   },
