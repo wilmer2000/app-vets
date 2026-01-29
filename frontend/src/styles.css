@@ -284,4 +284,22 @@ svg.icon {
   .title {
     @apply mb-4 flex items-center gap-2;
   }
+
+  .table {
+    @apply min-w-full text-left text-sm font-light;
+    thead{
+      @apply border-b border-b-neutral-300 font-medium;
+      th {
+        @apply px-6 py-4;
+      }
+    }
+    tbody {
+      tr {
+        @apply hover:bg-gray-200/50 border-b border-b-neutral-200/50;
+        td {
+          @apply whitespace-nowrap px-6 py-4;
+        }
+      }
+    }
+  }
 }

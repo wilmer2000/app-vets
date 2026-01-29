@@ -1,5 +1,5 @@
 export interface User {
-  id: string;
+  userId: string;
   email: string;
   password: string;
   role: string;
@@ -7,6 +7,7 @@ export interface User {
   name: string;
   lastname: string;
   phone: string;
+  createdAt: string;
   address: Address;
   ownerProfile?: OwnerProfile;
   vetProfile?: VetProfile;

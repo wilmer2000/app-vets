@@ -1,5 +1,5 @@
 <h4 class="title">
-  <app-icon [icon]="'UsersRound'"/>
+  <app-icon [icon]="'UsersRound'" />
   Usuarios
 </h4>
 <div class="grid grid-cols-1 gap-4">
@@ -8,26 +8,28 @@
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
         <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
           <div class="overflow-hidden">
-            <table class="min-w-full text-left text-sm font-light text-surface">
-              <thead class="border-b border-b-neutral-300 font-medium">
-              <tr>
-                <th class="px-6 py-4" scope="col">Nombre</th>
-                <th class="px-6 py-4" scope="col">Apellido</th>
-                <th class="px-6 py-4" scope="col">Email</th>
-                <th class="px-6 py-4" scope="col">Rol</th>
-                <th class="px-6 py-4" scope="col">Estado</th>
-                <th class="px-6 py-4" scope="col">Creado</th>
-              </tr>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Rol</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Creado</th>
+                </tr>
               </thead>
               <tbody>
-              <tr class="border-b border-b-neutral-200/50">
-                <td class="whitespace-nowrap px-6 py-4">1</td>
-                <td class="whitespace-nowrap px-6 py-4">Mark</td>
-                <td class="whitespace-nowrap px-6 py-4">Otto</td>
-                <td class="whitespace-nowrap px-6 py-4">1</td>
-                <td class="whitespace-nowrap px-6 py-4">Mark</td>
-                <td class="whitespace-nowrap px-6 py-4">Otto</td>
-              </tr>
+                @for (user of users(); track user.userId) {
+                  <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.isActive }}</td>
+                    <td>{{ user.createdAt | date }}</td>
+                  </tr>
+                }
               </tbody>
             </table>
           </div>
