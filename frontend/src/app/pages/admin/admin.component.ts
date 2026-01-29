@@ -4,7 +4,7 @@ import { RouterOutlet } from '@angular/router';
 @Component({
   selector: 'app-admin',
   imports: [RouterOutlet],
-  template: `<router-outlet /> `,
-  changeDetection: ChangeDetectionStrategy.OnPush
+  template: `<router-outlet />`,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminComponent {}

@@ -1,0 +1,15 @@
+meta {
+  name: GET Dashboard
+  type: http
+  seq: 1
+}
+
+get {
+  url: {{apiUrl}}/dashboard/admin
+  body: none
+  auth: inherit
+}
+
+settings {
+  encodeUrl: true
+}

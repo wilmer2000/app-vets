@@ -86,12 +86,16 @@ export class AuthService {
       where: { email: loginUserDto.email },
     });
 
-    if (!user || !user.email || !user.password) {
+    if (!user || !user.email) {
       throw new BadRequestException('User not found');
     }
 
+    if (!user || !user.password) {
+      throw new BadRequestException('Password not found');
+    }
+
     if (!(await compare(loginUserDto.password, user.password))) {
-      throw new UnauthorizedException('Invalid credentials');
+      throw new UnauthorizedException('Invalid credentials', );
     }
 
     return user;

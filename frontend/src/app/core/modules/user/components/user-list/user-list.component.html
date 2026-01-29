@@ -1,0 +1,49 @@
+<h4 class="title">
+  <app-icon [icon]="'UsersRound'" />
+  Usuarios
+</h4>
+<div class="grid grid-cols-1 gap-4">
+  <div class="col-span-1">
+    <div class="card">
+      <div class="flex justify-end">
+        <button [routerLink]="'/admin/user/create'" class="btn btn-primary">Crear usuario</button>
+      </div>
+      <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+        <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="overflow-hidden">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Nombre</th>
+                  <th scope="col">Apellido</th>
+                  <th scope="col">Email</th>
+                  <th scope="col">Rol</th>
+                  <th scope="col">Estado</th>
+                  <th scope="col">Creado</th>
+                  <th scope="col">Acciones</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (user of users(); track user.userId) {
+                  <tr>
+                    <td>{{ user.name }}</td>
+                    <td>{{ user.lastname }}</td>
+                    <td>{{ user.email }}</td>
+                    <td>{{ user.role }}</td>
+                    <td>{{ user.isActive }}</td>
+                    <td>{{ user.createdAt | date }}</td>
+                    <td>
+                      <button [routerLink]="`/admin/user/edit/${user.userId}`" class="btn btn-icon btn-primary">
+                        <app-icon [icon]="'Pencil'"  />
+                      </button>
+                    </td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

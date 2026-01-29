@@ -1,9 +1,4 @@
-import {
-  ApplicationConfig,
-  inject,
-  provideBrowserGlobalErrorListeners,
-  provideZoneChangeDetection
-} from '@angular/core';
+import { ApplicationConfig, inject, provideBrowserGlobalErrorListeners } from '@angular/core';
 import {
   createUrlTreeFromSnapshot,
   provideRouter,
@@ -11,8 +6,9 @@ import {
   withComponentInputBinding,
   withInMemoryScrolling,
   withRouterConfig,
-  withViewTransitions
+  withViewTransitions,
 } from '@angular/router';
+
 import { routes } from './app.routes';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
 import { authInterceptor } from './core/modules/auth/interceptors/auth.interceptor';
@@ -20,30 +16,30 @@ import { authInterceptor } from './core/modules/auth/interceptors/auth.intercept
 export const appConfig: ApplicationConfig = {
   providers: [
     provideBrowserGlobalErrorListeners(),
-    provideZoneChangeDetection({ eventCoalescing: true }),
     provideHttpClient(withInterceptors([authInterceptor])),
     provideRouter(
       routes,
-      withInMemoryScrolling(),
+      withInMemoryScrolling({ scrollPositionRestoration: 'top' }),
       withViewTransitions({
         onViewTransitionCreated: ({ transition, to }) => {
           const router = inject(Router);
           const toTree = createUrlTreeFromSnapshot(to, []);
           // Skip the transition if the only thing changing is the fragment and queryParams
+
           if (
             router.isActive(toTree, {
               paths: 'exact',
               matrixParams: 'exact',
               fragment: 'ignored',
-              queryParams: 'ignored'
+              queryParams: 'ignored',
             })
           ) {
             transition.skipTransition();
           }
-        }
+        },
       }),
       withComponentInputBinding(),
-      withRouterConfig({ paramsInheritanceStrategy: 'always', onSameUrlNavigation: 'reload' })
-    )
-  ]
+      withRouterConfig({ paramsInheritanceStrategy: 'always', onSameUrlNavigation: 'reload' }),
+    ),
+  ],
 };

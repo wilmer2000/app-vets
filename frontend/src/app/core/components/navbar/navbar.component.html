@@ -1,34 +1,44 @@
-<div class="dock dock-xl">
-  <button [routerLinkActive]="'dock-active'" [routerLink]="'home'">
-    <i class="ti ti-home text-[1.8rem]"></i>
-  </button>
-
-  @if (currentUser().role === roleList.USER) {
-  }
-
-  @if (currentUser().role === roleList.VET) {
-  }
-
-  @if (currentUser().role === roleList.OWNER) {
-    <button [routerLinkActive]="'dock-active'" [routerLink]="'appointment'">
-      <i class="ti ti-calendar text-[1.8rem]"></i>
-    </button>
-    <button [routerLinkActive]="'dock-active'" [routerLink]="'pets'">
-      <i class="ti ti-paw text-[1.8rem]"></i>
-    </button>
-  }
-
-
-  @if (currentUser().role === roleList.ADMIN) {
-    <button [routerLinkActive]="'dock-active'" [routerLink]="'admin/users'">
-      <i class="ti ti-users text-[1.8rem]"></i>
-    </button>
-    <button [routerLinkActive]="'dock-active'" [routerLink]="'admin/veterinaries'">
-      <i class="ti ti-building-hospital text-[1.8rem]"></i>
-    </button>
-  }
-
-  <button [routerLinkActive]="'dock-active'" [routerLink]="'profile'">
-    <i class="ti ti-user text-[1.8rem]"></i>
-  </button>
-</div>
+<nav class="flex p-4 lg:h-full lg:p-0">
+  <ul class="card shadow-lg flex gap-4 w-full justify-between lg:flex-col lg:justify-start lg:gap-8 lg:rounded-none">
+    <li>
+      <app-navbar-item
+        [icon]="'LayoutDashboard'"
+        [label]="'Dashboard'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/dashboard'"
+      />
+    </li>
+    <li>
+      <app-navbar-item
+        [icon]="'UsersRound'"
+        [label]="'Usuarios'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/user'"
+      />
+    </li>
+    <li>
+      <app-navbar-item
+        [icon]="'Store'"
+        [label]="'Negocios'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/entity'"
+      />
+    </li>
+    <li>
+      <app-navbar-item
+        [icon]="'CalendarDays'"
+        [label]="'Agenda'"
+        [routerLinkActive]="'text-(--primary)'"
+        [routerLink]="'/admin/appointment'"
+      />
+    </li>
+    <li>
+      <app-navbar-item
+        (click)="logout()"
+        [icon]="'LogOut'"
+        [label]="'Salir'"
+        [routerLinkActive]="'text-(--primary)'"
+      />
+    </li>
+  </ul>
+</nav>
