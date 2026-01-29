@@ -1,17 +1,81 @@
-<div class="grid grid-cols-12 gap-4">
-  <app-form-switch class="col-span-12"
-    (statusEmitter)="changeIsActive($event)"
-    [label]="'Usuario activo'"
-    [status]="isActiveControl.value"
-  />
-  <app-form-control class="col-span-12 md:col-span-4 lg:col-span-3" [controlName]="'email'" [form]="form()" [label]="'Nombre'"/>
-  <app-form-control class="col-span-12 md:col-span-4 lg:col-span-3" [controlName]="'lastname'" [form]="form()" [label]="'Apellido'"/>
-  <app-form-control class="col-span-12 md:col-span-4 lg:col-span-3" [controlName]="'email'" [disabled]="true" [form]="form()" [label]="'Email'"/>
-  <app-form-control class="col-span-12 md:col-span-4 lg:col-span-3"
-    [controlName]="'email'"
-    [disabled]="true"
-    [form]="form()"
-    [label]="'Rol'"
-    [type]="'select'"
-  />
+<div class="flex flex-col w-full gap-12 lg:flex-row">
+  <div>
+    <h5 class="mb-4">Datos personales</h5>
+    <div class="grid grid-cols-12 gap-4">
+      <app-form-switch
+        (statusEmitter)="changeIsActive($event)"
+        [label]="'Usuario activo'"
+        [status]="isActiveControl.value"
+        class="col-span-12"
+      />
+      <app-form-control
+        [controlName]="'name'"
+        [form]="form()"
+        [label]="'Nombre'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+      <app-form-control
+        [controlName]="'lastname'"
+        [form]="form()"
+        [label]="'Apellido'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+      <app-form-control
+        [controlName]="'email'"
+        [form]="form()"
+        [label]="'Email'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+      <app-form-control
+        [controlName]="'role'"
+        [form]="form()"
+        [label]="'Rol'"
+        [type]="'select'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+    </div>
+  </div>
+  <div class="flex flex-col w-full gap-12">
+    <div>
+      <h5 class="mb-4">Dirección</h5>
+      <div class="grid grid-cols-12 gap-4">
+        <app-form-control
+          [controlName]="'name'"
+          [form]="form()"
+          [label]="'Calle'"
+          class="col-span-12 md:col-span-4 lg:col-span-6"
+        />
+        <app-form-control
+          [controlName]="'lastname'"
+          [form]="form()"
+          [label]="'Ciudad'"
+          class="col-span-12 md:col-span-4 lg:col-span-6"
+        />
+        <app-form-control
+          [controlName]="'email'"
+          [form]="form()"
+          [label]="'Pais'"
+          class="col-span-12 md:col-span-4 lg:col-span-6"
+        />
+      </div>
+    </div>
+    <div>
+      <h5 class="mb-4">Contacto</h5>
+      <div class="grid grid-cols-12 gap-4">
+        <app-form-control
+          [controlName]="'name'"
+          [form]="form()"
+          [label]="'Teléfono'"
+          class="col-span-12 md:col-span-4 lg:col-span-6"
+        />
+        <app-form-control
+          [controlName]="'lastname'"
+          [form]="form()"
+          [label]="'Email secundario'"
+          [type]="'email'"
+          class="col-span-12 md:col-span-4 lg:col-span-6"
+        />
+      </div>
+    </div>
+  </div>
 </div>

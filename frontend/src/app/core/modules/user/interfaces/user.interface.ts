@@ -1,16 +1,14 @@
 export interface User {
   userId: string;
-  email: string;
-  password: string;
+  isActive: string;
   role: string;
-  isActive: boolean;
+  email: string;
+  password: boolean;
   name: string;
   lastname: string;
-  phone: string;
   createdAt: string;
+  contact: Contact;
   address: Address;
-  ownerProfile?: OwnerProfile;
-  vetProfile?: VetProfile;
 }
 
 export interface Address {
@@ -19,16 +17,9 @@ export interface Address {
   country?: string;
 }
 
-export interface VetProfile {
-  specialty?: any;
-  appointments: any[];
-}
-
-export interface OwnerProfile {
-  id: string;
-  pets: any[];
-  appointments: any[];
-  veterinary: any;
+export interface Contact {
+  phone?: string;
+  email?: string;
 }
 
 export interface UpdateUser {

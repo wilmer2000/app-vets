@@ -24,6 +24,7 @@ export class CreateUserDto {
 
   @ApiProperty()
   @IsString()
+  @IsOptional()
   @Transform(({ value }): string | never => {
     return typeof value === 'string' ? value.trim() : value;
   })

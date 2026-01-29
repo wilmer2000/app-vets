@@ -7,7 +7,6 @@
 
 :root {
   --default-font-family: 'TASA Explorer', 'sans-serif';
-  --default-font-color: #1f1f1f;
   --default-container: 86rem;
   --primary: #5a81fa;
   --secondary: #2b308a;
@@ -46,8 +45,7 @@ body {
   font-optical-sizing: auto;
   font-weight: 200;
   font-style: normal;
-  color: var(--default-font-color);
-  @apply bg-neutral-100;
+  @apply bg-neutral-100 text-neutral-700;
 }
 
 app-root {
@@ -66,7 +64,7 @@ h3,
 h4,
 h5,
 h6 {
-  @apply font-semibold tracking-tight;
+  @apply font-semibold tracking-tight text-(--primary);
 }
 
 h1 {
@@ -215,7 +213,7 @@ svg.icon {
   }
 
   .card {
-    @apply bg-white/90 backdrop-blur-sm rounded-2xl p-4;
+    @apply bg-white/70 backdrop-blur-sm rounded-2xl p-4;
   }
 
   .container {
