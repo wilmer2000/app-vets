@@ -4,8 +4,22 @@ export const entityRoutes: Routes = [
   {
     path: 'list',
     loadComponent: () =>
-      import('../../features/entity/components/entity-list/entity-list.component').then(
+      import('../../modules/entity/components/entity-list/entity-list.component').then(
         (m) => m.EntityListComponent,
+      ),
+  },
+  {
+    path: 'create',
+    loadComponent: () =>
+      import('../../modules/entity/components/entity-create/entity-create.component').then(
+        (m) => m.EntityCreateComponent,
+      ),
+  },
+  {
+    path: 'edit/:id',
+    loadComponent: () =>
+      import('../../modules/entity/components/entity-edit/entity-edit.component').then(
+        (m) => m.EntityEditComponent,
       ),
   },
   { path: '**', redirectTo: 'list', pathMatch: 'full' },

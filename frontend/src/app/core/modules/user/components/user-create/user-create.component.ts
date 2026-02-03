@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '
 import { IconComponent } from '../../../../../shared/components/icon/icon.component';
 import { RouterLink } from '@angular/router';
 import { UserFormComponent } from '../user-form/user-form.component';
-import { USER_FORM_CONSTANT } from '../../constants/user-form.constant';
+import { USER_FORM_CONSTANT } from '../../constants/form.constant';
 import { UserService } from '../../services/user.service';
 
 @Component({
@@ -16,6 +16,7 @@ export class UserCreateComponent {
   private readonly destroyRef = inject(DestroyRef);
 
   form = signal(USER_FORM_CONSTANT());
+
   save(): void {
     if (this.form().invalid) {
       this.form().markAllAsTouched();

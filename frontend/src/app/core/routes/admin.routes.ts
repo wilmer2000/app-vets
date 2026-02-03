@@ -9,7 +9,7 @@ export const adminRoutes: Routes = [
       {
         path: 'dashboard',
         loadComponent: () =>
-          import('../../features/admin/components/dashboard/dashboard.component').then(
+          import('../../modules/admin/components/dashboard/dashboard.component').then(
             (m) => m.DashboardComponent,
           ),
       },

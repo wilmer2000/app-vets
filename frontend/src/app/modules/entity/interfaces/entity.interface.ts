@@ -13,9 +13,14 @@ export interface Entity {
   appointments: any[];
   contact: Contact;
   address: Address;
-  configuration: any;
+  configuration: Configuration;
 }
 
+export interface Configuration {
+  logo: string;
+  color1: string;
+  color2: string;
+}
 
 export interface UpdateEntity {
   isActive?: boolean;
@@ -23,7 +28,5 @@ export interface UpdateEntity {
   description?: string;
   contact?: Contact;
   address?: Address;
-  configuration?: any;
+  configuration?: Configuration;
 }
-
-
