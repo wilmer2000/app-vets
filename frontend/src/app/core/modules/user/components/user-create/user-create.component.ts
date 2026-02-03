@@ -4,11 +4,12 @@ import { RouterLink } from '@angular/router';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { USER_FORM_CONSTANT } from '../../constants/form.constant';
 import { UserService } from '../../services/user.service';
-import { JsonPipe } from '@angular/common';
+import { User } from '../../interfaces/user.interface';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-user-create',
-  imports: [IconComponent, RouterLink, UserFormComponent, JsonPipe],
+  imports: [IconComponent, RouterLink, UserFormComponent],
   templateUrl: './user-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -25,8 +26,8 @@ export class UserCreateComponent {
       return;
     }
 
-    // const user = this.form().value as User;
-    //
-    // this.userService.create(user);
+    const user = this.form().value as Partial<User>;
+
+    this.userService.create(user).pipe(takeUntilDestroyed(this.destroyRef)).subscribe();
   }
 }

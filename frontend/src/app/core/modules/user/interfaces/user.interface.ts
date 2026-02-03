@@ -13,8 +13,6 @@ export interface User {
   address: Address;
 }
 
-
-
 export interface UpdateUser {
   role?: string;
   isActive?: boolean;

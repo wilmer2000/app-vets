@@ -33,8 +33,8 @@ export class UserService {
     return this.http.patch<User>(`${this.profileApiUrl}/${id}`, values);
   }
 
-  create(user: User): Observable<User> {
-    return this.http.post<User>(`${this.apiUrl}`, user);
+  create(user: Partial<User>): Observable<any> {
+    return this.http.post(`${this.apiUrl}`, user);
   }
   findAll(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}`);
