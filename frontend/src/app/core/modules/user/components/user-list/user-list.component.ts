@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { IconComponent } from '../../../../../shared/components/icon/icon.component';
 import { UserService } from '../../services/user.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -13,7 +20,7 @@ import { RouterLink } from '@angular/router';
   templateUrl: './user-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserListComponent {
+export class UserListComponent implements OnInit {
   private readonly userService = inject(UserService);
   private readonly destroyRef = inject(DestroyRef);
 

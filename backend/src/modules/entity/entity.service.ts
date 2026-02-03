@@ -36,7 +36,14 @@ export class EntityService {
           services: true,
           appointments: true,
           contact: true,
-          address: true,
+          address: {
+            omit: {
+              userId: true,
+              entityId: true,
+              createdAt: true,
+              updatedAt: true,
+            },
+          },
           configuration: true,
         },
       });

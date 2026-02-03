@@ -1,3 +1,5 @@
+import { Address, Contact } from '../../../../shared/interfaces/shared.interface';
+
 export interface User {
   userId: string;
   isActive: string;
@@ -11,16 +13,7 @@ export interface User {
   address: Address;
 }
 
-export interface Address {
-  street?: string;
-  city?: string;
-  country?: string;
-}
 
-export interface Contact {
-  phone?: string;
-  email?: string;
-}
 
 export interface UpdateUser {
   role?: string;

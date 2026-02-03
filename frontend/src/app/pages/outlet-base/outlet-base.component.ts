@@ -2,9 +2,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 
 @Component({
-  selector: 'app-admin',
+  selector: 'app-outlet-base',
   imports: [RouterOutlet],
-  template: `<router-outlet />`,
+  template: ` <router-outlet /> `,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminComponent {}
+export class OutletBaseComponent {}

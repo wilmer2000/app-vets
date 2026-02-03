@@ -3,7 +3,8 @@ import { Routes } from '@angular/router';
 export const adminRoutes: Routes = [
   {
     path: '',
-    loadComponent: () => import('../../pages/admin/admin.component').then((m) => m.AdminComponent),
+    loadComponent: () =>
+      import('../../pages/outlet-base/outlet-base.component').then((m) => m.OutletBaseComponent),
     children: [
       {
         path: 'dashboard',
@@ -15,8 +16,8 @@ export const adminRoutes: Routes = [
       {
         path: 'user',
         loadComponent: () =>
-          import('../modules/user/components/user-base/user-base.component').then(
-            (m) => m.UserBaseComponent,
+          import('../../pages/outlet-base/outlet-base.component').then(
+            (m) => m.OutletBaseComponent,
           ),
         children: [
           {
@@ -41,6 +42,22 @@ export const adminRoutes: Routes = [
               ),
           },
           { path: '**', redirectTo: 'list', pathMatch: 'full' },
+        ],
+      },
+      {
+        path: 'entity',
+        loadComponent: () =>
+          import('../../pages/outlet-base/outlet-base.component').then(
+            (m) => m.OutletBaseComponent,
+          ),
+        children: [
+          {
+            path: 'list',
+            loadComponent: () =>
+              import('../../features/entity/components/entity-list/entity-list.component').then(
+                (m) => m.EntityListComponent,
+              ),
+          },
         ],
       },
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
