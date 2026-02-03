@@ -11,7 +11,7 @@ export const USER_FORM_CONSTANT = () => {
     email: new FormControl(''),
     role: new FormControl(''),
     isActive: new FormControl(false),
-    address: CONTACT_FORM_CONSTANT(),
-    contact: ADDRESS_FORM_CONSTANT(),
+    address: ADDRESS_FORM_CONSTANT(),
+    contact: CONTACT_FORM_CONSTANT(),
   });
 };

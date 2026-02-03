@@ -62,7 +62,7 @@ export class FormControlComponent implements OnInit, ControlValueAccessor {
   };
 
   ngOnInit(): void {
-    const control = this.form().controls[this.controlName()];
+    const control = this.controlAbs;
 
     if (!control) {
       return;

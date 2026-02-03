@@ -4,10 +4,11 @@ import { RouterLink } from '@angular/router';
 import { UserFormComponent } from '../user-form/user-form.component';
 import { USER_FORM_CONSTANT } from '../../constants/form.constant';
 import { UserService } from '../../services/user.service';
+import { JsonPipe } from '@angular/common';
 
 @Component({
   selector: 'app-user-create',
-  imports: [IconComponent, RouterLink, UserFormComponent],
+  imports: [IconComponent, RouterLink, UserFormComponent, JsonPipe],
   templateUrl: './user-create.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })

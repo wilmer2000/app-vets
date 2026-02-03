@@ -8,11 +8,9 @@ export const ENTITY_FORM_CONSTANT = () => {
   return new FormGroup({
     name: new FormControl(''),
     description: new FormControl(''),
-    email: new FormControl(''),
-    role: new FormControl(''),
     isActive: new FormControl(false),
-    address: CONTACT_FORM_CONSTANT(),
-    contact: ADDRESS_FORM_CONSTANT(),
+    address: ADDRESS_FORM_CONSTANT(),
+    contact: CONTACT_FORM_CONSTANT(),
     configuration: ENTITY_CONFIGURATION_CONSTANT(),
   });
 };

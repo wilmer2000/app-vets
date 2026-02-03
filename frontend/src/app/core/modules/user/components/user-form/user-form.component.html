@@ -1,5 +1,5 @@
 <div class="flex flex-col w-full gap-12 lg:flex-row">
-  <div>
+  <div [formGroup]="form()">
     <h5 class="mb-4">Datos personales</h5>
     <div class="grid grid-cols-12 gap-4">
       <app-form-switch
@@ -40,20 +40,20 @@
       <h5 class="mb-4">Dirección</h5>
       <div class="grid grid-cols-12 gap-4">
         <app-form-control
-          [controlName]="'name'"
-          [form]="form()"
+          [controlName]="'street'"
+          [form]="addressFormGroup"
           [label]="'Calle'"
           class="col-span-12 md:col-span-4 lg:col-span-6"
         />
         <app-form-control
-          [controlName]="'lastname'"
-          [form]="form()"
+          [controlName]="'city'"
+          [form]="addressFormGroup"
           [label]="'Ciudad'"
           class="col-span-12 md:col-span-4 lg:col-span-6"
         />
         <app-form-control
-          [controlName]="'email'"
-          [form]="form()"
+          [controlName]="'country'"
+          [form]="addressFormGroup"
           [label]="'Pais'"
           class="col-span-12 md:col-span-4 lg:col-span-6"
         />
@@ -63,14 +63,14 @@
       <h5 class="mb-4">Contacto</h5>
       <div class="grid grid-cols-12 gap-4">
         <app-form-control
-          [controlName]="'name'"
-          [form]="form()"
+          [controlName]="'phone'"
+          [form]="contactFormGroup"
           [label]="'Teléfono'"
           class="col-span-12 md:col-span-4 lg:col-span-6"
         />
         <app-form-control
-          [controlName]="'lastname'"
-          [form]="form()"
+          [controlName]="'email'"
+          [form]="contactFormGroup"
           [label]="'Email secundario'"
           [type]="'email'"
           class="col-span-12 md:col-span-4 lg:col-span-6"

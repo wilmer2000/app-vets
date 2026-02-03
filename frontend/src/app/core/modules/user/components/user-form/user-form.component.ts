@@ -1,11 +1,11 @@
 import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { FormControlComponent } from '../../../form/form-control/form-control.component';
-import { FormControl, FormGroup } from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { FormSwitchComponent } from '../../../form/form-switch/form-switch.component';
 
 @Component({
   selector: 'app-user-form',
-  imports: [FormControlComponent, FormSwitchComponent],
+  imports: [FormControlComponent, FormSwitchComponent, ReactiveFormsModule],
   templateUrl: './user-form.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
@@ -14,9 +14,17 @@ export class UserFormComponent {
     return this.form().get('isActive') as FormControl;
   }
 
+  get addressFormGroup(): FormGroup {
+    return this.form().get('address') as FormGroup;
+  }
+
+  get contactFormGroup(): FormGroup {
+    return this.form().get('contact') as FormGroup;
+  }
+
   form = input.required<FormGroup>();
 
-  changeIsActive(state: boolean): void  {
+  changeIsActive(state: boolean): void {
     this.isActiveControl.patchValue(state);
   }
 }
