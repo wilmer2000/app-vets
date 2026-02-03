@@ -6,7 +6,7 @@
   <div class="col-span-1">
     <div class="card flex flex-col gap-12 w-full">
       <app-user-form [form]="form()" />
-      <div class="flex flex-col justify-end gap-4">
+      <div class="flex flex-col justify-end gap-4 lg:flex-row lg:items-end">
         <button [routerLink]="'/admin/user'" class="btn btn-primary-outline">Atrás</button>
         <button (click)="save()" class="btn btn-primary">Guardar</button>
       </div>

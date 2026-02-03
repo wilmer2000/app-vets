@@ -1,7 +1,7 @@
-<div  class="flex flex-col w-full gap-12 lg:flex-row">
-  <div [formGroup]="form()">
-    <h5 class="mb-4">Datos de la entidad</h5>
-    <div class="grid grid-cols-12 gap-4">
+<div class="flex flex-col w-full gap-12 lg:gap-20">
+  <div class="flex flex-col w-full gap-4 lg:gap-12 lg:flex-row">
+    <h5 class="lg:w-60">Datos de la entidad</h5>
+    <div [formGroup]="form()" class="grid grid-cols-12 gap-4 grow">
       <app-form-switch
         (statusEmitter)="changeIsActive($event)"
         [label]="'Entidad activo'"
@@ -10,47 +10,45 @@
       />
     </div>
   </div>
-  <div class="flex flex-col w-full gap-12">
-    <div [formGroup]="addressFormGroup">
-      <h5 class="mb-4">Dirección</h5>
-      <div class="grid grid-cols-12 gap-4">
-        <app-form-control
-          [controlName]="'street'"
-          [form]="addressFormGroup"
-          [label]="'Calle'"
-          class="col-span-12 md:col-span-4 lg:col-span-6"
-        />
-        <app-form-control
-          [controlName]="'city'"
-          [form]="addressFormGroup"
-          [label]="'Ciudad'"
-          class="col-span-12 md:col-span-4 lg:col-span-6"
-        />
-        <app-form-control
-          [controlName]="'country'"
-          [form]="addressFormGroup"
-          [label]="'Pais'"
-          class="col-span-12 md:col-span-4 lg:col-span-6"
-        />
-      </div>
+  <div class="flex flex-col w-full gap-4 lg:gap-12 lg:flex-row">
+    <h5 class="lg:w-60">Dirección</h5>
+    <div [formGroup]="addressFormGroup" class="grid grid-cols-12 gap-4 grow">
+      <app-form-control
+        [controlName]="'street'"
+        [form]="addressFormGroup"
+        [label]="'Calle'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+      <app-form-control
+        [controlName]="'city'"
+        [form]="addressFormGroup"
+        [label]="'Ciudad'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+      <app-form-control
+        [controlName]="'country'"
+        [form]="addressFormGroup"
+        [label]="'Pais'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
     </div>
-    <div [formGroup]="contactFormGroup">
-      <h5 class="mb-4">Contacto</h5>
-      <div class="grid grid-cols-12 gap-4">
-        <app-form-control
-          [controlName]="'phone'"
-          [form]="contactFormGroup"
-          [label]="'Teléfono'"
-          class="col-span-12 md:col-span-4 lg:col-span-6"
-        />
-        <app-form-control
-          [controlName]="'email'"
-          [form]="contactFormGroup"
-          [label]="'Email secundario'"
-          [type]="'email'"
-          class="col-span-12 md:col-span-4 lg:col-span-6"
-        />
-      </div>
+  </div>
+  <div class="flex flex-col w-full gap-4 lg:gap-12 lg:flex-row">
+    <h5 class="lg:w-60">Contacto</h5>
+    <div [formGroup]="contactFormGroup" class="grid grid-cols-12 gap-4 grow">
+      <app-form-control
+        [controlName]="'phone'"
+        [form]="contactFormGroup"
+        [label]="'Teléfono'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
+      <app-form-control
+        [controlName]="'email'"
+        [form]="contactFormGroup"
+        [label]="'Email secundario'"
+        [type]="'email'"
+        class="col-span-12 md:col-span-4 lg:col-span-6"
+      />
     </div>
   </div>
 </div>
