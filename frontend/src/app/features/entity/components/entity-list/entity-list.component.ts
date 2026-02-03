@@ -1,11 +1,18 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  OnInit,
+  signal,
+} from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { IconComponent } from '../../../../shared/components/icon/icon.component';
 import { RouterLink } from '@angular/router';
-import { UserService } from '../../../../core/modules/user/services/user.service';
-import { User } from '../../../../core/modules/user/interfaces/user.interface';
+import { EntityService } from '../../services/entity.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
+import { Entity } from '../../interfaces/entity.interface';
 
 @Component({
   selector: 'app-entity-list',
@@ -13,20 +20,20 @@ import { finalize } from 'rxjs';
   templateUrl: './entity-list.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EntityListComponent {
-  private readonly userService = inject(UserService);
+export class EntityListComponent implements OnInit {
+  private readonly entityService = inject(EntityService);
   private readonly destroyRef = inject(DestroyRef);
 
-  users = signal<User[]>([]);
+  entities = signal<Entity[]>([]);
   loading = signal(true);
 
   ngOnInit(): void {
-    this.userService
+    this.entityService
       .findAll()
       .pipe(
         takeUntilDestroyed(this.destroyRef),
         finalize(() => this.loading.set(false)),
       )
-      .subscribe((data) => this.users.set(data));
+      .subscribe((data) => this.entities.set(data));
   }
 }

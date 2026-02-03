@@ -11,7 +11,19 @@ export interface Entity {
   staff: any[];
   services: any[];
   appointments: any[];
-  contact: any;
+  contact: Contact;
   address: Address;
   configuration: any;
 }
+
+
+export interface UpdateEntity {
+  isActive?: boolean;
+  name?: string;
+  description?: string;
+  contact?: Contact;
+  address?: Address;
+  configuration?: any;
+}
+
+
