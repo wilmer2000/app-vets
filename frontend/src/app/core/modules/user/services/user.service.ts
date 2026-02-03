@@ -1,9 +1,10 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map, Observable } from 'rxjs';
+import { catchError, map, Observable } from 'rxjs';
 import { UpdateUser, User } from '../interfaces/user.interface';
 import { RedirectService } from '../../auth/services/redirect.service';
 import { Role } from '../../auth/enums/auth.enum';
+import { ModalService } from '../../../../shared/services/modal.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,6 +14,7 @@ export class UserService {
   private readonly profileApiUrl = '/api/profile';
   private readonly http = inject(HttpClient);
   private readonly redirectService = inject(RedirectService);
+  private readonly modalService = inject(ModalService);
 
   readonly currentUser = signal<User | null>(null);
 
@@ -34,7 +36,16 @@ export class UserService {
   }
 
   create(user: Partial<User>): Observable<any> {
-    return this.http.post(`${this.apiUrl}`, user);
+    return this.http.post(`${this.apiUrl}`, user).pipe(
+      map(() =>
+        this.modalService.alert('Creación de usuario', 'El usuario se ha creado exitosamente'),
+      ),
+      catchError(() => {
+        this.modalService.alert('Error', 'El usuario NO se ha creado exitosamente', 'error');
+
+        throw new Error('Error al crear usuario');
+      }),
+    );
   }
   findAll(): Observable<User[]> {
     return this.http.get<User[]>(`${this.apiUrl}`);
