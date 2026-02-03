@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { authGuard } from './core/modules/auth/guards/auth.guard';
 import { noAuthGuard } from './core/modules/auth/guards/no-auth.guard';
+import { authGuard } from './core/modules/auth/guards/auth.guard';
 import { authAdminRoleGuard } from './core/modules/auth/guards/auth-admin-role.guard';
 
 export const routes: Routes = [
   {
     path: 'login',
     loadComponent: () => import('./pages/login/login.component').then((m) => m.LoginComponent),
-    canActivate: [noAuthGuard]
+    canActivate: [noAuthGuard],
   },
   {
     path: '',
@@ -15,99 +15,12 @@ export const routes: Routes = [
     canActivate: [authGuard],
     children: [
       {
-        path: 'home',
-        loadComponent: () => import('./pages/home/home.component').then((m) => m.HomeComponent)
-      },
-      {
-        path: 'profile',
-        loadComponent: () =>
-          import('./pages/profile/profile.component').then((m) => m.ProfileComponent)
-      },
-      {
-        path: 'appointment',
-        loadComponent: () =>
-          import('./pages/appointment/appointment.component').then((m) => m.AppointmentComponent),
-        children: [
-          {
-            path: 'create',
-            loadComponent: () =>
-              import(
-                './modules/appointment/components/create-appointment/create-appointment.component'
-              ).then((m) => m.CreateAppointmentComponent)
-          },
-          {
-            path: '**',
-            redirectTo: 'create',
-            pathMatch: 'full'
-          }
-        ]
-      },
-      {
-        path: 'pets',
-        loadComponent: () => import('./pages/pets/pets.component').then((m) => m.PetsComponent),
-        children: [
-          {
-            path: ':petId',
-            loadComponent: () =>
-              import('./modules/pets/components/pet-profile/pet-profile.component').then(
-                (m) => m.PetProfileComponent
-              )
-          }
-        ]
-      },
-      {
         path: 'admin',
-        loadComponent: () => import('./pages/admin/admin.component').then((m) => m.AdminComponent),
-        canActivate: [authGuard, authAdminRoleGuard],
-        children: [
-          {
-            path: 'users',
-            loadComponent: () =>
-              import('./modules/users/component/users-list/users-list.component').then(
-                (m) => m.UsersListComponent
-              )
-          },
-          {
-            path: 'veterinaries',
-            loadComponent: () =>
-              import(
-                './modules/veterinary/components/veterinary-base/veterinary-base.component'
-              ).then((m) => m.VeterinaryBaseComponent),
-            children: [
-              {
-                path: 'list',
-                loadComponent: () =>
-                  import(
-                    './modules/veterinary/components/veterinary-list/veterinary-list.component'
-                  ).then((m) => m.VeterinaryListComponent)
-              },
-              {
-                path: 'create',
-                loadComponent: () =>
-                  import(
-                    './modules/veterinary/components/veterinary-create/veterinary-create.component'
-                  ).then((m) => m.VeterinaryCreateComponent)
-              },
-              {
-                path: 'edit/:veterinaryId',
-                loadComponent: () =>
-                  import(
-                    './modules/veterinary/components/veterinary-edit/veterinary-edit.component'
-                  ).then((m) => m.VeterinaryEditComponent)
-              },
-              {
-                path: '**',
-                redirectTo: 'list',
-                pathMatch: 'full'
-              }
-            ]
-          }
-          // {
-          //   path: 'dashboard'
-          // }
-        ]
-      }
-    ]
+        canActivate: [authAdminRoleGuard],
+        loadChildren: () => import('./core/routes/admin.routes').then((m) => m.adminRoutes),
+      },
+      { path: '**', redirectTo: 'home', pathMatch: 'full' },
+    ],
   },
-  { path: '**', redirectTo: 'home', pathMatch: 'full' }
+  { path: '**', redirectTo: 'login', pathMatch: 'full' },
 ];

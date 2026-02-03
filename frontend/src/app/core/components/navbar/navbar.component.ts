@@ -1,18 +1,19 @@
-import { ChangeDetectionStrategy, Component, inject, Signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { LucideAngularModule } from 'lucide-angular';
+import { NavbarItemComponent } from './navbar-item/navbar-item.component';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { Role } from '../../modules/auth/enums/auth.enum';
-import { User } from '../../modules/user/interfaces/user.interface';
-import { UserService } from '../../modules/user/services/user.service';
+import { AuthService } from '../../modules/auth/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive],
+  imports: [LucideAngularModule, NavbarItemComponent, RouterLink, RouterLinkActive],
   templateUrl: './navbar.component.html',
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class NavbarComponent {
-  private readonly userService = inject(UserService);
+  private readonly authService = inject(AuthService);
 
-  protected roleList = Role;
-  currentUser = this.userService.currentUser as Signal<User>;
+  logout(): void {
+    this.authService.logout();
+  }
 }

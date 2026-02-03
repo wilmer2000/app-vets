@@ -7,10 +7,10 @@ export const authAdminRoleGuard: CanActivateFn = () => {
   const authService = inject(AuthService);
   const router = inject(Router);
 
-  if (authService.state().role === Role.ADMIN) {
+  if (authService.state().role === Role.Admin) {
     return true;
   }
 
-  void router.navigateByUrl('/login');
+  void router.navigateByUrl('/login').then();
   return false;
 };

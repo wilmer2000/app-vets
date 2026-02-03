@@ -30,7 +30,7 @@ export class UserService {
         data: {
           ...dto,
           role,
-          password: hasPassword ? dto.password : null,
+          password: hasPassword ? dto.password : Prisma.skip,
           isActive: dto.isActive ?? false,
           contact: dto.contact ? { create: dto.contact } : Prisma.skip,
           address: dto.address ? { create: dto.address } : Prisma.skip,

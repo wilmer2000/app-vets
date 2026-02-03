@@ -1,0 +1,83 @@
+<ng-container [formGroup]="form()">
+  <fieldset class="relative flex flex-col gap-1">
+    @if (loading()) {
+      <div class="animate-pulse w-full max-w-50 h-5 bg-gray-100 rounded-xl ms-2 mb-1"></div>
+      <div class="animate-pulse w-full h-11.5 bg-gray-100 rounded-xl"></div>
+    } @else {
+      @if (label()) {
+        <label [for]="controlName()" class="form-label">{{ label() }}</label>
+      }
+      @switch (type()) {
+        @case ('select') {
+          <select
+            [class]="{
+              error: controlAbs.invalid && (controlAbs.dirty || controlAbs.touched),
+              disabled: disabled(),
+            }"
+            [formControlName]="controlName()"
+            class="form-select min-w-16.75"
+            id="{{ controlName() }}"
+          >
+            @for (opt of options(); track opt.label) {
+              <option [id]="opt.value" [value]="opt.value">
+                {{ opt.label }}
+              </option>
+            }
+          </select>
+        }
+        @case ('checkbox') {
+          <div class="mt-2 ms-2">
+            <label
+              (mousedown)="toggleStatus($event)"
+              [class.opacity-60]="disabled()"
+              class="relative inline-flex cursor-pointer items-center"
+            >
+              <input
+                [id]="controlName()"
+                [type]="'checkbox'"
+                class="peer sr-only"
+                role="switch"
+                type="checkbox"
+              />
+              <label [attr.for]="controlName()" class="hidden"></label>
+              <div
+                [class]="{
+                  'border-(--primary-lighter)':
+                    controlAbs.hasError('required') && (controlAbs.dirty || controlAbs.touched),
+                  'opacity-60': disabled(),
+                }"
+                class="form-switch"
+              ></div>
+            </label>
+          </div>
+        }
+        @case ('date') {
+          <input
+            [class]="{
+              error: controlAbs.invalid && (controlAbs.dirty || controlAbs.touched),
+              disabled: disabled(),
+            }"
+            [formControlName]="controlName()"
+            [type]="'date'"
+            class="form-control"
+            id="{{ controlName() }}"
+            max="{{ maxDate() ? (maxDate() | date: 'yyyy-MM-dd') : undefined }}"
+            min="{{ minDate() ? (minDate() | date: 'yyyy-MM-dd') : undefined }}"
+          />
+        }
+        @default {
+          <input
+            [class]="{
+              error: controlAbs.invalid && (controlAbs.dirty || controlAbs.touched),
+              disabled: disabled(),
+            }"
+            [formControlName]="controlName()"
+            [type]="type()"
+            class="form-control"
+            id="{{ controlName() }}"
+          />
+        }
+      }
+    }
+  </fieldset>
+</ng-container>

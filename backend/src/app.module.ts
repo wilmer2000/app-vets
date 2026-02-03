@@ -13,6 +13,7 @@ import { EntityModule } from './modules/entity/entity.module.js';
 import { AppointmentModule } from './modules/appointment/appointment.module.js';
 import { ServiceModule } from './modules/service/service.module.js';
 import { ConfigurationModule } from './modules/configuration/configuration.module.js';
+import { DashboardModule } from './modules/dashboard/dashboard.module.js';
 
 @Module({
   providers: [
@@ -39,6 +40,7 @@ import { ConfigurationModule } from './modules/configuration/configuration.modul
     AppointmentModule,
     ServiceModule,
     ConfigurationModule,
+    DashboardModule,
   ],
 })
 export class AppModule {}

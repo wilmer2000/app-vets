@@ -1,0 +1,12 @@
+@if (getField && (getField.dirty || getField.touched)) {
+  <p class="text-(--primary-light) font-xs text-left leading-4">
+    <small>
+      @if (getField.hasError('required')) {
+        Required
+      }
+      @if (getField.hasError('email')) {
+        Email is invalid
+      }
+    </small>
+  </p>
+}

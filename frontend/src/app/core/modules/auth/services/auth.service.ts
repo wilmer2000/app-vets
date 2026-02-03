@@ -9,7 +9,7 @@ import { Role } from '../enums/auth.enum';
 import { UserService } from '../../user/services/user.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class AuthService {
   private readonly apiUrl = '/api/auth';
@@ -20,7 +20,7 @@ export class AuthService {
   private readonly authState = signal<AuthState>({
     isLoggedIn: false,
     role: undefined,
-    userId: undefined
+    userId: undefined,
   });
 
   readonly state = this.authState.asReadonly();
@@ -38,7 +38,7 @@ export class AuthService {
         this.saveSession(token);
         return res;
       }),
-      switchMap(() => this.userService.getCurrentUser(this.authState().userId as string))
+      switchMap(() => this.userService.getCurrentUser(this.authState().userId as string)),
     );
   }
 
@@ -54,7 +54,6 @@ export class AuthService {
     const token = this.storage.get(TOKEN_KEY) as string | null;
     if (token) {
       this.saveSession(token);
-      this.userService.getCurrentUser(this.authState().userId as string).subscribe();
     }
   }
 
@@ -66,7 +65,7 @@ export class AuthService {
     this.authState.set({
       isLoggedIn: true,
       role: decoded.role as Role,
-      userId: decoded.sub
+      userId: decoded.sub,
     });
   }
 

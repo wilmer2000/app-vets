@@ -1,34 +1,19 @@
+import { Address, Contact } from '../../../../shared/interfaces/shared.interface';
+
 export interface User {
-  id: string;
-  email: string;
-  password: string;
+  userId: string;
+  isActive: string;
   role: string;
-  isActive: boolean;
+  email: string;
+  password: boolean;
   name: string;
   lastname: string;
-  phone: string;
+  createdAt: string;
+  contact: Contact;
   address: Address;
-  ownerProfile?: OwnerProfile;
-  vetProfile?: VetProfile;
 }
 
-export interface Address {
-  street?: string;
-  city?: string;
-  country?: string;
-}
 
-export interface VetProfile {
-  specialty?: any;
-  appointments: any[];
-}
-
-export interface OwnerProfile {
-  id: string;
-  pets: any[];
-  appointments: any[];
-  veterinary: any;
-}
 
 export interface UpdateUser {
   role?: string;
