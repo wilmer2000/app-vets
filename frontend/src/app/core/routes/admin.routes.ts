@@ -19,30 +19,7 @@ export const adminRoutes: Routes = [
           import('../../pages/outlet-base/outlet-base.component').then(
             (m) => m.OutletBaseComponent,
           ),
-        children: [
-          {
-            path: 'list',
-            loadComponent: () =>
-              import('../modules/user/components/user-list/user-list.component').then(
-                (m) => m.UserListComponent,
-              ),
-          },
-          {
-            path: 'create',
-            loadComponent: () =>
-              import('../modules/user/components/user-create/user-create.component').then(
-                (m) => m.UserCreateComponent,
-              ),
-          },
-          {
-            path: 'edit/:id',
-            loadComponent: () =>
-              import('../modules/user/components/user-edit/user-edit.component').then(
-                (m) => m.UserEditComponent,
-              ),
-          },
-          { path: '**', redirectTo: 'list', pathMatch: 'full' },
-        ],
+        loadChildren: () => import('./user.routes').then((m) => m.userRoutes),
       },
       {
         path: 'entity',
@@ -50,15 +27,7 @@ export const adminRoutes: Routes = [
           import('../../pages/outlet-base/outlet-base.component').then(
             (m) => m.OutletBaseComponent,
           ),
-        children: [
-          {
-            path: 'list',
-            loadComponent: () =>
-              import('../../features/entity/components/entity-list/entity-list.component').then(
-                (m) => m.EntityListComponent,
-              ),
-          },
-        ],
+        loadChildren: () => import('./entity.routes').then((m) => m.entityRoutes),
       },
       { path: '**', redirectTo: 'dashboard', pathMatch: 'full' },
     ],
