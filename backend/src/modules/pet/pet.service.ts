@@ -5,9 +5,8 @@ import {
 } from '@nestjs/common';
 import { CreatePetDto } from './dto/create-pet.dto.js';
 import { UpdatePetDto } from './dto/update-pet.dto.js';
-import { Pet } from '@prisma/client';
 import { PrismaService } from '../../../prisma/prisma.service.js';
-import { Prisma } from '../../../prisma/generated/prisma/client.js';
+import { Prisma, Pet } from '../../../prisma/generated/prisma/client.js';
 import { QueryPetDto } from './dto/query-pet.dto.js';
 
 @Injectable()

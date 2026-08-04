@@ -17,8 +17,8 @@ import { Roles } from '../../core/auth/decorators/role.decorator.js';
 import { Role } from '../../../prisma/generated/prisma/enums.js';
 import { JwtAuthGuard } from '../../core/auth/guards/jwt-auth.guard.js';
 import { RolesGuard } from '../../core/auth/guards/roles.guard.js';
-import { Pet } from '@prisma/client';
 import { QueryPetDto } from './dto/query-pet.dto.js';
+import { Pet } from '../../../prisma/generated/prisma/client.js';
 
 @ApiBearerAuth()
 @Controller({ path: 'pet' })

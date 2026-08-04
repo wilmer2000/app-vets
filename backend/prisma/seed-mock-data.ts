@@ -30,8 +30,7 @@ const staffData: any = {
   specialty: 'DERMATOLOGY',
 };
 
-async function main() {
-}
+async function main() {}
 main()
   .then(async () => {
     await prisma.$disconnect();
